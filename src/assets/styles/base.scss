@@ -1,0 +1,111 @@
+@import '../fonts/iconfont.scss';
+
+@import './resetTaroUIVar.scss';
+// taro-ui
+// @import '~taro-ui/dist/style/index.scss';
+@import '~taro-ui/dist/style/components/button.scss';
+// button引用了loading
+@import "~taro-ui/dist/style/components/tabs.scss";
+@import '~taro-ui/dist/style/components/loading.scss';
+@import "~taro-ui/dist/style/components/toast.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+page,
+body {
+  font-size: 32px;
+  height: 100%;
+  background-color: $bg-color-base;
+  color: $color-dark;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 500px) {
+  html,
+  body {
+    max-width: 1500px;
+    margin: 0 auto;
+    position: relative;
+  }
+}
+
+.taro-img,
+image {
+  width: 100%;
+}
+
+button {
+  outline: none;
+}
+
+//******常用类******/
+.clearfix {
+  zoom: 1;
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.position-center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+}
+
+.root{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: $bg-color;
+}
+.at-float-layout .layout-body{
+  padding-top:0px;
+  padding-bottom:0px;
+}
+.at-float-layout .layout-header, .at-float-layout__container{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.circling {
+  animation: circling 20s infinite linear;
+  &.z-pause {
+      animation-play-state: paused;
+  }
+}
+
+@keyframes circling {
+  0% {
+      transform: rotate(0deg)
+  }
+  to {
+      transform: rotate(1turn)
+  }
+}
