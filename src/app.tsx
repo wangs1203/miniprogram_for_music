@@ -41,17 +41,17 @@ class App extends Taro.Component {
     requiredBackgroundModes: ['audio']
   }
 
-  componentDidMount() {}
+  componentDidMount () {}
 
-  componentDidShow() {}
+  componentDidShow () {}
 
-  componentDidHide() {}
+  componentDidHide () {}
 
-  componentDidCatchError() {}
+  componentDidCatchError () {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  public render(): JSX.Element {
+  public render (): JSX.Element {
     return (
       <Provider store={store}>
         <Index />
