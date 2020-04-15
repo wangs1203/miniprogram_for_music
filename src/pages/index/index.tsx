@@ -1,14 +1,15 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import {
   View,
-  // Text,
+  Text,
   Image,
   Swiper,
-  SwiperItem
+  SwiperItem,
+  ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import { AtTabs, AtTabsPane } from 'taro-ui';
-
+import { IndexEffectType } from './model';
 import './index.scss';
 
 // #region 书写注意
@@ -24,11 +25,23 @@ import './index.scss';
 interface PageOwnProps {}
 
 interface PageStateProps {
-  song: PlaySong;
+  // song: PlaySong;
+  bannerList: StoreSpace.Banner[];
+  // recommendSongList: Array<{
+  //   name: string,
+  //   picUrl: string,
+  //   playCount: number
+  // }>,
+  recommendSongList: Array<{
+    name: string,
+    picUrl: string,
+    playCount: number
+  }>;
 }
 
 interface PageDispatchProps {
-  updateState: (payload)=> void;
+  dispatchFetchBanner: () => void;
+  dispatchFetchRecommendSongList: () => void;
 }
 
 interface PageState {
@@ -38,14 +51,18 @@ interface PageState {
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 @connect(
-  ({ song }) => ({
-    song
+  ({ index }) => ({
+    ...index
   }),
   (dispatch) => ({
-    updateState(payload) {
+    dispatchFetchBanner () {
       dispatch({
-        type: 'song/updateState',
-        payload
+        type: IndexEffectType.getBanner
+      });
+    },
+    dispatchFetchRecommendSongList () {
+      dispatch({
+        type: IndexEffectType.getRecommendSongList
       });
     }
   })
@@ -63,7 +80,7 @@ class Index extends Component<IProps, PageState> {
   }
 
 
-  public constructor(...rest) {
+  public constructor (...rest) {
     super(...rest);
     this.state = {
       current: 0
@@ -80,14 +97,15 @@ class Index extends Component<IProps, PageState> {
   //   console.log(this.props, nextProps);
   // }
 
-  public componentWillUnmount() {
+  public componentWillUnmount () {
 
   }
 
   public readonly tabList = [{ title: '个性推荐' }, { title: '主播电台' }]
 
-  public componentDidShow() {
-
+  public componentDidShow () {
+    this.props.dispatchFetchBanner();
+    this.props.dispatchFetchRecommendSongList();
   }
 
   private handleClick = (value:0|1) => {
@@ -97,8 +115,14 @@ class Index extends Component<IProps, PageState> {
   }
 
 
-  public render(): JSX.Element {
+  public render (): JSX.Element {
     // const { recommendPlayList, recommendDj, banners } = this.state;
+    const {
+      bannerList,
+      recommendSongList
+    } = this.props;
+    console.log(this.props);
+
     return (
       <View>
         <AtTabs
@@ -117,41 +141,58 @@ class Index extends Component<IProps, PageState> {
               indicatorDots
               autoplay
             >
-              <SwiperItem>
-                <Image
-                  className="img"
-                  src="//www.baidu.com/img/bd_logo1.png"
-                />
-              </SwiperItem>
-              {/* {
-                banners.map((item) => (
-                  <SwiperItem key={item.targetId}>
-                    <Image
-                      className="img"
-                      src={`${item.pic}?imageView&thumbnail=0x300`}
-                      onClick={this.clickBanner.bind(this, item)}
-                    />
-                  </SwiperItem>
-                ))
-              } */}
+              {bannerList.map((item) => (
+                <SwiperItem key={item.targetId}>
+                  <Image
+                    className="img"
+                    src={`${item.pic}?imageView&thumbnail=0x300`}
+                  />
+                </SwiperItem>
+              ))}
             </Swiper>
-            {/* <View className="recommend_playlist">
-              <View className="recommend_playlist__title">
+            <View className="recommend_songlist">
+              <View className="recommend_songlist__title">
                 推荐歌单
               </View>
-              <View className="recommend_playlist__content">
-                {
-                recommendPlayList.map((item, index) => (
+              <ScrollView
+                scrollX
+                className="recommend_songlist__content"
+              >
+                {/* <View className="recommend_songlist__content"> */}
+                {recommendSongList.map((item, index) => (
+                  <View
+                    key={`${index}`}
+                    className="recommend_songlist__item"
+                  >
+                    <Image
+                      src={`${item.picUrl}?imageView&thumbnail=0x200`}
+                      className="recommend_songlist__item__cover"
+                    />
+                    <View className="recommend_songlist__item__cover__num">
+                      <Text className="at-icon at-icon-sound" />
+                      {
+                        item.playCount < 10000
+                          ? item.playCount
+                          : `${Number(item.playCount / 10000).toFixed(0)}万`
+                      }
+                    </View>
+                    <View className="recommend_songlist__item__title">{item.name}</View>
+                  </View>
+                ))}
+                {/* </View> */}
+              </ScrollView>
+              {/* <View className="recommend_songlist__content">
+                {recommendPlayList.map((item, index) => (
                   <View
                     key={index}
-                    className="recommend_playlist__item"
+                    className="recommend_songlist__item"
                     onClick={this.goDetail.bind(this, item)}
                   >
                     <Image
                       src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                      className="recommend_playlist__item__cover"
+                      className="recommend_songlist__item__cover"
                     />
-                    <View className="recommend_playlist__item__cover__num">
+                    <View className="recommend_songlist__item__cover__num">
                       <Text className="at-icon at-icon-sound" />
                       {
                       item.playCount < 10000
@@ -159,30 +200,29 @@ class Index extends Component<IProps, PageState> {
                         : `${Number(item.playCount / 10000).toFixed(0)}万`
                     }
                     </View>
-                    <View className="recommend_playlist__item__title">{item.name}</View>
+                    <View className="recommend_songlist__item__title">{item.name}</View>
                   </View>
-                ))
-              }
-              </View>
-            </View> */}
+                ))}
+              </View> */}
+            </View>
           </AtTabsPane>
 
           <AtTabsPane current={this.state.current} index={1}>
-            {/* <View className="recommend_playlist">
-              <View className="recommend_playlist__title">
+            {/* <View className="recommend_songlist">
+              <View className="recommend_songlist__title">
                 主播电台
               </View>
-              <View className="recommend_playlist__content">
+              <View className="recommend_songlist__content">
                 {
                   recommendDj.map((item, index) => (
                     <View key={index}
-                    className="recommend_playlist__item"
+                    className="recommend_songlist__item"
                     onClick={this.goDetail.bind(this, item)}>
                       <Image
                         src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                        className="recommend_playlist__item__cover"
+                        className="recommend_songlist__item__cover"
                       />
-                      <View className="recommend_playlist__item__title">{item.name}</View>
+                      <View className="recommend_songlist__item__title">{item.name}</View>
                     </View>
                   ))
                 }

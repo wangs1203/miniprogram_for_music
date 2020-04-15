@@ -33,6 +33,7 @@ module.exports = {
       "caughtErrors": "none"
     }],
     "grouped-accessor-pairs": 0,
+    "space-before-function-paren": ["error", "always"],
     "no-constructor-return": 0,
     "linebreak-style": 0,
     "no-dupe-else-if": 0,

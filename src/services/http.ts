@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-// import qs from 'qs';
+import qs from 'qs';
 import { showMsg } from 'utils/Toast';
 import { TrAlert } from 'utils/Modal';
 import {
@@ -9,7 +9,7 @@ import {
 import { checkHttpStatus, setCookie, reqIntercept } from './utils';
 
 export default class Request {
-  private static request(options: API.Options, method?: API.Methods):Promise<API.Result> {
+  private static request (options: API.Options, method?: API.Methods):Promise<API.Result> {
     const { url } = options;
     let stop: () => void = () => {};
     const abortPromise = new Promise<API.Result>((resolve, _reject) => {
@@ -57,7 +57,7 @@ export default class Request {
           } else {
             TrAlert({
               content: data.commonRes.message,
-              success(res) {
+              success (res) {
                 console.log(res);
                 resolve({
                   isOk: false,
@@ -89,33 +89,33 @@ export default class Request {
     return promiseWithAbort;
   }
 
-  static get(options: API.Options) {
+  static get (options: API.Options) {
     return this.request({
       ...options
     });
   }
 
-  static post(options: API.Options) {
+  static post (options: API.Options) {
     return this.request({
       ...options,
-      data: options.data
-      // data: qs.stringify(options.data)
+      // data: options.data
+      data: qs.stringify(options.data)
     }, 'POST');
   }
 
-  static put(options: API.Options) {
+  static put (options: API.Options) {
     return this.request({
       ...options,
-      data: options.data
-      // data: qs.stringify(options.data)
+      // data: options.data
+      data: qs.stringify(options.data)
     }, 'PUT');
   }
 
-  static delete(options: API.Options) {
+  static delete (options: API.Options) {
     return this.request({
       ...options,
-      data: options.data
-      // data: qs.stringify(options.data)
+      // data: options.data
+      data: qs.stringify(options.data)
     }, 'DELETE');
   }
 }
