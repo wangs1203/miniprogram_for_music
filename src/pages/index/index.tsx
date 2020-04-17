@@ -56,6 +56,8 @@ interface PageDispatchProps {
   dispatchFetchRecommendMVList: () => void;
   dispatchFetchDjProgram: () => void;
   dispatchFetchLeaderboard: () => void;
+  dispatchFetchPlayListClass: () => void;
+  dispatchFetchTopPlayList: () => void;
 }
 
 interface PageState {
@@ -93,6 +95,16 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
       dispatch({
         type: IndexEffectType.getLeaderboard
       });
+    },
+    dispatchFetchPlayListClass () {
+      dispatch({
+        type: IndexEffectType.getPlayListClass
+      });
+    },
+    dispatchFetchTopPlayList () {
+      dispatch({
+        type: IndexEffectType.getTopPlayList
+      });
     }
   })
 )
@@ -123,14 +135,16 @@ class Index extends Component<IProps, PageState> {
 
   }
 
-  public readonly tabList = [{ title: '个性推荐' }, { title: '主播电台' }]
+  public readonly tabList = [{ title: '个性推荐' }, { title: '歌单' }]
 
   public componentDidShow () {
     this.props.dispatchFetchBanner();
     this.props.dispatchFetchRecommendSongList();
     this.props.dispatchFetchRecommendMVList();
     this.props.dispatchFetchDjProgram();
-    this.props.dispatchFetchLeaderboard();
+    // this.props.dispatchFetchLeaderboard();
+    this.props.dispatchFetchPlayListClass();
+    this.props.dispatchFetchTopPlayList();
   }
 
   private handleClick = (value:0|1) => {
@@ -339,26 +353,9 @@ class Index extends Component<IProps, PageState> {
           </AtTabsPane>
 
           <AtTabsPane current={this.state.current} index={1}>
-            {/* <View className="recommend_songlist">
-              <View className="recommend_songlist__title">
-                主播电台
-              </View>
-              <View className="recommend_songlist__content">
-                {
-                  recommendDj.map((item, index) => (
-                    <View key={index}
-                    className="recommend_songlist__item"
-                    onClick={this.goDetail.bind(this, item)}>
-                      <Image
-                        src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                        className="recommend_songlist__item__cover"
-                      />
-                      <View className="recommend_songlist__item__title">{item.name}</View>
-                    </View>
-                  ))
-                }
-              </View>
-            </View> */}
+            <View>
+              test
+            </View>
           </AtTabsPane>
         </AtTabs>
         {/* <CMusic

@@ -7,7 +7,9 @@ import {
   fetchRecommendSongList,
   fetchRecommendMVList,
   fetchDjProgram,
-  fetchLeaderboard
+  fetchLeaderboard,
+  fetchTopPlayList,
+  fetchPlayListClass
 } from './service';
 
 export const enum IndexEffectType {
@@ -15,7 +17,9 @@ export const enum IndexEffectType {
   getRecommendSongList = 'index/getRecommendSongList',
   getRecommendMVList = 'index/getRecommendMVList',
   getDjProgram = 'index/getDjProgram',
-  getLeaderboard = 'index/getLeaderboard'
+  getLeaderboard = 'index/getLeaderboard',
+  getTopPlayList = 'index/getTopPlayList',
+  getPlayListClass = 'index/getPlayListClass'
 }
 export default modelExtend(model, {
   namespace: 'index',
@@ -97,6 +101,16 @@ export default modelExtend(model, {
 
     * getLeaderboard ({ payload }, { call }) {
       const res = yield call(fetchLeaderboard, { idx: 1 });
+      console.log(res);
+    },
+
+    * getTopPlayList ({ payload }, { call }) {
+      const res = yield call(fetchTopPlayList, { order: 'hot', cat: '全部' });
+      console.log(res);
+    },
+
+    * getPlayListClass ({ payload }, { call }) {
+      const res = yield call(fetchPlayListClass);
       console.log(res);
     }
   }
