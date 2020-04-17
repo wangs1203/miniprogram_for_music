@@ -5,6 +5,7 @@ import { model } from 'utils/model';
 import {
   fetchBanner,
   fetchRecommendSongList,
+  fetchRecommendMVList,
   fetchDjProgram,
   fetchLeaderboard
 } from './service';
@@ -12,6 +13,7 @@ import {
 export const enum IndexEffectType {
   getBanner = 'index/getBanner',
   getRecommendSongList = 'index/getRecommendSongList',
+  getRecommendMVList = 'index/getRecommendMVList',
   getDjProgram = 'index/getDjProgram',
   getLeaderboard = 'index/getLeaderboard'
 }
@@ -20,6 +22,7 @@ export default modelExtend(model, {
   state: {
     bannerList: [],
     djProgramList: [],
+    recommendMVList: [],
     recommendSongList: []
   },
   effects: {
@@ -36,6 +39,23 @@ export default modelExtend(model, {
           type: 'updateState',
           payload: {
             bannerList: result.banners
+          }
+        });
+      }
+    },
+
+    * getRecommendMVList ({ payload }, { call, put }) {
+      const res = yield call(fetchRecommendMVList);
+      console.log(res);
+      const {
+        isOk,
+        result
+      } = res;
+      if (isOk) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            recommendMVList: result
           }
         });
       }
