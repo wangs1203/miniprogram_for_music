@@ -2,6 +2,7 @@ import Request from 'services/http';
 import {
   BannerURL,
   RecommendSongListURL,
+  LeaderboardURL,
   DjProgramURL
 } from 'services/apis';
 
@@ -20,6 +21,22 @@ export const fetchRecommendSongList = (
 ) => Request.post({ url: RecommendSongListURL, data: params });
 
 /**
- * 获取前序航班动态列表
+ * 排行榜
+ * 说明 : 调用此接口 , 传入数字 idx, 可获取不同排行榜
+ * @param params
+ * @param {number} params.idx
  */
-export const getDjProgram = () => Request.post({ url: DjProgramURL });
+export const fetchLeaderboard = (
+  params: {
+    idx: number
+  }
+) => Request.post({ url: LeaderboardURL, data: params });
+
+/**
+ * 推荐电台
+ */
+export const fetchDjProgram = (
+  params: {
+    limit: number
+  }
+) => Request.post({ url: DjProgramURL, data: params });

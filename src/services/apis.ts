@@ -7,6 +7,10 @@ export const BannerURL = '/banner?type=2';
  */
 export const RecommendSongListURL = '/personalized';
 /**
+ * 排行榜
+ */
+export const LeaderboardURL = '/top/list';
+/**
  * 获取推荐电台
  */
 export const DjProgramURL = '/personalized/djprogram';

@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "miniprogram_for_music",
 	"description": "微信小程序项目配置文件",
-	"appid": "wx5b45ba9c9c190f9b",
+	"appid": "wx8aa764bfcef79407",
 	"setting": {
 		"urlCheck": false,
 		"es6": false,

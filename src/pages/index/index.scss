@@ -19,50 +19,101 @@
   height: 300px;
 }
 .recommend_songlist {
-  padding: 40px;
+  padding: 40px 40px 0;
   overflow: hidden;
   .recommend_songlist__title {
     margin-bottom: 30px;
   }
-  .recommend_songlist__content {
-    .recommend_songlist__item {
-      position: relative;
-      width: 32%;
-      float: left;
-      margin-bottom: 30px;
-      &:nth-child(3n-1) {
-        margin: 0 2% 30px 2%;
-      }
-      .recommend_songlist__item__cover__num {
-        font-size: 20px;
-        position: absolute;
-        right: 10px;
-        top: 0;
-        font-weight: 700;
-        z-index: 3;
-        display: flex;
-        align-items: center;
-        color: #fff;
-        .at-icon-sound {
-          margin-right: 10px;
+  .recommend_songlist__wrapper{
+    width: 100%;
+    height: 282px;
+    .recommend_songlist__content {
+      display: flex;
+      width: max-content;
+      flex-wrap: nowrap;
+      .recommend_songlist__item {
+        position: relative;
+        flex: 1;
+        max-width: 200px;
+        min-width: 200px;
+        margin-bottom: 30px;
+        margin-right: 20px;
+        &:last-child {
+          margin-right: 0;
         }
-      }
-      .recommend_songlist__item__cover {
-        display: block;
-        width: 100%;
-        height: 200px;
-        border-radius: 12px;
-      }
-      .recommend_songlist__item__title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        font-size: 26px;
-        margin-top: 10px;
-        height: 72px;
+        .recommend_songlist__item__cover {
+          display: block;
+          width: 100%;
+          height: 200px;
+          border-radius: 12px;
+        }
+        .recommend_songlist__item__title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          font-size: 26px;
+          margin-top: 10px;
+          height: 72px;
+        }
+        .recommend_songlist__item__cover__num {
+          font-size: 20px;
+          position: absolute;
+          right: 10px;
+          top: 0;
+          font-weight: 700;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          color: #fff;
+          .at-icon-sound {
+            margin-right: 10px;
+          }
+        }
       }
     }
   }
+}
+
+.leaderboard_Item__content{
+  border-radius: 15px;
+  color: #ffffff;
+  position: relative;
+  width: 675px;
+  height: 435px;
+  .leaderboard_Item__content_bg{
+    width: 655px;
+    height: 100%;
+    background: no-repeat center;
+    background-size: 655px 435px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  }
+  .leaderboard_Item__content_wrapper{
+    width: 655px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    .leaderboard_Item__content_title{
+
+    }
+
+    .leaderboard_Item__content_song_list__wrapper{
+      .leaderboard_Item__content_song_list__item{
+        .leaderboard_Item__content_song_list__item_pic{
+          width: 60px;
+          height: 60px;
+          float: left;
+        }
+
+      }
+
+    }
+  }
+
 }

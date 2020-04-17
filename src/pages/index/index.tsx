@@ -5,12 +5,18 @@ import {
   Image,
   Swiper,
   SwiperItem,
+  // Canvas,
   ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-import { AtTabs, AtTabsPane } from 'taro-ui';
+import {
+  AtTabs,
+  AtTabsPane
+  // AtIcon
+} from 'taro-ui';
 import { IndexEffectType } from './model';
 import './index.scss';
+// import { TrAlert } from '@/utils/Modal';
 
 // #region 书写注意
 //
@@ -27,21 +33,22 @@ interface PageOwnProps {}
 interface PageStateProps {
   // song: PlaySong;
   bannerList: StoreSpace.Banner[];
-  // recommendSongList: Array<{
-  //   name: string,
-  //   picUrl: string,
-  //   playCount: number
-  // }>,
   recommendSongList: Array<{
     name: string,
     picUrl: string,
     playCount: number
+  }>;
+  djProgramList:Array<{
+    name: string,
+    picUrl: string
   }>;
 }
 
 interface PageDispatchProps {
   dispatchFetchBanner: () => void;
   dispatchFetchRecommendSongList: () => void;
+  dispatchFetchDjProgram: () => void;
+  dispatchFetchLeaderboard: () => void;
 }
 
 interface PageState {
@@ -64,6 +71,16 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
       dispatch({
         type: IndexEffectType.getRecommendSongList
       });
+    },
+    dispatchFetchDjProgram () {
+      dispatch({
+        type: IndexEffectType.getDjProgram
+      });
+    },
+    dispatchFetchLeaderboard () {
+      dispatch({
+        type: IndexEffectType.getLeaderboard
+      });
     }
   })
 )
@@ -79,19 +96,12 @@ class Index extends Component<IProps, PageState> {
     navigationBarTitleText: '首页'
   }
 
-
   public constructor (...rest) {
     super(...rest);
     this.state = {
       current: 0
-      // recommendPlayList: [],
-      // recommendDj: [],
-      // recommendSongs: [],
-      // recommend: [],
-      // banners: []
     };
   }
-
 
   // componentWillReceiveProps(nextProps) {
   //   console.log(this.props, nextProps);
@@ -106,6 +116,8 @@ class Index extends Component<IProps, PageState> {
   public componentDidShow () {
     this.props.dispatchFetchBanner();
     this.props.dispatchFetchRecommendSongList();
+    this.props.dispatchFetchDjProgram();
+    this.props.dispatchFetchLeaderboard();
   }
 
   private handleClick = (value:0|1) => {
@@ -114,12 +126,16 @@ class Index extends Component<IProps, PageState> {
     });
   }
 
+  private testToUpper = (e) => {
+    console.log(e);
+    // TrAlert({ title: JSON.stringify(e, null, 2) });
+  }
 
   public render (): JSX.Element {
-    // const { recommendPlayList, recommendDj, banners } = this.state;
     const {
       bannerList,
-      recommendSongList
+      recommendSongList,
+      djProgramList
     } = this.props;
     console.log(this.props);
 
@@ -128,83 +144,139 @@ class Index extends Component<IProps, PageState> {
         <AtTabs
           current={this.state.current}
           tabList={this.tabList}
+          swipeable={false}
           onClick={this.handleClick}
         >
           <AtTabsPane
             current={this.state.current}
             index={0}
           >
-            <Swiper
-              indicatorColor="#999"
-              indicatorActiveColor="#333"
-              circular
-              indicatorDots
-              autoplay
+            <ScrollView
+              scrollX
+              enableBackToTop
+              scrollAnchoring
+              refresherEnabled
+              upperThreshold={20}
             >
-              {bannerList.map((item) => (
-                <SwiperItem key={item.targetId}>
-                  <Image
-                    className="img"
-                    src={`${item.pic}?imageView&thumbnail=0x300`}
-                  />
-                </SwiperItem>
-              ))}
-            </Swiper>
-            <View className="recommend_songlist">
-              <View className="recommend_songlist__title">
-                推荐歌单
-              </View>
-              <ScrollView
-                scrollX
-                className="recommend_songlist__content"
+              <Swiper
+                indicatorColor="#999"
+                indicatorActiveColor="#333"
+                circular
+                indicatorDots
+                autoplay
               >
-                {/* <View className="recommend_songlist__content"> */}
-                {recommendSongList.map((item, index) => (
-                  <View
-                    key={`${index}`}
-                    className="recommend_songlist__item"
-                  >
+                {bannerList.map((item) => (
+                  <SwiperItem key={item.targetId}>
                     <Image
-                      src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                      className="recommend_songlist__item__cover"
+                      className="img"
+                      src={`${item.pic}?imageView&thumbnail=0x300`}
                     />
-                    <View className="recommend_songlist__item__cover__num">
-                      <Text className="at-icon at-icon-sound" />
-                      {
+                  </SwiperItem>
+                ))}
+              </Swiper>
+              {/* 推荐歌单 */}
+              <View className="recommend_songlist">
+                <View className="recommend_songlist__title">
+                  推荐歌单
+                </View>
+                <ScrollView
+                  className="recommend_songlist__wrapper"
+                  upperThreshold={10}
+                  onScrollToLower={this.testToUpper}
+                  scrollX
+                >
+                  <View className="recommend_songlist__content">
+                    {recommendSongList.map((item, index) => (
+                      <View
+                        key={`${index}`}
+                        className="recommend_songlist__item"
+                      >
+                        <Image
+                          src={`${item.picUrl}?imageView&thumbnail=0x300`}
+                          className="recommend_songlist__item__cover"
+                        />
+                        <View className="recommend_songlist__item__cover__num">
+                          <Text className="at-icon at-icon-sound" />
+                          {
                         item.playCount < 10000
                           ? item.playCount
                           : `${Number(item.playCount / 10000).toFixed(0)}万`
                       }
-                    </View>
-                    <View className="recommend_songlist__item__title">{item.name}</View>
+                        </View>
+                        <View className="recommend_songlist__item__title">{item.name}</View>
+                      </View>
+                    ))}
                   </View>
-                ))}
-                {/* </View> */}
-              </ScrollView>
-              {/* <View className="recommend_songlist__content">
-                {recommendPlayList.map((item, index) => (
-                  <View
-                    key={index}
-                    className="recommend_songlist__item"
-                    onClick={this.goDetail.bind(this, item)}
-                  >
-                    <Image
-                      src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                      className="recommend_songlist__item__cover"
-                    />
-                    <View className="recommend_songlist__item__cover__num">
-                      <Text className="at-icon at-icon-sound" />
-                      {
-                      item.playCount < 10000
-                        ? item.playCount
-                        : `${Number(item.playCount / 10000).toFixed(0)}万`
-                    }
-                    </View>
-                    <View className="recommend_songlist__item__title">{item.name}</View>
+                </ScrollView>
+              </View>
+              {/* 推荐歌单end */}
+              {/* 电台推荐 */}
+              <View className="recommend_songlist">
+                <View className="recommend_songlist__title">
+                  电台推荐
+                </View>
+                <ScrollView
+                  className="recommend_songlist__wrapper"
+                  upperThreshold={10}
+                  onScrollToLower={this.testToUpper}
+                  scrollX
+                >
+                  <View className="recommend_songlist__content">
+                    {djProgramList.map((item, index) => (
+                      <View
+                        key={`${index}`}
+                        className="recommend_songlist__item"
+                      >
+                        <Image
+                          src={`${item.picUrl}?imageView&thumbnail=0x300`}
+                          className="recommend_songlist__item__cover"
+                        />
+                        <View className="recommend_songlist__item__title">{item.name}</View>
+                      </View>
+                    ))}
                   </View>
-                ))}
+                </ScrollView>
+              </View>
+              {/* 电台推荐end */}
+              {/* 排行榜 */}
+              {/* <View className="recommend_songlist">
+                <View className="recommend_songlist__title">
+                  排行榜
+                </View>
+                <Swiper
+                  circular
+                  nextMargin="20rpx"
+                >
+                  <SwiperItem>
+                    <View className="leaderboard_Item__content">
+                      <Canvas
+                        canvasId="canvas"
+                        className="leaderboard_Item__content_bg"
+                        style={{ backgroundImage: 'url(http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=640y640)' }}
+                      />
+                      <View className="leaderboard_Item__content_wrapper">
+                        <View className="leaderboard_Item__content_title">
+                          标题
+                          <AtIcon value="chevron-right" size="30" color="#f0f0f0" />
+                        </View>
+                        <View className="leaderboard_Item__content_song_list__wrapper">
+                          <View className="leaderboard_Item__content_song_list__item clearfix">
+                            <Image
+                              className="leaderboard_Item__content_song_list__item_pic"
+                              src="http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=120y120"
+                            />
+                            <Text>1 这是一个问题</Text>
+                          </View>
+                        </View>
+                      </View>
+
+                    </View>
+                  </SwiperItem>
+                </Swiper>
+
               </View> */}
-            </View>
+              {/* 排行榜end */}
+            </ScrollView>
           </AtTabsPane>
 
           <AtTabsPane current={this.state.current} index={1}>
