@@ -30,13 +30,40 @@ class App extends Taro.Component {
    */
   public config: Taro.Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/personalCenter/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#ffffff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#7A7E83',
+      selectedColor: '#c73420',
+      borderStyle: 'black',
+      backgroundColor: '#ffffff',
+      list: [
+        {
+          text: '发现',
+          pagePath: 'pages/index/index',
+          iconPath: 'assets/images/music.png',
+          selectedIconPath: 'assets/images/selected-music.png'
+        },
+        {
+          text: '我的',
+          pagePath: 'pages/personalCenter/index',
+          iconPath: 'assets/images/me.png',
+          selectedIconPath: 'assets/images/selected-me.png'
+        }
+        // {
+        //   text: '账号',
+        //   pagePath: 'pages/account/index',
+        //   iconPath: 'assets/images/me.png',
+        //   selectedIconPath: 'assets/images/selected-me.png',
+        // }
+      ]
     },
     requiredBackgroundModes: ['audio']
   }

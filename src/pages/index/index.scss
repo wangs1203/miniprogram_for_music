@@ -53,7 +53,8 @@
             height: auto;
           }
           .recommend_songlist__item__desc{
-            font-size: 18px;
+            font-size: 20px;
+            color: $color-light;
             .recommend_songlist__item__desc_item{
               float: left;
               &:not(:last-child)::after{
