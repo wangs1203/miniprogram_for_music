@@ -38,6 +38,12 @@ interface PageStateProps {
     picUrl: string,
     playCount: number
   }>;
+  recommendMVList: Array<{
+    name: string,
+    picUrl: string,
+    playCount: number,
+    artists: Array<StoreSpace.Artist>
+  }>;
   djProgramList:Array<{
     name: string,
     picUrl: string
@@ -47,6 +53,7 @@ interface PageStateProps {
 interface PageDispatchProps {
   dispatchFetchBanner: () => void;
   dispatchFetchRecommendSongList: () => void;
+  dispatchFetchRecommendMVList: () => void;
   dispatchFetchDjProgram: () => void;
   dispatchFetchLeaderboard: () => void;
 }
@@ -70,6 +77,11 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     dispatchFetchRecommendSongList () {
       dispatch({
         type: IndexEffectType.getRecommendSongList
+      });
+    },
+    dispatchFetchRecommendMVList () {
+      dispatch({
+        type: IndexEffectType.getRecommendMVList
       });
     },
     dispatchFetchDjProgram () {
@@ -116,6 +128,7 @@ class Index extends Component<IProps, PageState> {
   public componentDidShow () {
     this.props.dispatchFetchBanner();
     this.props.dispatchFetchRecommendSongList();
+    this.props.dispatchFetchRecommendMVList();
     this.props.dispatchFetchDjProgram();
     this.props.dispatchFetchLeaderboard();
   }
@@ -135,6 +148,7 @@ class Index extends Component<IProps, PageState> {
     const {
       bannerList,
       recommendSongList,
+      recommendMVList,
       djProgramList
     } = this.props;
     console.log(this.props);
@@ -210,6 +224,51 @@ class Index extends Component<IProps, PageState> {
                 </ScrollView>
               </View>
               {/* 推荐歌单end */}
+              {/* 推荐MV */}
+              <View className="recommend_songlist">
+                <View className="recommend_songlist__title">
+                  推荐歌单
+                </View>
+                <ScrollView
+                  className="recommend_songlist__wrapper"
+                  scrollX
+                >
+                  <View className="recommend_songlist__content">
+                    {recommendMVList.map((item, index) => (
+                      <View
+                        key={`${index}`}
+                        className="recommend_songlist__item recommend_mvlist"
+                      >
+                        <Image
+                          src={`${item.picUrl}?imageView&thumbnail=0x200`}
+                          className="recommend_songlist__item__cover"
+                        />
+                        <View className="recommend_songlist__item__cover__num">
+                          <Text className="at-icon at-icon-sound" />
+                          {
+                            item.playCount < 10000
+                              ? item.playCount
+                              : `${Number(item.playCount / 10000).toFixed(0)}万`
+                          }
+                        </View>
+                        <View className="recommend_songlist__item__title">{item.name}</View>
+                        <View className="recommend_songlist__item__desc clearfix">
+                          {item.artists.map((artistsItem, artistsIndex) => (
+                            <View
+                              key={`recommend_songlist__item__desc${artistsIndex}`}
+                              className="recommend_songlist__item__desc_item"
+                            >
+                              {artistsItem.name}
+                            </View>
+                          ))}
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+              </View>
+              {/* 推荐MVend */}
+
               {/* 电台推荐 */}
               <View className="recommend_songlist">
                 <View className="recommend_songlist__title">
