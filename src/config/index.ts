@@ -16,8 +16,9 @@ const HTTP_ERROR = {
   504: '网关超时。'
 };
 if (IS_DEV) {
+  baseUrl = 'http://192.168.2.216:3000';
   // baseUrl = 'http://192.168.1.72:3000';
-  baseUrl = 'http://172.16.3.123:3000';
+  // baseUrl = 'http://172.16.3.123:3000';
   noConsole = false;
 } else {
   baseUrl = 'https://binaryify.github.io/NeteaseCloudMusicApi';
