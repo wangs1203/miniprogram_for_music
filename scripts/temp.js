@@ -8,7 +8,7 @@ const dirName = process.argv[2];
 console.log(process.argv);
 console.log(process.argv[2]);
 
-function titleCase(str) {
+function titleCase (str) {
   const array = str.toLowerCase().split(' ');
   for (let i = 0; i < array.length; i++) {
     array[i] = array[i][0].toUpperCase() + array[i].substring(1, array[i].length);
@@ -19,29 +19,65 @@ function titleCase(str) {
 
 if (!dirName) {
   console.log('文件夹名称不能为空！');
-  console.log('示例：npm run tep test');
+  console.log('示例：yarn temp demo');
   process.exit(0);
 }
 
 // 页面模版
 const indexTep = `import Taro, { Component, Config } from '@tarojs/taro';
+import {
+  View
+} from '@tarojs/components';
+// import {
+
+// } from 'taro-ui';
 import { connect } from '@tarojs/redux';
-import { View } from '@tarojs/components';
+
 import './index.scss';
+import { EffectType } from './model';
 
-@connect(({${dirName}}) => ({
-  ...${dirName},
-}))
-export default class ${titleCase(dirName)} extends Component {
-  config: Config = {
+interface PageOwnProps {}
 
-  };
+interface PageStateProps {
 
-  componentDidMount = () => {
+}
 
-  };
+interface PageDispatchProps {
 
-  render() {
+}
+
+interface PageState {
+
+}
+
+type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
+
+@connect(
+  ({ ${dirName} }) => ({
+    ...${dirName},
+  }),
+  (dispatch) => ({
+    // dispatchFetchUserSubCount () {
+    //   dispatch({
+    //     type: EffectType.getUserSubCount
+    //   });
+    // }
+  })
+)
+export default class ${titleCase(dirName)}View extends Component<IProps, PageState> {
+  public config: Config = {
+
+  }
+
+  public componentWillUnmount () {
+
+  }
+
+  public componentDidShow () {
+
+  }
+
+  public render (): JSX.Element {
     return (
       <View className="${dirName}-page">
         ${dirName}
@@ -52,52 +88,69 @@ export default class ${titleCase(dirName)} extends Component {
 `;
 
 // scss文件模版
-const scssTep = `@import "../../styles/mixin";
-
-.${dirName}-page {
+// const scssTep = `@import "../../styles/mixin";
+const scssTep = `.${dirName}-page {
   @include wh(100%, 100%);
 }
 `;
 
 // model文件模版
-const modelTep = `import * as ${dirName}Api from './service';
+const modelTep = `// import Taro from '@tarojs/taro';
+import { Model } from 'dva-core';
+import modelExtend from 'dva-model-extend';
+import { model } from 'utils/model';
+import * as ${dirName}Api from './service';
 
-export default {
+export const enum EffectType {
+  effectsDemo = '${dirName}/effectsDemo'
+}
+
+export default modelExtend(model, {
   namespace: '${dirName}',
   state: {
 
   },
 
   effects: {
-    * effectsDemo(_, { call, put }) {
-      const { status, data } = yield call(${dirName}Api.demo, {});
-      if (status === 'ok') {
-        yield put({ type: 'save',
-          payload: {
-            topData: data,
-          } });
-      }
-    },
-  },
+    * effectsDemo({ payload }, { call, put }) {
+      const res = yield call(${dirName}Api.demo, {});
+      console.log(res);
 
-  reducers: {
-    save(state, { payload }) {
-      return { ...state, ...payload };
+      const {
+        isOk,
+        result
+      } = res;
+      // TODO: 接口后续处理...
+      // if (isOk) {
+      //   yield put({
+      //     type: 'updateState',
+      //     payload: {
+      //     }
+      //   });
+      // }
     },
-  },
-
-};
+  }
+}) as Model;
 `;
 
-
 // service页面模版
-const serviceTep = `import Api from 'http/request';
+const serviceTep = `
+import Request from 'services/http';
+import {
+  ${dirName}URL
+} from 'services/apis';
 
 interface ${dirName}Params {
   ${dirName}Param: string;
 }
 
-export const ${dirName} = (params: ${dirName}Params) => Api.${dirName}(params);
+/**
+ *
+ * 说明 :
+ */
+export const fetch${dirName} = (
+  params:{}
+) => Request.post({ url: ${dirName}URL, data: params });
 `;
 
 fs.mkdirSync(`./src/pages/${dirName}`); // mkdir $1

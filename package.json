@@ -31,7 +31,7 @@
 		"lint": "eslint ./src --fix",
 		"lint:style": "stylelint \"src/**/*.scss\" --syntax scss",
 		"lint:style-fix": "stylelint \"src/**/*.scss\" --syntax scss --fix",
-		"temp": "node ./scripts/template.js"
+		"temp": "node ./scripts/temp.js"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-standard",
