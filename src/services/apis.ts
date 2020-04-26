@@ -29,3 +29,16 @@ export const PlayListClassificationURL = '/playlist/catlist';
  * cat:cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部",可从歌单分类接口获取(/playlist/catlist)
  */
 export const TopPlayListURL = '/top/playlist';
+
+/**
+ * ------------------------- person --------------------------
+ */
+/**
+ * 获取用户信息 , 歌单，收藏，mv, dj 数量
+ */
+export const UserSubCountURL = '/user/subcount';
+
+/**
+ * 获取用户详情
+ */
+export const UserDetailURL = '/user/detail';

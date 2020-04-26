@@ -1,0 +1,73 @@
+.page-container{
+  .unlogin-control-wrapper{
+    padding: 30px 70px;
+    .img{
+      width: 80px;
+      height: 80px;
+      float: left;
+    }
+    .unlogin-control-btn-wrapper{
+      float: right;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      .unlogin-control-btn{
+        width: 120px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 26px;
+        border-radius: 20px;
+        border: 1px solid #3c3c3c;
+      }
+    }
+  }
+
+  .user_count{
+    display: flex;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    .user_count__sub {
+      flex: 1;
+      font-size: 22px;
+      color: #888888;
+      .user_count__sub--num {
+        color: #323232;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .user_brief{
+    .user_brief__item{
+      display: flex;
+      align-items: center;
+      &:last-child {
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        .user_brief__item__text {
+          border-bottom: none;
+        }
+      }
+      .user_brief__item__img {
+        width: 70px;
+        height: 70px;
+        margin: 20px 40px;
+      }
+      .user_brief__item__text {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        line-height: 110px;
+        .at-icon {
+          font-size: 40px;
+          margin-right: 40px;
+        }
+      }
+    }
+  }
+}

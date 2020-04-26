@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import { HTTP_STATUS } from 'config/index';
 // import { queryAirportCnAndAbURL } from './apis';
 /**
  * 检查http状态值
@@ -16,13 +17,12 @@ import Taro from '@tarojs/taro';
 //     reject(response.data);
 //   }
 // }
-export function checkHttpStatus(response: API.Response): API.Response | void {
+export function checkHttpStatus (response: API.Response): API.Response | void {
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response;
   }
   console.log(response);
-  // const message = HTTP_ERROR[response.statusCode] || `ERROR CODE: ${response.statusCode}`;
-  const message = `连接失败！ERROR:${response.statusCode}`;
+  const message = response.statusCode === HTTP_STATUS.AUTHENTICATE ? '请先登录' : `连接失败！ERROR:${response.statusCode}`;
   const error = new Error(message);
   error.response = response;
   throw error;
@@ -33,7 +33,7 @@ export function checkHttpStatus(response: API.Response): API.Response | void {
  * @param response
  * @returns {API.Response}
  */
-export function setCookie(response: API.Response) {
+export function setCookie (response: API.Response) {
   if (response.cookies && response.cookies.length > 0) {
     let cookies = '';
     response.cookies.forEach((cookie, index) => {
@@ -58,7 +58,7 @@ export function setCookie(response: API.Response) {
  * 请求特殊处理
  * @param {string} path
  */
-export function reqIntercept(path:string) {
+export function reqIntercept (path:string) {
   const commonReqUrlList = [
     // queryAirportCnAndAbURL
   ].filter((item) => path.indexOf(item) !== -1);
