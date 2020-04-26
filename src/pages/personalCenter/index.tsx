@@ -1,8 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import {
-  View
-  // Text,
-  // Image,
+  View,
+  Text,
+  Image
   // Swiper,
   // SwiperItem,
   // Canvas,
@@ -14,7 +14,7 @@ import { connect } from '@tarojs/redux';
 // AtTabsPane
 // AtIcon
 // } from 'taro-ui';
-// import { IndexEffectType } from './model';
+import { EffectType } from './model';
 import './index.scss';
 
 interface PageOwnProps {}
@@ -24,6 +24,7 @@ interface PageStateProps {
 }
 
 interface PageDispatchProps {
+  dispatchFetchUserSubCount: () => void;
 }
 
 interface PageState {
@@ -31,12 +32,17 @@ interface PageState {
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 @connect(
-  ({ common }) => ({
-    common
+  ({ common, personalCenter }) => ({
+    common,
+    ...personalCenter
   }),
-  (dispatch) => {
-
-  }
+  (dispatch) => ({
+    dispatchFetchUserSubCount () {
+      dispatch({
+        type: EffectType.getUserSubCount
+      });
+    }
+  })
 )
 class PersonCenter extends Component<IProps, PageState> {
   public config: Config = {
@@ -52,12 +58,92 @@ class PersonCenter extends Component<IProps, PageState> {
 
   }
 
-  public componentDidShow () {}
+  public componentDidShow () {
+    this.props.dispatchFetchUserSubCount();
+  }
 
   public render (): JSX.Element {
     return (
-      <View>
-        test
+      <View className="page-container">
+
+        <View className="unlogin-control-wrapper clearfix">
+          <Image
+            // eslint-disable-next-line global-require
+            src={require('images/red-notLogin-avatar-icon.png')}
+            className="img"
+          />
+          <View className="unlogin-control-btn-wrapper">
+            <View className="unlogin-control-btn">立即登录</View>
+          </View>
+        </View>
+
+        <View className="user_count">
+          <View className="user_count__sub">
+            <View className="user_count__sub--num">
+              0
+            </View>
+            <View>动态</View>
+          </View>
+          <View className="user_count__sub">
+            <View className="user_count__sub--num">
+              0
+            </View>
+            <View>关注</View>
+          </View>
+          <View className="user_count__sub">
+            <View className="user_count__sub--num">
+              0
+            </View>
+            <View>粉丝</View>
+          </View>
+        </View>
+
+        <View className="user_brief">
+          <View className="user_brief__item">
+            <Image
+              className="user_brief__item__img"
+              // eslint-disable-next-line global-require
+              src={require('../../assets/images/recent_play.png')}
+            />
+            <View className="user_brief__item__text">
+              <Text>
+                最近播放
+              </Text>
+              <Text className="at-icon at-icon-chevron-right" />
+            </View>
+          </View>
+
+          <View className="user_brief__item">
+            <Image
+              className="user_brief__item__img"
+              // eslint-disable-next-line global-require
+              src={require('../../assets/images/my_radio.png')}
+            />
+            <View className="user_brief__item__text">
+              <Text>
+                我的电台
+              </Text>
+              <Text className="at-icon at-icon-chevron-right" />
+            </View>
+          </View>
+
+          <View className="user_brief__item">
+            <Image
+              className="user_brief__item__img"
+              // eslint-disable-next-line global-require
+              src={require('../../assets/images/my_collection_icon.png')}
+            />
+            <View className="user_brief__item__text">
+              <Text>
+                我的收藏
+              </Text>
+              <Text className="at-icon at-icon-chevron-right" />
+            </View>
+          </View>
+
+
+        </View>
+
       </View>
     );
   }

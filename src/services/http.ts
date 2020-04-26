@@ -3,8 +3,8 @@ import qs from 'qs';
 import { showMsg } from 'utils/Toast';
 import { TrAlert } from 'utils/Modal';
 import {
-  BASE_URL
-  // HTTP_ERROR
+  BASE_URL,
+  HTTP_STATUS
 } from '../config/index';
 import { checkHttpStatus, setCookie, reqIntercept } from './utils';
 
@@ -50,7 +50,7 @@ export default class Request {
           } = data;
           rest.result ? (result = rest.result) : (result = rest);
 
-          if (code === 200) {
+          if (code === HTTP_STATUS.SUCCESS) {
             resolve({ result, isOk: true });
           } else if (isSpecialPath && response.errMsg === 'request:ok') {
             resolve({ result, isOk: true });
@@ -74,6 +74,12 @@ export default class Request {
           const errorStr = error.errMsg || error.message;
           showMsg({ title: errorStr || '' }).then(() => {
             setTimeout(() => {
+              if (error.response && error.response.statusCode === HTTP_STATUS.AUTHENTICATE) {
+                Taro.clearStorage();
+                // Taro.navigateTo({
+                //   url: '/pages/login/index'
+                // })
+              }
               resolve({
                 isOk: false,
                 code: error.response && error.response.statusCode ? error.response.statusCode : '',
