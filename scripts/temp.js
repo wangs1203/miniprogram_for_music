@@ -134,8 +134,7 @@ export default modelExtend(model, {
 `;
 
 // service页面模版
-const serviceTep = `
-import Request from 'services/http';
+const serviceTep = `import Request from 'services/http';
 import {
   ${dirName}URL
 } from 'services/apis';
