@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import qs from 'qs';
 import { showMsg } from 'utils/Toast';
-import { TrAlert } from 'utils/Modal';
+// import { TrAlert } from 'utils/Modal';
 import {
   BASE_URL,
   HTTP_STATUS
@@ -45,6 +45,7 @@ export default class Request {
             code,
             category,
             msg,
+            message,
             // hasTaste,
             ...rest
           } = data;
@@ -55,30 +56,41 @@ export default class Request {
           } else if (isSpecialPath && response.errMsg === 'request:ok') {
             resolve({ result, isOk: true });
           } else {
-            TrAlert({
-              content: data.commonRes.message,
+            showMsg({
+              title: message || msg,
               success (res) {
                 console.log(res);
                 resolve({
                   isOk: false,
-                  errMsg: data.commonRes.message,
+                  errMsg: message || msg,
                   code: 200
                 });
               }
             });
+            // TrAlert({
+            //   content: message || msg,
+            //   success (res) {
+            //     console.log(res);
+            //     resolve({
+            //       isOk: false,
+            //       errMsg: message || msg,
+            //       code: 200
+            //     });
+            //   }
+            // });
           }
         })
         .catch((error) => {
           // console.log(error.message);
           // console.log(error.errMsg);
-          const errorStr = error.errMsg || error.message;
+          const errorStr = error.message || error.errMsg;
           showMsg({ title: errorStr || '' }).then(() => {
             setTimeout(() => {
               if (error.response && error.response.statusCode === HTTP_STATUS.AUTHENTICATE) {
                 Taro.clearStorage();
-                // Taro.navigateTo({
-                //   url: '/pages/login/index'
-                // })
+                Taro.navigateTo({
+                  url: '/pages/login/index'
+                });
               }
               resolve({
                 isOk: false,

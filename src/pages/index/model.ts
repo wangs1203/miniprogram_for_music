@@ -31,7 +31,7 @@ export default modelExtend(model, {
   },
   effects: {
 
-    * getBanner ({ payload }, { call, put }) {
+    * getBanner (_, { call, put }) {
       const res = yield call(fetchBanner);
       console.log(res);
       const {
@@ -48,7 +48,7 @@ export default modelExtend(model, {
       }
     },
 
-    * getRecommendMVList ({ payload }, { call, put }) {
+    * getRecommendMVList (_, { call, put }) {
       const res = yield call(fetchRecommendMVList);
       console.log(res);
       const {
@@ -65,7 +65,7 @@ export default modelExtend(model, {
       }
     },
 
-    * getRecommendSongList ({ payload }, { call, put }) {
+    * getRecommendSongList (_, { call, put }) {
       const res = yield call(fetchRecommendSongList, { limit: 6 });
       console.log(res);
       const {
@@ -82,7 +82,7 @@ export default modelExtend(model, {
       }
     },
 
-    * getDjProgram ({ payload }, { call, put }) {
+    * getDjProgram (_, { call, put }) {
       const res = yield call(fetchDjProgram, { limit: 6 });
       console.log(res);
       const {
@@ -99,17 +99,17 @@ export default modelExtend(model, {
       }
     },
 
-    * getLeaderboard ({ payload }, { call }) {
+    * getLeaderboard (_, { call }) {
       const res = yield call(fetchLeaderboard, { idx: 1 });
       console.log(res);
     },
 
-    * getTopPlayList ({ payload }, { call }) {
+    * getTopPlayList (_, { call }) {
       const res = yield call(fetchTopPlayList, { order: 'hot', cat: '全部' });
       console.log(res);
     },
 
-    * getPlayListClass ({ payload }, { call }) {
+    * getPlayListClass (_, { call }) {
       const res = yield call(fetchPlayListClass);
       console.log(res);
     }

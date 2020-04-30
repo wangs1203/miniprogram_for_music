@@ -31,7 +31,8 @@ class App extends Taro.Component {
   public config: Taro.Config = {
     pages: [
       'pages/index/index',
-      'pages/personalCenter/index'
+      'pages/personalCenter/index',
+      'pages/login/index'
     ],
     window: {
       backgroundTextStyle: 'light',

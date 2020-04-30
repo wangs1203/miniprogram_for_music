@@ -1,17 +1,18 @@
 
 import Request from 'services/http';
 import {
-  loginURL
+  LoginURL
 } from 'services/apis';
 
-interface loginParams {
-  loginParam: string;
+export interface loginParams {
+  phone: string | number;
+  password: string;
+  countrycode?: number | string;
 }
 
 /**
- *
- * 说明 :
+ * 登录
  */
-export const fetchlogin = (
-  params:{}
-) => Request.post({ url: loginURL, data: params });
+export const fetchLogin = (
+  params:loginParams
+) => Request.post({ url: LoginURL, data: params });
