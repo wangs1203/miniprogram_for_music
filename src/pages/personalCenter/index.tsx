@@ -14,7 +14,7 @@ import { connect } from '@tarojs/redux';
 // AtTabsPane
 // AtIcon
 // } from 'taro-ui';
-import { EffectType } from './model';
+import { EffectType, fetchUserDetailParams } from './model';
 import './index.scss';
 
 interface PageOwnProps {}
@@ -25,6 +25,7 @@ interface PageStateProps {
 
 interface PageDispatchProps {
   dispatchFetchUserSubCount: () => void;
+  dispatchFetchUserDetail: (payload:fetchUserDetailParams) => void;
 }
 
 interface PageState {
@@ -40,6 +41,12 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     dispatchFetchUserSubCount () {
       dispatch({
         type: EffectType.getUserSubCount
+      });
+    },
+    dispatchFetchUserDetail (payload:fetchUserDetailParams) {
+      dispatch({
+        type: EffectType.getUserDetail,
+        payload
       });
     }
   })
@@ -59,7 +66,11 @@ class PersonCenter extends Component<IProps, PageState> {
   }
 
   public componentDidShow () {
+    console.log(this.props.common);
     this.props.dispatchFetchUserSubCount();
+    this.props.common.userInfo && this.props.dispatchFetchUserDetail({
+      uid: this.props.common.userInfo.profile.userId
+    });
   }
 
   public render (): JSX.Element {

@@ -3,23 +3,33 @@ import { Model } from 'dva-core';
 import modelExtend from 'dva-model-extend';
 import { model } from 'utils/model';
 import {
-  fetchUserSubCount
+  fetchUserSubCount,
+  fetchUserDetail
 
 } from './service';
 
+export { fetchUserDetailParams } from './service';
+
 export const enum EffectType {
-  getUserSubCount = 'personalCenter/getUserSubCount'
+  getUserSubCount = 'personalCenter/getUserSubCount',
+  getUserDetail = 'personalCenter/getUserDetail'
 }
 export default modelExtend(model, {
   namespace: 'personalCenter',
   state: {
 
   },
+
   effects: {
 
     * getUserSubCount ({ payload }, { call }) {
       const res = yield call(fetchUserSubCount);
       console.log(res, payload);
+    },
+
+    * getUserDetail ({ payload }, { call }) {
+      const res = yield call(fetchUserDetail, payload);
+      console.log(res);
     }
 
   }

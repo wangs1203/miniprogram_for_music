@@ -1,3 +1,27 @@
-.login-page {
+.login-container {
   @include wh(100%, 100%);
+  .login-content{
+    padding: 20px 10px;
+    .login-content__item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #cccccc;
+      padding: 20px 10px;
+      font-size: 32px;
+    }
+    .login-content__input {
+      padding-left: 20px;
+      width: 70vw;
+      &::after{
+        content: none;
+      }
+    }
+    .login-content__btn {
+      margin-top: 40px;
+      border-radius: 44px;
+      // color: #ffffff;
+      // background-color: #d43c33;
+      border: none;
+    }
+  }
 }

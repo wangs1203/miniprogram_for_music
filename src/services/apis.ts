@@ -42,3 +42,13 @@ export const UserSubCountURL = '/user/subcount';
  * 获取用户详情
  */
 export const UserDetailURL = '/user/detail';
+
+
+/**
+ * 登录
+ * 说明 : 手机登录
+ * 必选参数 : phone: 手机号码 password: 密码
+ * 可选参数 : countrycode: 国家码，用于国外手机号登陆，例如美国传入：1
+ * 调用例子 : /login/cellphone?phone=xxx&password=yyy
+ */
+export const LoginURL = '/login/cellphone';

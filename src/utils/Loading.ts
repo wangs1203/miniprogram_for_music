@@ -10,7 +10,7 @@ export default class Loading {
   /**
    * 加载提示弹窗
    */
-  static show(title = '加载中', force = false) {
+  static show (title = '加载中', force = false) {
     if (this.isLoading && !force) {
       return;
     }
@@ -28,7 +28,7 @@ export default class Loading {
   /**
    * 加载完成
    */
-  static hide() {
+  static hide () {
     let duration = 0;
     if (this.isLoading) {
       this.isLoading = false;

@@ -4,7 +4,7 @@
 // taro-ui
 // @import '~taro-ui/dist/style/index.scss';
 @import '~taro-ui/dist/style/components/button.scss';
-// button引用了loading
+@import "~taro-ui/dist/style/components/input.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
 @import '~taro-ui/dist/style/components/loading.scss';
 @import "~taro-ui/dist/style/components/toast.scss";

@@ -6,25 +6,22 @@ import { HTTP_STATUS } from 'config/index';
  * @param response
  * @returns {API.Response | void}
  */
-// function checkHttpStatus(response: API.Response, resolve, reject): void {
-//   if (response.statusCode >= 200 && response.statusCode < 300) {
-//     resolve(response.data);
-//   } else {
-//     const message = HTTP_ERROR[response.statusCode] || `ERROR CODE: ${response.statusCode}`;
-//     response.data.errorCode = response.statusCode;
-//     response.data.error = message;
-//     console.log(response);
-//     reject(response.data);
-//   }
-// }
 export function checkHttpStatus (response: API.Response): API.Response | void {
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response;
   }
   console.log(response);
-  const message = response.statusCode === HTTP_STATUS.AUTHENTICATE ? '请先登录' : `连接失败！ERROR:${response.statusCode}`;
+  let message = '';
+  if (response.statusCode === HTTP_STATUS.AUTHENTICATE) {
+    message = '请先登录！';
+  } else if (response.data.msg || response.data.message) {
+    message = response.data.msg || response.data.message;
+  } else {
+    message = `连接失败！ERROR:${response.statusCode}`;
+  }
   const error = new Error(message);
   error.response = response;
+  error.message = message;
   throw error;
 }
 

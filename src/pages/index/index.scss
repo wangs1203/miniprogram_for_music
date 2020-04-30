@@ -43,7 +43,7 @@
         &:last-child {
           margin-right: 0;
         }
-        &.recommend_mvlist{
+        &.recommend_mv_list{
           max-width: 356px;
           min-width: 356px;
           .recommend_songlist__item__title{
@@ -122,9 +122,9 @@
     top: 0;
     left: 0;
     z-index: 5;
-    .leaderboard_Item__content_title{
+    // .leaderboard_Item__content_title{
 
-    }
+    // }
 
     .leaderboard_Item__content_song_list__wrapper{
       .leaderboard_Item__content_song_list__item{
