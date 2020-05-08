@@ -14,19 +14,26 @@ import {
 // AtTabsPane
   AtIcon
 } from 'taro-ui';
-import { EffectType, fetchUserDetailParams } from './model';
+import {
+  EffectType,
+  fetchUserDetailParams,
+  fetchUserPlayListParams
+} from './model';
 import './index.scss';
 
 interface PageOwnProps {}
 
 interface PageStateProps {
   common:any;
+  userCreateList: Array<StoreSpace.ListItemInfo>;
+  userCollectList: Array<StoreSpace.ListItemInfo>;
 }
 
 interface PageDispatchProps {
   dispatchFetchUserSubCount: () => void;
   dispatchFetchUserDetail: (payload:fetchUserDetailParams) => void;
   dispatchFetchLogout: () => void;
+  dispatchFetchUserPlayList: (payload:fetchUserPlayListParams) => void;
 }
 
 interface PageState {
@@ -54,6 +61,12 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
       dispatch({
         type: EffectType.getLogout
       });
+    },
+    dispatchFetchUserPlayList (payload:fetchUserPlayListParams) {
+      dispatch({
+        type: EffectType.getUserPlayList,
+        payload
+      });
     }
 
   })
@@ -79,10 +92,19 @@ class PersonCenter extends Component<IProps, PageState> {
   }
 
   public componentDidShow () {
-    console.log(this.props.common);
+    this.init();
+  }
+
+  private init = () => {
+    console.log(this.props);
     this.props.dispatchFetchUserSubCount();
+    const uid = this.props.common.userInfo.profile.userId;
     this.props.common.userInfo && this.props.dispatchFetchUserDetail({
-      uid: this.props.common.userInfo.profile.userId
+      uid
+    });
+    this.props.dispatchFetchUserPlayList({
+      uid,
+      limit: 300
     });
   }
 
@@ -94,8 +116,8 @@ class PersonCenter extends Component<IProps, PageState> {
   }
 
   public render (): JSX.Element {
-    const { common } = this.props;
-    console.log(common.userInfo);
+    const { common, userCreateList } = this.props;
+    console.log(this.props);
     return (
       <View className="page-container">
         {
@@ -141,28 +163,29 @@ class PersonCenter extends Component<IProps, PageState> {
           )
         }
 
-
+        {/* TODO: 事件绑定 */}
         <View className="user_count">
           <View className="user_count__sub">
             <View className="user_count__sub--num">
-              0
+              {common.userInfo.profile.eventCount || 0}
             </View>
             <View>动态</View>
           </View>
           <View className="user_count__sub">
             <View className="user_count__sub--num">
-              0
+              {common.userInfo.profile.newFollows || 0}
             </View>
             <View>关注</View>
           </View>
           <View className="user_count__sub">
             <View className="user_count__sub--num">
-              0
+              {common.userInfo.profile.followeds || 0}
             </View>
             <View>粉丝</View>
           </View>
         </View>
 
+        {/* TODO: 事件绑定 跳转 */}
         <View className="user_brief">
           <View className="user_brief__item">
             <Image
@@ -206,9 +229,35 @@ class PersonCenter extends Component<IProps, PageState> {
             </View>
           </View>
 
-
         </View>
-
+        {/* 歌单列表 */}
+        <View className="user_playlist">
+          <View className="user_playlist__title">
+            我创建的歌单
+            <Text className="user_playlist__title__desc">
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+              ({userCreateList.length})
+            </Text>
+          </View>
+          {/* TODO: loading */}
+          {/* {userCreateList.length === 0 ? <CLoading /> : ""} */}
+          <View>
+            {
+              userCreateList.map((item) => (
+                <View
+                  key={item.id}
+                  className="user_playlist__item"
+                  // onClick={this.goDetail.bind(this, item)}
+                >
+                  <Image
+                    className="user_playlist__item__cover"
+                    src={`${item.coverImgUrl}?imageView&thumbnail=250x0`}
+                  />
+                </View>
+              ))
+            }
+          </View>
+        </View>
       </View>
     );
   }

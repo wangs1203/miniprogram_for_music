@@ -23,16 +23,10 @@ export default modelExtend(model, {
         isOk,
         result
       } = res;
-      // TODO: 接口后续处理...
       if (isOk) {
-        // Taro.setStorageSync('userInfo', result);
-        // Taro.setStorageSync('userId', result.account.id);
         yield put({
           type: 'common/updateUserInfo',
-          payload: {
-            userInfo: result,
-            userId: result.account.id
-          }
+          payload: { userInfo: result }
         });
         Taro.navigateBack();
       }

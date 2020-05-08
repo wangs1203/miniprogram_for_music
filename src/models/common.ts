@@ -16,16 +16,17 @@ export default modelExtend(model, {
   reducers: {
     updateUserInfo (state, { payload }) {
       if (payload) {
-        const {
-          userInfo,
-          userId
-        } = payload;
+        let { userInfo } = payload;
+        const userId = userInfo.account && userInfo.account.id
+          ? userInfo.account.id
+          : userInfo.profile.userId;
 
-        Taro.setStorageSync('userInfo', {
+        userInfo = {
           ...(state.userInfo ? state.userInfo : {}),
           ...userInfo
-        });
-        userId && Taro.setStorageSync('userId', userId);
+        };
+        Taro.setStorageSync('userInfo', userInfo);
+        Taro.setStorageSync('userId', userId);
         return {
           ...state,
           userInfo,

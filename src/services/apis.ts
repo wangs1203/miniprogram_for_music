@@ -58,3 +58,10 @@ export const LoginURL = '/login/cellphone';
  * 说明 : 调用此接口 , 可退出登录
  */
 export const LogoutURL = '/logout';
+
+/**
+ * 获取用户歌单
+ * 说明 : 登陆后调用此接口 , 传入用户 id, 可以获取用户歌单
+ * 调用例子 : /user/playlist?uid=32953014
+ */
+export const UserPlayListURL = '/user/playlist';

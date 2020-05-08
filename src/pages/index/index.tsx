@@ -9,11 +9,11 @@ import {
   ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-import {
-  AtTabs,
-  AtTabsPane
-  // AtIcon
-} from 'taro-ui';
+// import {
+//   AtTabs,
+//   AtTabsPane
+//   // AtIcon
+// } from 'taro-ui';
 import { IndexEffectType } from './model';
 import './index.scss';
 // import { TrAlert } from '@/utils/Modal';
@@ -61,7 +61,7 @@ interface PageDispatchProps {
 }
 
 interface PageState {
-  current: number;
+  isRefresh: boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -123,7 +123,7 @@ class Index extends Component<IProps, PageState> {
   public constructor (...rest) {
     super(...rest);
     this.state = {
-      current: 0
+      isRefresh: false
     };
   }
 
@@ -138,6 +138,10 @@ class Index extends Component<IProps, PageState> {
   public readonly tabList = [{ title: '个性推荐' }, { title: '歌单' }]
 
   public componentDidShow () {
+    this.init();
+  }
+
+  private init = () => {
     this.props.dispatchFetchBanner();
     this.props.dispatchFetchRecommendSongList();
     this.props.dispatchFetchRecommendMVList();
@@ -147,9 +151,12 @@ class Index extends Component<IProps, PageState> {
     this.props.dispatchFetchTopPlayList();
   }
 
-  private handleClick = (value:0|1) => {
-    this.setState({
-      current: value
+  private refresh = () => {
+    this.setState({ isRefresh: true }, () => {
+      this.init();
+      this.setState({
+        isRefresh: false
+      });
     });
   }
 
@@ -159,205 +166,192 @@ class Index extends Component<IProps, PageState> {
   }
 
   public render (): JSX.Element {
+    console.log(this.props);
     const {
       bannerList,
       recommendSongList,
       recommendMVList,
       djProgramList
     } = this.props;
-    console.log(this.props);
+    const {
+      isRefresh
+    } = this.state;
 
     return (
       <View>
-        <AtTabs
-          current={this.state.current}
-          tabList={this.tabList}
-          swipeable={false}
-          onClick={this.handleClick}
+        <ScrollView
+          scrollX
+          enableBackToTop
+          scrollAnchoring
+          refresherEnabled
+          onRefresherRefresh={this.refresh}
+          refresherTriggered={isRefresh}
+          upperThreshold={20}
         >
-          <AtTabsPane
-            current={this.state.current}
-            index={0}
+          <Swiper
+            indicatorColor="#999"
+            indicatorActiveColor="#333"
+            circular
+            indicatorDots
+            autoplay
           >
+            {bannerList.map((item) => (
+              <SwiperItem key={item.targetId}>
+                <Image
+                  className="img"
+                  src={`${item.pic}?imageView&thumbnail=0x300`}
+                />
+              </SwiperItem>
+            ))}
+          </Swiper>
+          {/* 推荐歌单 */}
+          <View className="recommend_songlist">
+            <View className="recommend_songlist__title">
+              推荐歌单
+            </View>
             <ScrollView
+              className="recommend_songlist__wrapper"
+              upperThreshold={10}
+              onScrollToLower={this.testToUpper}
               scrollX
-              enableBackToTop
-              scrollAnchoring
-              refresherEnabled
-              upperThreshold={20}
             >
-              <Swiper
-                indicatorColor="#999"
-                indicatorActiveColor="#333"
-                circular
-                indicatorDots
-                autoplay
-              >
-                {bannerList.map((item) => (
-                  <SwiperItem key={item.targetId}>
+              <View className="recommend_songlist__content">
+                {recommendSongList.map((item, index) => (
+                  <View
+                    key={`${index}`}
+                    className="recommend_songlist__item"
+                  >
                     <Image
-                      className="img"
-                      src={`${item.pic}?imageView&thumbnail=0x300`}
+                      src={`${item.picUrl}?imageView&thumbnail=0x300`}
+                      className="recommend_songlist__item__cover"
                     />
-                  </SwiperItem>
+                    <View className="recommend_songlist__item__cover__num">
+                      <Text className="at-icon at-icon-sound" />
+                      {
+                    item.playCount < 10000
+                      ? item.playCount
+                      : `${Number(item.playCount / 10000).toFixed(0)}万`
+                  }
+                    </View>
+                    <View className="recommend_songlist__item__title">{item.name}</View>
+                  </View>
                 ))}
-              </Swiper>
-              {/* 推荐歌单 */}
-              <View className="recommend_songlist">
-                <View className="recommend_songlist__title">
-                  推荐歌单
-                </View>
-                <ScrollView
-                  className="recommend_songlist__wrapper"
-                  upperThreshold={10}
-                  onScrollToLower={this.testToUpper}
-                  scrollX
-                >
-                  <View className="recommend_songlist__content">
-                    {recommendSongList.map((item, index) => (
-                      <View
-                        key={`${index}`}
-                        className="recommend_songlist__item"
-                      >
-                        <Image
-                          src={`${item.picUrl}?imageView&thumbnail=0x300`}
-                          className="recommend_songlist__item__cover"
-                        />
-                        <View className="recommend_songlist__item__cover__num">
-                          <Text className="at-icon at-icon-sound" />
-                          {
+              </View>
+            </ScrollView>
+          </View>
+          {/* 推荐歌单end */}
+          {/* 推荐MV */}
+          <View className="recommend_songlist">
+            <View className="recommend_songlist__title">
+              推荐歌单
+            </View>
+            <ScrollView
+              className="recommend_songlist__wrapper"
+              scrollX
+            >
+              <View className="recommend_songlist__content">
+                {recommendMVList.map((item, index) => (
+                  <View
+                    key={`${index}`}
+                    className="recommend_songlist__item recommend_mv_list"
+                  >
+                    <Image
+                      src={`${item.picUrl}?imageView&thumbnail=0x200`}
+                      className="recommend_songlist__item__cover"
+                    />
+                    <View className="recommend_songlist__item__cover__num">
+                      <Text className="at-icon at-icon-sound" />
+                      {
                         item.playCount < 10000
                           ? item.playCount
                           : `${Number(item.playCount / 10000).toFixed(0)}万`
                       }
-                        </View>
-                        <View className="recommend_songlist__item__title">{item.name}</View>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-              {/* 推荐歌单end */}
-              {/* 推荐MV */}
-              <View className="recommend_songlist">
-                <View className="recommend_songlist__title">
-                  推荐歌单
-                </View>
-                <ScrollView
-                  className="recommend_songlist__wrapper"
-                  scrollX
-                >
-                  <View className="recommend_songlist__content">
-                    {recommendMVList.map((item, index) => (
-                      <View
-                        key={`${index}`}
-                        className="recommend_songlist__item recommend_mv_list"
-                      >
-                        <Image
-                          src={`${item.picUrl}?imageView&thumbnail=0x200`}
-                          className="recommend_songlist__item__cover"
-                        />
-                        <View className="recommend_songlist__item__cover__num">
-                          <Text className="at-icon at-icon-sound" />
-                          {
-                            item.playCount < 10000
-                              ? item.playCount
-                              : `${Number(item.playCount / 10000).toFixed(0)}万`
-                          }
-                        </View>
-                        <View className="recommend_songlist__item__title">{item.name}</View>
-                        <View className="recommend_songlist__item__desc clearfix">
-                          {item.artists.map((artistsItem, artistsIndex) => (
-                            <View
-                              key={`recommend_songlist__item__desc${artistsIndex}`}
-                              className="recommend_songlist__item__desc_item"
-                            >
-                              {artistsItem.name}
-                            </View>
-                          ))}
-                        </View>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-              {/* 推荐MVend */}
-
-              {/* 电台推荐 */}
-              <View className="recommend_songlist">
-                <View className="recommend_songlist__title">
-                  电台推荐
-                </View>
-                <ScrollView
-                  className="recommend_songlist__wrapper"
-                  upperThreshold={10}
-                  onScrollToLower={this.testToUpper}
-                  scrollX
-                >
-                  <View className="recommend_songlist__content">
-                    {djProgramList.map((item, index) => (
-                      <View
-                        key={`${index}`}
-                        className="recommend_songlist__item"
-                      >
-                        <Image
-                          src={`${item.picUrl}?imageView&thumbnail=0x300`}
-                          className="recommend_songlist__item__cover"
-                        />
-                        <View className="recommend_songlist__item__title">{item.name}</View>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-              {/* 电台推荐end */}
-              {/* 排行榜 */}
-              {/* <View className="recommend_songlist">
-                <View className="recommend_songlist__title">
-                  排行榜
-                </View>
-                <Swiper
-                  circular
-                  nextMargin="20rpx"
-                >
-                  <SwiperItem>
-                    <View className="leaderboard_Item__content">
-                      <Canvas
-                        canvasId="canvas"
-                        className="leaderboard_Item__content_bg"
-                        style={{ backgroundImage: 'url(http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=640y640)' }}
-                      />
-                      <View className="leaderboard_Item__content_wrapper">
-                        <View className="leaderboard_Item__content_title">
-                          标题
-                          <AtIcon value="chevron-right" size="30" color="#f0f0f0" />
-                        </View>
-                        <View className="leaderboard_Item__content_song_list__wrapper">
-                          <View className="leaderboard_Item__content_song_list__item clearfix">
-                            <Image
-                              className="leaderboard_Item__content_song_list__item_pic"
-                              src="http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=120y120"
-                            />
-                            <Text>1 这是一个问题</Text>
-                          </View>
-                        </View>
-                      </View>
-
                     </View>
-                  </SwiperItem>
-                </Swiper>
-
-              </View> */}
-              {/* 排行榜end */}
+                    <View className="recommend_songlist__item__title">{item.name}</View>
+                    <View className="recommend_songlist__item__desc clearfix">
+                      {item.artists.map((artistsItem, artistsIndex) => (
+                        <View
+                          key={`recommend_songlist__item__desc${artistsIndex}`}
+                          className="recommend_songlist__item__desc_item"
+                        >
+                          {artistsItem.name}
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                ))}
+              </View>
             </ScrollView>
-          </AtTabsPane>
+          </View>
+          {/* 推荐MVend */}
 
-          <AtTabsPane current={this.state.current} index={1}>
-            <View>
-              test
+          {/* 电台推荐 */}
+          <View className="recommend_songlist">
+            <View className="recommend_songlist__title">
+              电台推荐
             </View>
-          </AtTabsPane>
-        </AtTabs>
+            <ScrollView
+              className="recommend_songlist__wrapper"
+              upperThreshold={10}
+              onScrollToLower={this.testToUpper}
+              scrollX
+            >
+              <View className="recommend_songlist__content">
+                {djProgramList.map((item, index) => (
+                  <View
+                    key={`${index}`}
+                    className="recommend_songlist__item"
+                  >
+                    <Image
+                      src={`${item.picUrl}?imageView&thumbnail=0x300`}
+                      className="recommend_songlist__item__cover"
+                    />
+                    <View className="recommend_songlist__item__title">{item.name}</View>
+                  </View>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+          {/* 电台推荐end */}
+          {/* 排行榜 */}
+          {/* <View className="recommend_songlist">
+            <View className="recommend_songlist__title">
+              排行榜
+            </View>
+            <Swiper
+              circular
+              nextMargin="20rpx"
+            >
+              <SwiperItem>
+                <View className="leaderboard_Item__content">
+                  <Canvas
+                    canvasId="canvas"
+                    className="leaderboard_Item__content_bg"
+                    style={{ backgroundImage: 'url(http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=640y640)' }}
+                  />
+                  <View className="leaderboard_Item__content_wrapper">
+                    <View className="leaderboard_Item__content_title">
+                      标题
+                      <AtIcon value="chevron-right" size="30" color="#f0f0f0" />
+                    </View>
+                    <View className="leaderboard_Item__content_song_list__wrapper">
+                      <View className="leaderboard_Item__content_song_list__item clearfix">
+                        <Image
+                          className="leaderboard_Item__content_song_list__item_pic"
+                          src="http://p2.music.126.net/x-jReyGkM5OTKUEtTqXGoA==/109951164597332931.jpg?param=120y120"
+                        />
+                        <Text>1 这是一个问题</Text>
+                      </View>
+                    </View>
+                  </View>
+
+                </View>
+              </SwiperItem>
+            </Swiper>
+
+          </View> */}
+          {/* 排行榜end */}
+        </ScrollView>
         {/* <CMusic
         songInfo={this.props.song}
         onUpdatePlayStatus={this.props.updateState.bind(this)} /> */}
