@@ -9,11 +9,11 @@ import {
   // ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-// import {
+import {
 // AtNoticebar
 // AtTabsPane
-// AtIcon
-// } from 'taro-ui';
+  AtIcon
+} from 'taro-ui';
 import { EffectType, fetchUserDetailParams } from './model';
 import './index.scss';
 
@@ -26,6 +26,7 @@ interface PageStateProps {
 interface PageDispatchProps {
   dispatchFetchUserSubCount: () => void;
   dispatchFetchUserDetail: (payload:fetchUserDetailParams) => void;
+  dispatchFetchLogout: () => void;
 }
 
 interface PageState {
@@ -48,12 +49,24 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
         type: EffectType.getUserDetail,
         payload
       });
+    },
+    dispatchFetchLogout () {
+      dispatch({
+        type: EffectType.getLogout
+      });
     }
+
   })
 )
 class PersonCenter extends Component<IProps, PageState> {
   public config: Config = {
     navigationBarTitleText: '我的'
+  }
+
+  private static jumpPage (name) {
+    Taro.navigateTo({
+      url: `/pages/${name}/index`
+    });
   }
 
   // eslint-disable-next-line no-useless-constructor
@@ -73,20 +86,61 @@ class PersonCenter extends Component<IProps, PageState> {
     });
   }
 
+  /**
+   * 退出登陆
+   */
+  private signOut = () => {
+    this.props.dispatchFetchLogout();
+  }
+
   public render (): JSX.Element {
+    const { common } = this.props;
+    console.log(common.userInfo);
     return (
       <View className="page-container">
-
-        <View className="unlogin-control-wrapper clearfix">
-          <Image
+        {
+          common.userInfo && Object.keys(common.userInfo).length ? (
+            <View className="login-control-wrapper clearfix">
+              <Image
+                src={`${common.userInfo.profile.avatarUrl}?imageView&thumbnail=80x0`}
+                className="img"
+              />
+              <View className="login-control__header-info">
+                <View className="login-control__header-info-name">
+                  {common.userInfo.profile.nickname}
+                </View>
+                <View>
+                  <Text className="login-control__header-info-level">
+                    {`LV.${common.userInfo.level}`}
+                  </Text>
+                </View>
+              </View>
+              <AtIcon
+                prefixClass="fa"
+                value="sign-out"
+                size="30"
+                color="#d43c33"
+                className="exit_icon"
+                onClick={this.signOut}
+              />
+            </View>
+          ) : (
+            <View className="unlogin-control-wrapper clearfix">
+              <Image
             // eslint-disable-next-line global-require
-            src={require('images/red-notLogin-avatar-icon.png')}
-            className="img"
-          />
-          <View className="unlogin-control-btn-wrapper">
-            <View className="unlogin-control-btn">立即登录</View>
-          </View>
-        </View>
+                src={require('images/red-notLogin-avatar-icon.png')}
+                className="img"
+              />
+              <View
+                className="unlogin-control-btn-wrapper"
+                onClick={() => { PersonCenter.jumpPage('login'); }}
+              >
+                <View className="unlogin-control-btn">立即登录</View>
+              </View>
+            </View>
+          )
+        }
+
 
         <View className="user_count">
           <View className="user_count__sub">

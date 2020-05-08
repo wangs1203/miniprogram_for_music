@@ -1,14 +1,15 @@
-@import '../fonts/iconfont.scss';
+// @import '../fonts/iconfont.scss';
+// @import "../fonts/iconfont/icon.scss";
 
 @import './resetTaroUIVar.scss';
 // taro-ui
 // @import '~taro-ui/dist/style/index.scss';
+@import "~taro-ui/dist/style/components/icon.scss";
 @import '~taro-ui/dist/style/components/button.scss';
 @import "~taro-ui/dist/style/components/input.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
 @import '~taro-ui/dist/style/components/loading.scss';
 @import "~taro-ui/dist/style/components/toast.scss";
-@import "~taro-ui/dist/style/components/icon.scss";
 // @import "~taro-ui/dist/style/components/noticebar.scss";
 
 page,
