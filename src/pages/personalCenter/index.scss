@@ -1,11 +1,15 @@
 .page-container{
-  .unlogin-control-wrapper{
+  .unlogin-control-wrapper,.login-control-wrapper{
     padding: 30px 70px;
     .img{
       width: 80px;
       height: 80px;
       float: left;
+      border-radius: 50%;
     }
+  }
+  .unlogin-control-wrapper{
+
     .unlogin-control-btn-wrapper{
       float: right;
       display: flex;
@@ -20,6 +24,26 @@
         border-radius: 20px;
         border: 1px solid #3c3c3c;
       }
+    }
+  }
+  .login-control-wrapper {
+    .login-control__header-info {
+      padding: 0 15px;
+      float: left;
+      .login-control__header-info-name{
+        font-size: 22px;
+        margin-top: 5px;
+      }
+      .login-control__header-info-level{
+        color: #888888;
+        font-size: 18px;
+        border: 1px solid #888888;
+        padding: 0px 15px;
+        border-radius: 40px;
+      }
+    }
+    .exit_icon{
+      float: right;
     }
   }
 

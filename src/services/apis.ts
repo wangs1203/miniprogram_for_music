@@ -52,3 +52,9 @@ export const UserDetailURL = '/user/detail';
  * 调用例子 : /login/cellphone?phone=xxx&password=yyy
  */
 export const LoginURL = '/login/cellphone';
+
+/**
+ * 退出登录
+ * 说明 : 调用此接口 , 可退出登录
+ */
+export const LogoutURL = '/logout';

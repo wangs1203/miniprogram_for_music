@@ -15,7 +15,7 @@ export default modelExtend(model, {
   },
   effects: {
 
-    * getLogin ({ payload }, { call }) {
+    * getLogin ({ payload }, { call, put }) {
       console.log(loginApi);
       const res = yield call(loginApi.fetchLogin, payload);
       console.log(res);
@@ -25,8 +25,15 @@ export default modelExtend(model, {
       } = res;
       // TODO: 接口后续处理...
       if (isOk) {
-        Taro.setStorageSync('userInfo', result);
-        Taro.setStorageSync('userId', result.account.id);
+        // Taro.setStorageSync('userInfo', result);
+        // Taro.setStorageSync('userId', result.account.id);
+        yield put({
+          type: 'common/updateUserInfo',
+          payload: {
+            userInfo: result,
+            userId: result.account.id
+          }
+        });
         Taro.navigateBack();
       }
     }
