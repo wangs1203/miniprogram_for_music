@@ -1,25 +1,30 @@
-import Taro from '@tarojs/taro';
+// import Taro from '@tarojs/taro';
 import { Model } from 'dva-core';
 import modelExtend from 'dva-model-extend';
 import { model } from 'utils/model';
 import {
   fetchUserSubCount,
   fetchUserDetail,
-  fetchLogout
-
+  fetchLogout,
+  fetchUserPlayList,
+  fetchUserDetailParams,
+  fetchUserPlayListParams
 } from './service';
 
-export { fetchUserDetailParams } from './service';
+
+export { fetchUserDetailParams, fetchUserPlayListParams };
 
 export const enum EffectType {
   getUserSubCount = 'personalCenter/getUserSubCount',
   getUserDetail = 'personalCenter/getUserDetail',
-  getLogout = 'personalCenter/getLogout'
+  getLogout = 'personalCenter/getLogout',
+  getUserPlayList = 'personalCenter/getUserPlayList'
 }
 export default modelExtend(model, {
   namespace: 'personalCenter',
   state: {
-
+    userCreateList: [],
+    userCollectList: []
   },
 
   effects: {
@@ -57,6 +62,26 @@ export default modelExtend(model, {
         });
       }
       console.log(res);
+    },
+
+    * getUserPlayList ({ payload }: {payload:fetchUserPlayListParams}, { call, put }) {
+      const res = yield call(fetchUserPlayList, payload);
+      console.log(res);
+      const {
+        isOk,
+        result
+      } = res;
+      if (isOk && result.playlist && result.playlist.length > 0) {
+        const userCreateList = result.playlist.filter((item) => item.userId === payload.uid);
+        const userCollectList = result.playlist.filter((item) => item.userId !== payload.uid);
+        yield put({
+          type: 'updateState',
+          payload: {
+            userCreateList,
+            userCollectList
+          }
+        });
+      }
     }
   }
 }) as Model;

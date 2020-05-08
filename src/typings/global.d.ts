@@ -71,6 +71,7 @@ declare namespace StoreSpace {
     name: string;
     trackCount: number;
     playCount: number;
+    id:number;
   }
   interface Artist {
     name: string;
