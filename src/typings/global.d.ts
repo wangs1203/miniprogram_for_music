@@ -150,7 +150,9 @@ declare namespace StoreSpace {
     nolyric: boolean;
     uncollected: boolean;
     lrclist: Array<{
+      // eslint-disable-next-line camelcase
       lrc_text: string,
+      // eslint-disable-next-line camelcase
       lrc_sec: number
     }>;
   }

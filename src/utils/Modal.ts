@@ -3,7 +3,7 @@ import Taro, { showModal } from '@tarojs/taro';
 const Modal = {
   title: '提 示',
   confirmColor: '#3cc51f',
-  alert(opt:showModal.Option) {
+  alert (opt:showModal.Option) {
     return Taro.showModal({
       title: this.title,
       confirmColor: this.confirmColor,
@@ -12,7 +12,7 @@ const Modal = {
       ...opt
     });
   },
-  confirm(opt:showModal.Option) {
+  confirm (opt:showModal.Option) {
     return Taro.showModal({
       title: this.title,
       confirmColor: this.confirmColor,
@@ -21,10 +21,10 @@ const Modal = {
     });
   }
 };
-function TrAlert(opt:showModal.Option) {
+function TrAlert (opt:showModal.Option) {
   return Modal.alert(opt);
 }
-function TrConfirm(opt:showModal.Option) {
+function TrConfirm (opt:showModal.Option) {
   return Modal.confirm(opt);
 }
 
