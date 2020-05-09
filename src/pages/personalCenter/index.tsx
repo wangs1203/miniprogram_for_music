@@ -14,6 +14,7 @@ import {
 // AtTabsPane
   AtIcon
 } from 'taro-ui';
+import { formatCount } from 'utils/common';
 import {
   EffectType,
   fetchUserDetailParams,
@@ -116,7 +117,7 @@ class PersonCenter extends Component<IProps, PageState> {
   }
 
   public render (): JSX.Element {
-    const { common, userCreateList } = this.props;
+    const { common, userCreateList, userCollectList } = this.props;
     console.log(this.props);
     return (
       <View className="page-container">
@@ -242,20 +243,59 @@ class PersonCenter extends Component<IProps, PageState> {
           {/* TODO: loading */}
           {/* {userCreateList.length === 0 ? <CLoading /> : ""} */}
           <View>
-            {
-              userCreateList.map((item) => (
-                <View
-                  key={item.id}
-                  className="user_playlist__item"
-                  // onClick={this.goDetail.bind(this, item)}
-                >
-                  <Image
-                    className="user_playlist__item__cover"
-                    src={`${item.coverImgUrl}?imageView&thumbnail=250x0`}
-                  />
+            {userCreateList.map((item) => (
+              <View
+                key={item.id}
+                className="user_playlist__item"
+              >
+                <Image
+                  className="user_playlist__item__cover"
+                  src={`${item.coverImgUrl}?imageView&thumbnail=250x0`}
+                />
+                <View className="user_playlist__item__info">
+                  <View className="user_playlist__item__info__name">
+                    {item.name}
+                  </View>
+                  <View className="user_playlist__item__info__count">
+                    {`${item.trackCount}首, 播放${formatCount(item.playCount)}次`}
+                  </View>
                 </View>
-              ))
-            }
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View className="user_playlist">
+          <View className="user_playlist__title">
+            我收藏的歌单
+            <Text className="user_playlist__title__desc">
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+              ({userCollectList.length})
+            </Text>
+          </View>
+          {/* TODO: loading */}
+          {/* {userCollectList.length === 0 ? <CLoading /> : ""} */}
+          <View>
+            {userCollectList.map((item) => (
+              <View
+                key={item.id}
+                className="user_playlist__item"
+                // onClick={this.goDetail.bind(this, item)}
+              >
+                <Image
+                  className="user_playlist__item__cover"
+                  src={`${item.coverImgUrl}?imageView&thumbnail=250x0`}
+                />
+                <View className="user_playlist__item__info">
+                  <View className="user_playlist__item__info__name">
+                    {item.name}
+                  </View>
+                  <View className="user_playlist__item__info__count">
+                    {`${item.trackCount}首, 播放${formatCount(item.playCount)}次`}
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
         </View>
       </View>
