@@ -1,7 +1,7 @@
 /**
  * 不足10补0
  */
-function formatNumber(n: string | number) {
+function formatNumber (n: string | number) {
   const str = n.toString();
   return str[1] ? str : `0${str}`;
 }
@@ -13,7 +13,7 @@ function formatNumber(n: string | number) {
  * @param {String} type
  * @return {string}
  */
-function formatTime(
+function formatTime (
   date: Date,
   format: string[] = ['/', ':'],
   type: 'datetime' | 'date' | 'time' = 'datetime'
@@ -41,7 +41,7 @@ function formatTime(
 }
 
 
-function dateFormat(fmt: string, date: Date): string {
+function dateFormat (fmt: string, date: Date): string {
   let ret;
   let result = fmt;
   const opt = {

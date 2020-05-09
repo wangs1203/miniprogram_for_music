@@ -16,7 +16,7 @@ const defaults = {
   }
 };
 
-function printBuffer(logEntry, options) {
+function printBuffer (logEntry, options) {
   const { logger, colors } = options;
   const {
     title, started, req, res
@@ -37,7 +37,7 @@ interface LogEntry {
   started?: object; // 触发时间
 }
 
-function createLogger(options: LogEntry = {}) {
+function createLogger (options: LogEntry = {}) {
   const loggerOptions = { ...defaults, ...options };
   const logEntry = options;
   logEntry.started = new Date();

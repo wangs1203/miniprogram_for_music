@@ -10,7 +10,7 @@ let store: DvaStore;
 let dispatch: Dispatch;
 let registered;
 
-function createApp(opt:any) {
+function createApp (opt:any) {
   // redux 的日志
   opt.onAction = [createLogger()];
   app = create(opt);
@@ -25,7 +25,7 @@ function createApp(opt:any) {
   store = app._store;
   app.getStore = () => store;
   app.use({
-    onError(err) {
+    onError (err) {
       console.log(err);
     }
   });
@@ -37,7 +37,7 @@ function createApp(opt:any) {
 
 export default {
   createApp,
-  getDispatch() {
+  getDispatch () {
     return app.dispatch;
   }
 };

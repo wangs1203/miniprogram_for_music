@@ -59,24 +59,24 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  constructor() {
+  constructor () {
     super();
     this.state = {
       // current: 0
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps);
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount () { }
 
-  componentDidShow() { }
+  componentDidShow () { }
 
-  componentDidHide() { }
+  componentDidHide () { }
 
-  render() {
+  render () {
     return (
       <View className="index">
         <View><Text>Hello, 网易云</Text></View>
