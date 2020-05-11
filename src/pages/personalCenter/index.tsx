@@ -3,17 +3,12 @@ import {
   View,
   Text,
   Image
-  // Swiper,
-  // SwiperItem,
-  // Canvas,
-  // ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import {
-// AtNoticebar
-// AtTabsPane
   AtIcon
 } from 'taro-ui';
+import WLoading from 'components/base/WLoading';
 import { formatCount } from 'utils/common';
 import {
   EffectType,
@@ -240,8 +235,7 @@ class PersonCenter extends Component<IProps, PageState> {
               ({userCreateList.length})
             </Text>
           </View>
-          {/* TODO: loading */}
-          {/* {userCreateList.length === 0 ? <CLoading /> : ""} */}
+          {userCreateList.length === 0 ? <WLoading /> : ''}
           <View>
             {userCreateList.map((item) => (
               <View
@@ -273,8 +267,7 @@ class PersonCenter extends Component<IProps, PageState> {
               ({userCollectList.length})
             </Text>
           </View>
-          {/* TODO: loading */}
-          {/* {userCollectList.length === 0 ? <CLoading /> : ""} */}
+          {userCollectList.length === 0 ? <WLoading /> : ''}
           <View>
             {userCollectList.map((item) => (
               <View
