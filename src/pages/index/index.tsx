@@ -9,11 +9,10 @@ import {
   ScrollView
 } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
-// import {
-//   AtTabs,
-//   AtTabsPane
-//   // AtIcon
-// } from 'taro-ui';
+import {
+  AtSearchBar
+} from 'taro-ui';
+import WLoading from 'components/base/WLoading';
 import { IndexEffectType } from './model';
 import './index.scss';
 // import { TrAlert } from '@/utils/Modal';
@@ -48,6 +47,7 @@ interface PageStateProps {
     name: string,
     picUrl: string
   }>;
+  loading: boolean;
 }
 
 interface PageDispatchProps {
@@ -62,13 +62,18 @@ interface PageDispatchProps {
 
 interface PageState {
   isRefresh: boolean;
+  searchValue:string;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
 @connect(
-  ({ index }) => ({
-    ...index
+  ({ index, loading }) => ({
+    ...index,
+    loading: loading.global
+    // loading: loading.effects[
+    //   IndexEffectType.getBanner
+    // ]
   }),
   (dispatch) => ({
     dispatchFetchBanner () {
@@ -120,22 +125,22 @@ class Index extends Component<IProps, PageState> {
     navigationBarTitleText: '首页'
   }
 
+  private static goSearch () {
+    console.log('url: \'/pages/search/index\'');
+    // Taro.navigateTo({
+    //   url: '/pages/search/index'
+    // });
+  }
+
   public constructor (...rest) {
     super(...rest);
     this.state = {
-      isRefresh: false
+      isRefresh: false,
+      searchValue: ''
     };
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(this.props, nextProps);
-  // }
-
-  public componentWillUnmount () {
-
-  }
-
-  public readonly tabList = [{ title: '个性推荐' }, { title: '歌单' }]
+  // public componentWillUnmount () {}
 
   public componentDidShow () {
     this.init();
@@ -165,20 +170,32 @@ class Index extends Component<IProps, PageState> {
     // TrAlert({ title: JSON.stringify(e, null, 2) });
   }
 
+
   public render (): JSX.Element {
     console.log(this.props);
     const {
       bannerList,
       recommendSongList,
       recommendMVList,
-      djProgramList
+      djProgramList,
+      loading
     } = this.props;
     const {
-      isRefresh
+      isRefresh,
+      searchValue
     } = this.state;
 
     return (
       <View>
+        <WLoading fullPage hide={!loading} />
+        <View onClick={Index.goSearch}>
+          <AtSearchBar
+            fixed
+            disabled
+            value={searchValue}
+            onChange={Index.goSearch}
+          />
+        </View>
         <ScrollView
           scrollX
           enableBackToTop
