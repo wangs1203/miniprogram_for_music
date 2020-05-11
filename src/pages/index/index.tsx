@@ -126,10 +126,9 @@ class Index extends Component<IProps, PageState> {
   }
 
   private static goSearch () {
-    console.log('url: \'/pages/search/index\'');
-    // Taro.navigateTo({
-    //   url: '/pages/search/index'
-    // });
+    Taro.navigateTo({
+      url: '/pages/search/index'
+    });
   }
 
   public constructor (...rest) {

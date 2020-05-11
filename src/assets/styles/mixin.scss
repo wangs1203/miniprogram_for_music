@@ -30,6 +30,10 @@ $tag-primary: #d87182 !default;
 $tag-dark: #555 !default;
 
 
+
+
+$primary-color: #d43c33;
+
 /* methods
 -------------------------- */
 // 背景图片地址和大小
@@ -137,4 +141,12 @@ $tag-dark: #555 !default;
   &::after {
     @include line($color, $border-radius);
   }
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  /*文本不会换行*/
+  white-space: nowrap;
+  /*当文本溢出包含元素时，以省略号表示超出的文本*/
+  text-overflow: ellipsis;
 }
