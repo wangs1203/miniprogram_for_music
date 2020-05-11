@@ -77,6 +77,7 @@ declare namespace StoreSpace {
     name: string;
     id: number;
     picUrl: string;
+    alias: Array<string>;
   }
   interface Song {
     name: string;
@@ -111,6 +112,8 @@ declare namespace StoreSpace {
     songs: Array<Song>;
     artist: Artist;
     artists: Array<Artist>;
+    publishTime:number;
+    containedSong: string;
   }
   interface PlayList {
     coverImgUrl: string;
@@ -128,6 +131,8 @@ declare namespace StoreSpace {
       name: string,
       avatarUrl: string
     }>;
+    id: number;
+    trackCount: number;
   }
   interface PlaySong {
     // 可播放歌曲列表
@@ -162,5 +167,28 @@ declare namespace StoreSpace {
     targetId: number; //
     url?: string;
     typeTitle: string;
+  }
+  interface Video {
+    title: string;
+    vid: string;
+    coverUrl: string;
+    creator: Array<{
+      userName: string
+    }>;
+    durationms: number;
+    playTime: number;
+  }
+  interface User {
+    nickname: string;
+    userId: number;
+    avatarUrl: string;
+    gender: number;
+    signature: string;
+  }
+  interface DjRadio {
+    name: string;
+    id: number;
+    picUrl: string;
+    desc: string;
   }
 }

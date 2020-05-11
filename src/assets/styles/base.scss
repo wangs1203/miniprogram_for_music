@@ -50,7 +50,18 @@ button {
     clear: both;
   }
 }
-
+.flex {
+  display: flex;
+}
+.flex-item {
+  flex: 1;
+}
+.flex-align-center {
+  align-items: center;
+}
+.flex-between {
+  justify-content: space-between;
+}
 .left {
   float: left;
 }

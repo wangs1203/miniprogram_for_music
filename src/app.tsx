@@ -31,10 +31,18 @@ class App extends Taro.Component {
    */
   public config: Taro.Config = {
     pages: [
+      'pages/search/index',
+      'pages/searchResult/index',
       'pages/index/index',
       'pages/personalCenter/index',
       'pages/login/index'
     ],
+    // pages: [
+    //   'pages/index/index',
+    //   'pages/personalCenter/index',
+    //   'pages/login/index',
+    //   'pages/search/index'
+    // ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#ffffff',
