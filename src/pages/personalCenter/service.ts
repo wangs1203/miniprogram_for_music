@@ -1,10 +1,10 @@
-import Request from 'services/http';
+import Request from '@services/http';
 import {
   UserSubCountURL,
   UserDetailURL,
   LogoutURL,
   UserPlayListURL
-} from 'services/apis';
+} from '@services/apis';
 
 export interface fetchUserDetailParams {
   uid:number|string;

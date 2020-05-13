@@ -20,6 +20,11 @@ export const formatCount = (times:number|string) => {
   return formatTime;
 };
 
+export const formatNumber = (n: number | string) : string => {
+  n = n.toString();
+  return n[1] ? n : `0${n}`;
+};
+
 /**
  * 数组去重
  * es5 hash去重

@@ -1,7 +1,7 @@
-import Request from 'services/http';
+import Request from '@services/http';
 import {
   searchURL
-} from 'services/apis';
+} from '@services/apis';
 
 export interface SearchResultParams {
   keywords: string;

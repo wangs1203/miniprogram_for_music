@@ -1,4 +1,4 @@
-import Request from 'services/http';
+import Request from '@services/http';
 import {
   BannerURL,
   RecommendSongListURL,
@@ -7,7 +7,7 @@ import {
   LeaderboardURL,
   TopPlayListURL,
   PlayListClassificationURL
-} from 'services/apis';
+} from '@services/apis';
 
 /**
  * 获取banner

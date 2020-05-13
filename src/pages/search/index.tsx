@@ -11,8 +11,8 @@ import {
   AtIcon
 } from 'taro-ui';
 import classnames from 'classnames';
-import WLoading from 'components/base/WLoading';
-import { setKeywordInHistory, getKeywordInHistory, clearKeywordInHistory } from 'utils/common';
+import WLoading from '@components/base/WLoading';
+import { setKeywordInHistory, getKeywordInHistory, clearKeywordInHistory } from '@utils/common';
 import { EffectType } from './model';
 import './index.scss';
 

@@ -5,16 +5,16 @@ const prodConf = require('./prod');
 const config = {
   alias: {
     '@': path.resolve(__dirname, '..', 'src'),
-    'fonts': path.resolve(__dirname, '..', 'src/assets/fonts'),
-    'images': path.resolve(__dirname, '..', 'src/assets/images'),
-    'styles': path.resolve(__dirname, '..', 'src/assets/styles'),
-    'components': path.resolve(__dirname, '..', 'src/components'),
-    'config': path.resolve(__dirname, '..', 'src/config'),
-    'constants': path.resolve(__dirname, '..', 'src/constants'),
-    'models': path.resolve(__dirname, '..', 'src/models'),
-    'pages': path.resolve(__dirname, '..', 'src/pages'),
-    'services': path.resolve(__dirname, '..', 'src/services'),
-    'utils': path.resolve(__dirname, '..', 'src/utils')
+    '@fonts': path.resolve(__dirname, '..', 'src/assets/fonts'),
+    '@images': path.resolve(__dirname, '..', 'src/assets/images'),
+    '@styles': path.resolve(__dirname, '..', 'src/assets/styles'),
+    '@components': path.resolve(__dirname, '..', 'src/components'),
+    '@config': path.resolve(__dirname, '..', 'src/config'),
+    '@constants': path.resolve(__dirname, '..', 'src/constants'),
+    '@models': path.resolve(__dirname, '..', 'src/models'),
+    '@pages': path.resolve(__dirname, '..', 'src/pages'),
+    '@services': path.resolve(__dirname, '..', 'src/services'),
+    '@utils': path.resolve(__dirname, '..', 'src/utils')
   },
   projectName: 'miniprogram_for_music',
   date: '2019-12-22',

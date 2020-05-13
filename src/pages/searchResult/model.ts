@@ -1,7 +1,7 @@
 // import Taro from '@tarojs/taro';
 import { Model } from 'dva-core';
 import modelExtend from 'dva-model-extend';
-import { model } from 'utils/model';
+import { model } from '@utils/model';
 import {
   fetchSearch,
   SearchResultParams

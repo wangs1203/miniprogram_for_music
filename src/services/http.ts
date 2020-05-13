@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import qs from 'qs';
-import { showMsg } from 'utils/Toast';
-// import { TrAlert } from 'utils/Modal';
+import { showMsg } from '@utils/Toast';
+// import { TrAlert } from '@utils/Modal';
 import {
   BASE_URL,
   HTTP_STATUS
