@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { HTTP_STATUS } from 'config/index';
+import { HTTP_STATUS } from '@config/index';
 // import { queryAirportCnAndAbURL } from './apis';
 /**
  * 检查http状态值

@@ -1,7 +1,7 @@
-import Request from 'services/http';
+import Request from '@services/http';
 import {
   HotSearchURL
-} from 'services/apis';
+} from '@services/apis';
 
 /**
  * 热搜列表(详细)

@@ -22,16 +22,16 @@
     "typeRoots": ["node_modules/@types"],
     "paths": {
       "@/*": ["src/*"],
-      "fonts/*": ["src/assets/fonts/*"],
-      "images/*": ["src/assets/images/*"],
-      "styles/*": ["src/assets/styles/*"],
-      "components/*": ["src/components/*"],
-      "config/*": ["src/config/*"],
-      "constants/*": ["src/constants/*"],
-      "models/*": ["src/models/*"],
-      "pages/*": ["src/pages/*"],
-      "services/*": ["src/services/*"],
-      "utils/*": ["src/utils/*"]
+      "@fonts/*": ["src/assets/fonts/*"],
+      "@images/*": ["src/assets/images/*"],
+      "@styles/*": ["src/assets/styles/*"],
+      "@components/*": ["src/components/*"],
+      "@config/*": ["src/config/*"],
+      "@constants/*": ["src/constants/*"],
+      "@models/*": ["src/models/*"],
+      "@pages/*": ["src/pages/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "exclude": ["node_modules", "dist"],

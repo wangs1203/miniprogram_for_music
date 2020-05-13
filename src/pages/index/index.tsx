@@ -12,10 +12,10 @@ import { connect } from '@tarojs/redux';
 import {
   AtSearchBar
 } from 'taro-ui';
-import WLoading from 'components/base/WLoading';
+import WLoading from '@components/base/WLoading';
 import { IndexEffectType } from './model';
 import './index.scss';
-// import { TrAlert } from '@/utils/Modal';
+// import { TrAlert } from '@utils/Modal';
 
 // # region 书写注意
 //

@@ -8,8 +8,8 @@ import { connect } from '@tarojs/redux';
 import {
   AtIcon
 } from 'taro-ui';
-import WLoading from 'components/base/WLoading';
-import { formatCount } from 'utils/common';
+import WLoading from '@components/base/WLoading';
+import { formatCount } from '@utils/common';
 import {
   EffectType,
   fetchUserDetailParams,
@@ -146,7 +146,7 @@ class PersonCenter extends Component<IProps, PageState> {
             <View className="unlogin-control-wrapper clearfix">
               <Image
                 // eslint-disable-next-line global-require
-                src={require('images/red-notLogin-avatar-icon.png')}
+                src={require('@images/red-notLogin-avatar-icon.png')}
                 className="img"
               />
               <View

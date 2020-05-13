@@ -1,8 +1,8 @@
 
-import Request from 'services/http';
+import Request from '@services/http';
 import {
   LoginURL
-} from 'services/apis';
+} from '@services/apis';
 
 export interface loginParams {
   phone: string | number;
