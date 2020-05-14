@@ -20,7 +20,7 @@ import {
   formatNumber
   // formatTimeStampToTime
 } from '@utils/common';
-
+import SongInfoView from './components/SongInfoView';
 import { EffectType, SearchResultParams } from './model';
 
 import './index.scss';
@@ -219,6 +219,12 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 : (
                   <ScrollView scrollY className="search_content__scroll">
                     {!Object.keys(totalInfo).length && (<View className="search_content__nodata">暂无数据</View>)}
+                    <SongInfoView
+                      song={totalInfo.song}
+                      switchTab={this.switchTab}
+                      title-class="search_content__title"
+                      content-more-class="search_content__more"
+                    />
                     {totalInfo.song && totalInfo.song.songs.length && (
                       <View>
                         <View className="search_content__title">单曲</View>

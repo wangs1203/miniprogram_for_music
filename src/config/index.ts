@@ -21,7 +21,7 @@ if (IS_DEV) {
   baseUrl = 'http://172.16.3.123:3000';
   noConsole = false;
 } else {
-  baseUrl = 'https://binaryify.github.io/NeteaseCloudMusicApi';
+  baseUrl = 'http://172.16.3.123:3000';
   noConsole = true;
 }
 const BASE_URL = baseUrl;

@@ -1,0 +1,30 @@
+@import '../../../../assets/fonts/iconfont/icon.scss';
+.searchResult__music {
+  padding: 10px 30px 10px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eeeeee;
+  .searchResult__music__info {
+    flex: 1;
+    overflow: hidden;
+    .searchResult__music__info__name {
+      font-size: 34px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .searchResult__music__info__desc {
+      font-size: 24px;
+      color: #888888;
+      margin-top: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .searchResult__music__icon {
+    font-size: 30px;
+    color: #dddddd;
+    padding: 40px 0 40px 80px;
+  }
+}

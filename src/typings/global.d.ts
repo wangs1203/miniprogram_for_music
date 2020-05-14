@@ -89,8 +89,6 @@ declare namespace StoreSpace {
     st: number; // 是否喜欢 0/1
     copyright: number;
     current?: boolean; // 当前播放
-
-  // 缩写的字段
   }
   interface Song2 {
     name: string;
