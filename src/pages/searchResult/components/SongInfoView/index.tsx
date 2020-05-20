@@ -7,19 +7,22 @@ import PropTypes, { InferProps } from 'prop-types';
 import './index.scss';
 
 interface Props {
-  song?: {
-    songs?: Array<StoreSpace.Song>,
+  song: {
+    songs: Array<StoreSpace.Song>,
     more?: boolean,
     moreText?: string
   };
-  switchTab: (activeTab:number) => void;
+  switchTab?: (activeTab:number) => void;
+  showTitle?: boolean;
+  showMoreText?: boolean;
 }
 
-const SongInfoView: FC<Props> = ({ song, switchTab }) => (
+const SongInfoView: FC<Props> = ({
+  song, switchTab = () => {}, showTitle, showMoreText
+}) => (
   <View>
-    {/* <View className="search_content__title">单曲</View> */}
-    <View className="title-class">单曲</View>
-    {song && song.songs && song.songs.map((item) => (
+    {showTitle && (<View className="title-class">单曲</View>)}
+    {song.songs.map((item) => (
       <View
         key={item.id}
         className="searchResult__music"
@@ -41,11 +44,10 @@ const SongInfoView: FC<Props> = ({ song, switchTab }) => (
         />
       </View>
     ))}
-    {song && song.moreText && (
+    {showMoreText && song.moreText && (
       <View
         className="content-more-class"
-        // className="search_content__more"
-        onClick={() => { switchTab(1); }}
+        onClick={() => switchTab(1)}
       >
         {song.moreText}
         <AtIcon
@@ -64,11 +66,17 @@ const propTypes:InferProps<Props> = {
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func
+  switchTab: PropTypes.func,
+  showTitle: PropTypes.bool,
+  showMoreText: PropTypes.bool
 };
 const defaultProps: Props = {
-  song: {},
-  switchTab: () => {}
+  song: {
+    songs: []
+  },
+  switchTab: () => {},
+  showTitle: true,
+  showMoreText: true
 };
 SongInfoView.externalClasses = ['title-class', 'content-more-class'];
 SongInfoView.defaultProps = defaultProps;

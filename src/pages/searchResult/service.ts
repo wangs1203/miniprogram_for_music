@@ -5,8 +5,9 @@ import {
 
 export interface SearchResultParams {
   keywords: string;
+  type: number|string;
   limit?: number;
-  type?: number;
+  offset?: number;
 }
 
 /**

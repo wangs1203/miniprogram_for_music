@@ -26,6 +26,21 @@ export const formatNumber = (n: number | string) : string => {
 };
 
 /**
+ * 格式化时间戳为日期
+ * @param timestamp
+ */
+export const formatTimeStampToTime = (timestamp:number) => {
+  const date = new Date(timestamp);// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1);
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  // const hour = date.getHours() + ':';
+  // const minutes = date.getMinutes() + ':';
+  // const second = date.getSeconds();
+  return `${year}-${month}-${day}`;
+};
+
+/**
  * 数组去重
  * es5 hash去重
  * @param {any[]} arr
@@ -54,10 +69,6 @@ export const unique = (arr: any[]) => {
 export const setKeywordInHistory = (keyword: string) => {
   let keywordsList: Array<string> = Taro.getStorageSync('keywordsList') || [];
   console.log('keywordsList', keywordsList);
-  // const index = keywordsList.findIndex((item) => item === keyword)
-  // if (index !== -1) {
-  //   keywordsList.splice(index, 1)
-  // }
   keywordsList.unshift(keyword);
   keywordsList = unique(keywordsList);
   Taro.setStorage({ key: 'keywordsList', data: keywordsList });
