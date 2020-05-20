@@ -117,7 +117,7 @@ export default class SearchView extends Component<IProps, PageState> {
         <AtSearchBar
           className="search__input"
           actionName="搜一下"
-          focus
+          // focus
           fixed
           value={searchValue}
           onActionClick={this.searchResult}
