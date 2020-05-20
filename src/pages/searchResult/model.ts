@@ -9,22 +9,18 @@ import {
 
 export { SearchResultParams };
 export const enum EffectType {
-  getSearch = 'searchResult/getSearch'
+  getSearch = 'searchResult/getSearch',
+  updateState = 'searchResult/updateState'
 }
-// const codeMap = {
-//   1: 'song',
-//   1014: 'video',
-//   1002: 'user',
-//   1009: 'djRadio',
-//   1000: 'playList',
-//   10: 'album',
-//   100: 'artist'
-// };
 export default modelExtend(model, {
   namespace: 'searchResult',
   state: {
     totalInfo: {},
-    song: {},
+    song: {
+      songs: [],
+      more: false,
+      moreText: ''
+    },
     video: {},
     user: {},
     djRadio: {},
@@ -92,10 +88,32 @@ export default modelExtend(model, {
       console.log('updateSearch->>>>>>>>');
       console.log(payload);
       console.log(state);
-      // return {
-      //   ...state,
-      //   ...payload
-      // };
+      let ret:any = {};
+      switch (payload.type) {
+        case '1': {
+          const tempSongList = payload.result.songs.map((item) => {
+            item.al = item.album;
+            item.ar = item.artists;
+            return item;
+          });
+          const songs = state.song.songs.concat(tempSongList);
+          const more = songs.length < payload.result.songCount;
+          ret = {
+            ...state,
+            song: {
+              songs,
+              more
+            }
+          };
+          break;
+        }
+        default:
+          ret = {
+            ...state
+          };
+          break;
+      }
+      return ret;
     }
   }
 }) as Model;
