@@ -92,6 +92,7 @@ interface PageStateProps {
 
 interface PageDispatchProps {
   dispatchFetchSearch: (payload:SearchResultParams) => void;
+  dispatchUpdateState: (payload:any) => void;
 }
 
 interface PageState {
@@ -111,6 +112,12 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     dispatchFetchSearch (payload:SearchResultParams) {
       dispatch({
         type: EffectType.getSearch,
+        payload
+      });
+    },
+    dispatchUpdateState (payload:any) {
+      dispatch({
+        type: EffectType.updateState,
         payload
       });
     }
@@ -142,7 +149,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
     this.init();
   }
 
-  public componentDidUpdate (prevProps, prevState) {
+  public componentDidUpdate (_, prevState) {
     if (prevState.activeTab !== this.state.activeTab) {
       console.log(prevState);
       console.log(this.state);
@@ -161,6 +168,19 @@ export default class SearchResultView extends Component<IProps, PageState> {
   ]
 
   private init () {
+    this.props.dispatchUpdateState({
+      song: {
+        songs: [],
+        more: false,
+        moreText: ''
+      },
+      video: {},
+      user: {},
+      djRadio: {},
+      playList: {},
+      album: {},
+      artist: {}
+    });
     this.querySearch('1018');
   }
 
@@ -200,7 +220,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
     } = this.state;
     const {
       loading,
-      totalInfo
+      totalInfo,
+      song
     } = this.props;
     return (
       <View
@@ -353,17 +374,16 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 className="search_content__scroll"
               >
                 {/* 单曲 */}
-                {totalInfo.song && totalInfo.song.songs
-                  && totalInfo.song.songs.length && (
+                {song && song.songs && song.songs.length && (
                   <SongInfoView
-                    song={totalInfo.song}
+                    song={song}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
                     content-more-class="search_content__more"
                   />
                 )}
-                {totalInfo.song.more && <WLoading />}
+                {song.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
             <AtTabsPane current={activeTab} index={2}>
