@@ -151,9 +151,9 @@ export default class SearchResultView extends Component<IProps, PageState> {
 
   public componentDidUpdate (_, prevState) {
     if (prevState.activeTab !== this.state.activeTab) {
-      console.log(prevState);
-      console.log(this.state);
-      console.log('componentDidUpdate');
+      // console.log('componentDidUpdate');
+      // console.log(prevState);
+      // console.log(this.state);
       const curTab = SearchResultView.tabList[this.state.activeTab];
       this.querySearch(curTab.code);
     }
@@ -168,31 +168,39 @@ export default class SearchResultView extends Component<IProps, PageState> {
   ]
 
   private init () {
-    this.props.dispatchUpdateState({
-      song: {
-        songs: [],
-        more: false,
-        moreText: ''
-      },
-      video: {},
-      user: {},
-      djRadio: {},
-      playList: {},
-      album: {},
-      artist: {}
-    });
-    this.querySearch('1018');
+    this.querySearch(SearchResultView.tabList[0].code, 'init');
   }
 
-  private querySearch (type:string) {
+  private querySearch (type:string, scenes?:string) {
     const { keywords } = this.state;
-    Taro.setNavigationBarTitle({
-      title: `${keywords}的搜索结果`
-    });
+    if (scenes === 'init') {
+      Taro.setNavigationBarTitle({
+        title: `${keywords}的搜索结果`
+      });
+      this.props.dispatchUpdateState({
+        song: {
+          songs: [],
+          more: true,
+          moreText: ''
+        },
+        video: {},
+        user: {},
+        djRadio: {},
+        playList: {},
+        album: {},
+        artist: {}
+      });
+    }
     this.props.dispatchFetchSearch({
       keywords,
       type
     });
+  }
+
+  private querySongList = () => {
+    if (this.props.song.more) {
+      this.querySearch(SearchResultView.tabList[1].code);
+    }
   }
 
   private switchTab = (activeTab) => {
@@ -370,7 +378,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
             >
               <ScrollView
                 scrollY
-                // onScrollToLower={this.getSongList.bind(this)}
+                onScrollToLower={this.querySongList}
                 className="search_content__scroll"
               >
                 {/* 单曲 */}

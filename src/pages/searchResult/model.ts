@@ -18,7 +18,7 @@ export default modelExtend(model, {
     totalInfo: {},
     song: {
       songs: [],
-      more: false,
+      more: true,
       moreText: ''
     },
     video: {},
