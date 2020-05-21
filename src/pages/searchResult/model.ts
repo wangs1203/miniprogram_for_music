@@ -24,7 +24,11 @@ export default modelExtend(model, {
     video: {},
     user: {},
     djRadio: {},
-    playList: {},
+    playList: {
+      playLists: [],
+      more: true,
+      moreText: ''
+    },
     album: {},
     artist: {}
   },
@@ -108,6 +112,15 @@ export default modelExtend(model, {
           break;
         }
         case '1000': {
+          const playLists = state.playList.playLists.concat(payload.result.playlists);
+          const more = playLists.length < payload.result.playlistCount;
+          ret = {
+            ...state,
+            playList: {
+              playLists,
+              more
+            }
+          };
           break;
         }
         default:
