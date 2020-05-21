@@ -107,6 +107,9 @@ export default modelExtend(model, {
           };
           break;
         }
+        case '1000': {
+          break;
+        }
         default:
           ret = {
             ...state
