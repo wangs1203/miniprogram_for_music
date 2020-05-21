@@ -171,6 +171,13 @@ export default class SearchResultView extends Component<IProps, PageState> {
     this.querySearch(SearchResultView.tabList[0].code, 'init');
   }
 
+  private switchTab = (activeTab) => {
+    console.log('activeTab', activeTab);
+    this.setState({
+      activeTab
+    });
+  }
+
   private querySearch (type:string, scenes?:string) {
     const { keywords } = this.state;
     if (scenes === 'init') {
@@ -186,7 +193,11 @@ export default class SearchResultView extends Component<IProps, PageState> {
         video: {},
         user: {},
         djRadio: {},
-        playList: {},
+        playList: {
+          playLists: [],
+          more: true,
+          moreText: ''
+        },
         album: {},
         artist: {}
       });
@@ -203,11 +214,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
     }
   }
 
-  private switchTab = (activeTab) => {
-    console.log('activeTab', activeTab);
-    this.setState({
-      activeTab
-    });
+  private queryPlayList = () => {
+    this.props.playList.more && this.querySearch(SearchResultView.tabList[2].code);
   }
 
   private searchChange = (val:string) => {
@@ -229,7 +237,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
     const {
       loading,
       totalInfo,
-      song
+      song,
+      playList
     } = this.props;
     return (
       <View
@@ -397,22 +406,21 @@ export default class SearchResultView extends Component<IProps, PageState> {
             <AtTabsPane current={activeTab} index={2}>
               <ScrollView
                 scrollY
-                // onScrollToLower={this.getPlayList.bind(this)}
+                onScrollToLower={this.queryPlayList}
                 className="search_content__scroll"
               >
                 {/* 歌单 */}
-                {totalInfo.playList && totalInfo.playList.playLists
-                  && totalInfo.playList.playLists.length && (
+                {playList && playList.playLists
+                  && playList.playLists.length && (
                   <PlayListView
-                    playList={totalInfo.playList}
-                    switchTab={this.switchTab}
+                    playList={playList}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
                     content-more-class="search_content__more"
                   />
                 )}
-                {totalInfo.playList.more && <WLoading />}
+                {playList.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
             <AtTabsPane current={activeTab} index={3}>
