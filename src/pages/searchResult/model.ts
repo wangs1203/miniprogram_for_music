@@ -21,7 +21,10 @@ export default modelExtend(model, {
       more: true,
       moreText: ''
     },
-    video: {},
+    video: {
+      videos: [],
+      more: true
+    },
     user: {},
     djRadio: {},
     playList: {
@@ -118,6 +121,18 @@ export default modelExtend(model, {
             ...state,
             playList: {
               playLists,
+              more
+            }
+          };
+          break;
+        }
+        case '1014': {
+          const videos = state.video.videos.concat(payload.result.videos);
+          const more = videos.length < payload.result.videoCount;
+          ret = {
+            ...state,
+            video: {
+              videos,
               more
             }
           };

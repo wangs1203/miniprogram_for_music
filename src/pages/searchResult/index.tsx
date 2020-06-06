@@ -190,7 +190,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
           more: true,
           moreText: ''
         },
-        video: {},
+        video: {
+          videos: [],
+          more: true
+        },
         user: {},
         djRadio: {},
         playList: {
@@ -209,13 +212,15 @@ export default class SearchResultView extends Component<IProps, PageState> {
   }
 
   private querySongList = () => {
-    if (this.props.song.more) {
-      this.querySearch(SearchResultView.tabList[1].code);
-    }
+    this.props.song.more && this.querySearch(SearchResultView.tabList[1].code);
   }
 
   private queryPlayList = () => {
     this.props.playList.more && this.querySearch(SearchResultView.tabList[2].code);
+  }
+
+  private queryVideoList = () => {
+    this.props.video.more && this.querySearch(SearchResultView.tabList[3].code);
   }
 
   private searchChange = (val:string) => {
@@ -238,7 +243,9 @@ export default class SearchResultView extends Component<IProps, PageState> {
       loading,
       totalInfo,
       song,
-      playList
+      playList,
+      video,
+      artist
     } = this.props;
     return (
       <View
@@ -426,22 +433,39 @@ export default class SearchResultView extends Component<IProps, PageState> {
             <AtTabsPane current={activeTab} index={3}>
               <ScrollView
                 scrollY
-                // onScrollToLower={this.getVideoList.bind(this)}
+                onScrollToLower={this.queryVideoList}
                 className="search_content__scroll"
               >
                 {/* 视频 */}
-                {totalInfo.video && totalInfo.video.videos
-                  && totalInfo.video.videos.length && (
+                {video && video.videos
+                  && video.videos.length && (
                   <VideoListVIew
-                    video={totalInfo.video}
-                    switchTab={this.switchTab}
+                    video={video}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
                     content-more-class="search_content__more"
                   />
                 )}
-                {totalInfo.video.more && <WLoading />}
+                {video.more && <WLoading />}
+              </ScrollView>
+            </AtTabsPane>
+            <AtTabsPane current={activeTab} index={4}>
+              <ScrollView
+                scrollY
+                onScrollToLower={this.queryVideoList}
+                className="search_content__scroll"
+              >
+                {/* {} */}
+                {artist && artist.artists && artist.artists.length && (
+                  <ArtistsView
+                    artist={artist}
+                    showTitle={false}
+                    showMoreText={false}
+                    title-class="search_content__title"
+                    content-more-class="search_content__more"
+                  />
+                )}
               </ScrollView>
             </AtTabsPane>
           </AtTabs>
