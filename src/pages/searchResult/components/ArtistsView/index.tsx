@@ -13,14 +13,20 @@ interface Props {
     more?: boolean,
     moreText?: string
   };
+  showTitle?: boolean;
   switchTab?: (activeTab:number) => void;
+  showMoreText?: boolean;
 }
 
-const ArtistsView: FC<Props> = ({ artist, switchTab = () => {} }) => {
+const ArtistsView: FC<Props> = ({
+  artist,
+  switchTab = () => {},
+  showTitle
+}) => {
   console.log(artist);
   return (
     <View>
-      <View className="title-class">歌手</View>
+      {showTitle && (<View className="title-class">歌手</View>)}
       <View>
         {artist.artists.map((item) => (
           <View
@@ -61,12 +67,15 @@ const propTypes: InferProps<Props> = {
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func.isRequired
+  switchTab: PropTypes.func,
+  showTitle: PropTypes.bool
 };
 const defaultProps: Props = {
   artist: {
     artists: []
-  }
+  },
+  switchTab: () => {},
+  showTitle: true
 };
 ArtistsView.externalClasses = ['title-class', 'content-more-class'];
 ArtistsView.defaultProps = defaultProps;
