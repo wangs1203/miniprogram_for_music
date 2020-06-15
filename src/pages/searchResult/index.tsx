@@ -202,7 +202,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
           moreText: ''
         },
         album: {},
-        artist: {}
+        artist: {
+          artists: [],
+          more: true
+        }
       });
     }
     this.props.dispatchFetchSearch({
@@ -221,6 +224,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
 
   private queryVideoList = () => {
     this.props.video.more && this.querySearch(SearchResultView.tabList[3].code);
+  }
+
+  private queryArtistList = () => {
+    this.props.artist.more && this.querySearch(SearchResultView.tabList[4].code);
   }
 
   private searchChange = (val:string) => {
@@ -453,10 +460,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
             <AtTabsPane current={activeTab} index={4}>
               <ScrollView
                 scrollY
-                onScrollToLower={this.queryVideoList}
+                onScrollToLower={this.queryArtistList}
                 className="search_content__scroll"
               >
-                {/* {} */}
+                {/* 歌手 */}
                 {artist && artist.artists && artist.artists.length && (
                   <ArtistsView
                     artist={artist}
@@ -466,6 +473,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
                     content-more-class="search_content__more"
                   />
                 )}
+                {artist.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
           </AtTabs>

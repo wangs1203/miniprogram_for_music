@@ -32,8 +32,13 @@ export default modelExtend(model, {
       more: true,
       moreText: ''
     },
-    album: {},
-    artist: {}
+    album: {
+
+    },
+    artist: {
+      artists: [],
+      more: true
+    }
   },
   effects: {
     * getSearch ({ payload }:{payload:SearchResultParams}, { call, put, select }) {
@@ -133,6 +138,18 @@ export default modelExtend(model, {
             ...state,
             video: {
               videos,
+              more
+            }
+          };
+          break;
+        }
+        case '100': {
+          const artists:[] = state.artist.artists.concat(payload.result.artists);
+          const more = artists.length < payload.result.artistCount;
+          ret = {
+            ...state,
+            artist: {
+              artists,
               more
             }
           };
