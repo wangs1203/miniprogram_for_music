@@ -22,7 +22,10 @@ interface Props {
 }
 
 const PlayListView: FC<Props> = ({
-  playList, switchTab = () => {}, showTitle, showMoreText
+  playList,
+  switchTab = () => {},
+  showTitle,
+  showMoreText
 }) => (
   <View>
     {showTitle && (<View className="title-class">歌单</View>)}

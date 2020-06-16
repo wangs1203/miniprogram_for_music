@@ -33,7 +33,8 @@ export default modelExtend(model, {
       moreText: ''
     },
     album: {
-
+      albums: [],
+      more: true
     },
     artist: {
       artists: [],
@@ -150,6 +151,18 @@ export default modelExtend(model, {
             ...state,
             artist: {
               artists,
+              more
+            }
+          };
+          break;
+        }
+        case '10': {
+          const albums:[] = state.album.albums.concat(payload.result.albums);
+          const more = albums.length < payload.result.albumCount;
+          ret = {
+            ...state,
+            album: {
+              albums,
               more
             }
           };

@@ -20,13 +20,20 @@ interface Props {
     moreText?: string
   };
   switchTab?: (activeTab:number) => void;
+  showTitle?: boolean;
+  showMoreText?: boolean;
 }
 
-const AlbumsView: FC<Props> = ({ album, switchTab = () => {} }) => {
+const AlbumsView: FC<Props> = ({
+  album,
+  switchTab = () => {},
+  showTitle,
+  showMoreText
+}) => {
   console.log(album);
   return (
     <View>
-      <View className="title-class">专辑</View>
+      {showTitle && (<View className="title-class">专辑</View>)}
       <View>
         {album.albums.map((item) => (
           <View
@@ -54,7 +61,7 @@ const AlbumsView: FC<Props> = ({ album, switchTab = () => {} }) => {
             </View>
           </View>
         ))}
-        {album.moreText && (
+        {showMoreText && album.moreText && (
           <View
             className="content-more-class"
             onClick={() => switchTab(5)}
@@ -77,12 +84,17 @@ const propTypes:InferProps<Props> = {
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func.isRequired
+  switchTab: PropTypes.func,
+  showTitle: PropTypes.bool,
+  showMoreText: PropTypes.bool
 };
 const defaultProps: Props = {
   album: {
     albums: []
-  }
+  },
+  switchTab: () => {},
+  showTitle: true,
+  showMoreText: true
 };
 
 AlbumsView.externalClasses = ['title-class', 'content-more-class'];

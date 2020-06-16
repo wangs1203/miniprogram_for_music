@@ -98,7 +98,6 @@ interface PageDispatchProps {
 interface PageState {
   keywords: string;
   activeTab: number;
-
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -201,7 +200,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
           more: true,
           moreText: ''
         },
-        album: {},
+        album: {
+          albums: [],
+          more: true
+        },
         artist: {
           artists: [],
           more: true
@@ -230,6 +232,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
     this.props.artist.more && this.querySearch(SearchResultView.tabList[4].code);
   }
 
+  private queryAlbumList = () => {
+    this.props.album.more && this.querySearch(SearchResultView.tabList[5].code);
+  }
+
   private searchChange = (val:string) => {
     console.log(val);
     this.setState({
@@ -252,7 +258,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
       song,
       playList,
       video,
-      artist
+      artist,
+      album
     } = this.props;
     return (
       <View
@@ -391,10 +398,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
                         content-more-class="search_content__more"
                       />
                     )}
-
                   </ScrollView>
                 )}
             </AtTabsPane>
+            {/* 单曲 */}
             <AtTabsPane
               current={activeTab}
               index={1}
@@ -404,7 +411,6 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 onScrollToLower={this.querySongList}
                 className="search_content__scroll"
               >
-                {/* 单曲 */}
                 {song && song.songs && song.songs.length && (
                   <SongInfoView
                     song={song}
@@ -417,13 +423,13 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {song.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
+            {/* 歌单 */}
             <AtTabsPane current={activeTab} index={2}>
               <ScrollView
                 scrollY
                 onScrollToLower={this.queryPlayList}
                 className="search_content__scroll"
               >
-                {/* 歌单 */}
                 {playList && playList.playLists
                   && playList.playLists.length && (
                   <PlayListView
@@ -437,13 +443,13 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {playList.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
+            {/* 视频 */}
             <AtTabsPane current={activeTab} index={3}>
               <ScrollView
                 scrollY
                 onScrollToLower={this.queryVideoList}
                 className="search_content__scroll"
               >
-                {/* 视频 */}
                 {video && video.videos
                   && video.videos.length && (
                   <VideoListVIew
@@ -457,13 +463,13 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {video.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
+            {/* 歌手 */}
             <AtTabsPane current={activeTab} index={4}>
               <ScrollView
                 scrollY
                 onScrollToLower={this.queryArtistList}
                 className="search_content__scroll"
               >
-                {/* 歌手 */}
                 {artist && artist.artists && artist.artists.length && (
                   <ArtistsView
                     artist={artist}
@@ -474,6 +480,26 @@ export default class SearchResultView extends Component<IProps, PageState> {
                   />
                 )}
                 {artist.more && <WLoading />}
+              </ScrollView>
+            </AtTabsPane>
+            {/* 专辑 */}
+            <AtTabsPane current={activeTab} index={5}>
+              <ScrollView
+                scrollY
+                onScrollToLower={this.queryAlbumList}
+                className="search_content__scroll"
+              >
+                {album && album.albums && album.albums.length && (
+                  <AlbumsView
+                    album={album}
+                    switchTab={this.switchTab}
+                    showTitle={false}
+                    showMoreText={false}
+                    title-class="search_content__title"
+                    content-more-class="search_content__more"
+                  />
+                )}
+                {album.more && <WLoading />}
               </ScrollView>
             </AtTabsPane>
           </AtTabs>

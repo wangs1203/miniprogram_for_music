@@ -25,7 +25,7 @@ interface Props {
 const VideoListVIew: FC<Props> = ({
   video, switchTab = () => {}, showTitle, showMoreText
 }) => {
-  console.log(video);
+  // console.log(video);
   const formatDuration = (ms: number) => {
     // @ts-ignore
     const minutes: string = formatNumber(parseInt(ms / 60000, 10));
