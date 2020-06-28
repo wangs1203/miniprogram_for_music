@@ -150,6 +150,7 @@ export default class SearchView extends Component<IProps, PageState> {
                    <Text
                      className="search__history__list__item"
                      key={keyword}
+                     onClick={() => SearchView.goResult(keyword)}
                    >
                      {keyword}
                    </Text>

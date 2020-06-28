@@ -168,6 +168,18 @@ export default modelExtend(model, {
           };
           break;
         }
+        case '1009': {
+          const djRadios:[] = state.djRadio.djRadios.concat(payload.result.djRadios);
+          const more = djRadios.length < payload.result.djRadiosCount;
+          ret = {
+            ...state,
+            djRadio: {
+              djRadios,
+              more
+            }
+          };
+          break;
+        }
         default:
           ret = {
             ...state
