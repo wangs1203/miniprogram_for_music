@@ -194,7 +194,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
           more: true
         },
         user: {},
-        djRadio: {},
+        djRadio: {
+          djRadios: [],
+          more: true
+        },
         playList: {
           playLists: [],
           more: true,
@@ -236,6 +239,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
     this.props.album.more && this.querySearch(SearchResultView.tabList[5].code);
   }
 
+  private queryDjRadioList = () => {
+    this.props.djRadio.more && this.querySearch(SearchResultView.tabList[6].code);
+  }
+
   private searchChange = (val:string) => {
     console.log(val);
     this.setState({
@@ -259,7 +266,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
       playList,
       video,
       artist,
-      album
+      album,
+      djRadio
     } = this.props;
     return (
       <View
@@ -500,6 +508,36 @@ export default class SearchResultView extends Component<IProps, PageState> {
                   />
                 )}
                 {album.more && <WLoading />}
+              </ScrollView>
+            </AtTabsPane>
+            {/* 电台 */}
+            <AtTabsPane current={activeTab} index={6}>
+              <ScrollView
+                scrollY
+                onScrollToLower={this.queryDjRadioList}
+                className="search_content__scroll"
+              >
+                {djRadio
+                && djRadio.djRadios
+                && djRadio.djRadios.length && (
+                  <DjRadiosView
+                    djRadio={djRadio}
+                    switchTab={this.switchTab}
+                    showTitle={false}
+                    showMoreText={false}
+                    title-class="search_content__title"
+                    content-more-class="search_content__more"
+                  />
+                )}
+              </ScrollView>
+            </AtTabsPane>
+            <AtTabsPane current={activeTab} index={7}>
+              <ScrollView
+                scrollY
+                onScrollToLower={this.queryDjRadioList}
+                className="search_content__scroll"
+              >
+                {}
               </ScrollView>
             </AtTabsPane>
           </AtTabs>

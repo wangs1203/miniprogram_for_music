@@ -14,13 +14,20 @@ interface Props {
     moreText?: string
   };
   switchTab?: (activeTab:number) => void;
+  showTitle?: boolean;
+  showMoreText?: boolean;
 }
 
-const DjRadiosView: FC<Props> = ({ djRadio, switchTab = () => {} }) => {
+const DjRadiosView: FC<Props> = ({
+  djRadio,
+  switchTab = () => {},
+  showTitle,
+  showMoreText
+}) => {
   console.log(djRadio);
   return (
     <View>
-      <View className="title-class">电台</View>
+      {showTitle && (<View className="title-class">电台</View>)}
       <View>
         {djRadio.djRadios.map((item) => (
           <View
@@ -45,7 +52,7 @@ const DjRadiosView: FC<Props> = ({ djRadio, switchTab = () => {} }) => {
             </View>
           </View>
         ))}
-        {djRadio.moreText && (
+        {showMoreText && djRadio.moreText && (
           <View
             className="content-more-class"
             onClick={() => switchTab(6)}
@@ -68,12 +75,17 @@ const propTypes:InferProps<Props> = {
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func.isRequired
+  switchTab: PropTypes.func,
+  showTitle: PropTypes.bool,
+  showMoreText: PropTypes.bool
 };
 const defaultProps: Props = {
   djRadio: {
     djRadios: []
-  }
+  },
+  switchTab: () => {},
+  showTitle: true,
+  showMoreText: true
 };
 
 DjRadiosView.externalClasses = ['title-class', 'content-more-class'];
