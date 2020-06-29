@@ -13,12 +13,19 @@ interface Props {
     moreText?: string
   };
   switchTab?: (activeTab:number) => void;
+  showMore: () => void;
+  playSong: (id:number) => () => void;
   showTitle?: boolean;
   showMoreText?: boolean;
 }
 
 const SongInfoView: FC<Props> = ({
-  song, switchTab = () => {}, showTitle, showMoreText
+  song,
+  switchTab = () => {},
+  showMore,
+  playSong,
+  showTitle,
+  showMoreText
 }) => (
   <View>
     {showTitle && (<View className="title-class">单曲</View>)}
@@ -29,6 +36,7 @@ const SongInfoView: FC<Props> = ({
       >
         <View
           className="searchResult__music__info"
+          onClick={playSong(item.id)}
         >
           <View className="searchResult__music__info__name">
             {item.name}
@@ -41,6 +49,7 @@ const SongInfoView: FC<Props> = ({
         </View>
         <View
           className="fa fa-ellipsis-v searchResult__music__icon"
+          onClick={showMore}
         />
       </View>
     ))}
@@ -67,6 +76,8 @@ const propTypes:InferProps<Props> = {
     moreText: PropTypes.string
   }),
   switchTab: PropTypes.func,
+  showMore: PropTypes.func,
+  playSong: PropTypes.func,
   showTitle: PropTypes.bool,
   showMoreText: PropTypes.bool
 };
@@ -75,6 +86,8 @@ const defaultProps: Props = {
     songs: []
   },
   switchTab: () => {},
+  showMore: () => {},
+  playSong: (() => {}) as any,
   showTitle: true,
   showMoreText: true
 };

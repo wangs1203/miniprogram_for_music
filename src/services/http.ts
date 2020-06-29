@@ -35,13 +35,15 @@ export default class Request {
           const isSpecialPath = reqIntercept(url);
 
           const {
-            data
+            data,
+            statusCode
           } = response;
           console.log(response);
           let result:any;
 
           const {
             code,
+            success,
             category,
             msg,
             message,
@@ -50,7 +52,7 @@ export default class Request {
           } = data;
           rest.result ? (result = rest.result) : (result = rest);
 
-          if (code === HTTP_STATUS.SUCCESS) {
+          if ((code === HTTP_STATUS.SUCCESS || statusCode === HTTP_STATUS.SUCCESS || success) && !isSpecialPath) {
             resolve({ result, isOk: true });
           } else if (isSpecialPath && response.errMsg === 'request:ok') {
             resolve({ result, isOk: true });

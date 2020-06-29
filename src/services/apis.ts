@@ -86,3 +86,19 @@ export const HotSearchURL = '/search/hot/detail';
  * type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
 */
 export const searchURL = '/search';
+
+/**
+ * ------------------------- playsong --------------------------
+ */
+
+/**
+ * 音乐是否可用
+ * 说明: 调用此接口,传入歌曲 id,
+ * 可获取音乐是否可用,返回 { success: true, message: 'ok' }
+ * 或者 { success: false, message: '亲爱的,暂无版权' }
+ * 必选参数 : id : 歌曲 id
+ * 可选参数 : br: 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
+ * 接口地址 : /check/music
+ * 调用例子 : /check/music?id=33894312
+ */
+export const checkMusicURL = '/check/music';

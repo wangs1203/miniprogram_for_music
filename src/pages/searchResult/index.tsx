@@ -14,12 +14,17 @@ import {
 import classnames from 'classnames';
 
 import WLoading from '@components/base/WLoading';
+
+import { showMsg } from '@utils/Toast';
+
 import {
   setKeywordInHistory
   // formatCount,
   // formatNumber
   // formatTimeStampToTime
 } from '@utils/common';
+
+import { CommonEffectType, fetchCheckMusicParam } from '@/models/common';
 import SongInfoView from './components/SongInfoView';
 import PlayListView from './components/PlayListView';
 import VideoListView from './components/VideoListView';
@@ -98,6 +103,7 @@ interface PageStateProps {
 interface PageDispatchProps {
   dispatchFetchSearch: (payload:SearchResultParams) => void;
   dispatchUpdateState: (payload:any) => void;
+  dispatchCheckMusic: (payload:fetchCheckMusicParam) => void;
 }
 
 interface PageState {
@@ -122,6 +128,12 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
     dispatchUpdateState (payload:any) {
       dispatch({
         type: EffectType.updateState,
+        payload
+      });
+    },
+    dispatchCheckMusic (payload:fetchCheckMusicParam) {
+      return dispatch({
+        type: CommonEffectType.getCheckMusic,
         payload
       });
     }
@@ -274,6 +286,17 @@ export default class SearchResultView extends Component<IProps, PageState> {
     setKeywordInHistory(this.state.keywords);
   }
 
+  private showMore = () => {
+    showMsg({
+      title: '暂未实现，敬请期待',
+      icon: 'none'
+    });
+  }
+
+  private playSong = (id) => () => {
+    this.props.dispatchCheckMusic({ id });
+  }
+
   public render (): JSX.Element {
     const {
       keywords,
@@ -338,6 +361,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
                       <SongInfoView
                         song={totalInfo.song}
                         switchTab={this.switchTab}
+                        showMore={this.showMore}
+                        playSong={this.playSong}
                         title-class="search_content__title"
                         content-more-class="search_content__more"
                       />
@@ -444,6 +469,8 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {song && song.songs && song.songs.length && (
                   <SongInfoView
                     song={song}
+                    showMore={this.showMore}
+                    playSong={this.playSong}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
@@ -522,7 +549,6 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {album && album.albums && album.albums.length && (
                   <AlbumsView
                     album={album}
-                    switchTab={this.switchTab}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
@@ -544,7 +570,6 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 && djRadio.djRadios.length && (
                   <DjRadiosView
                     djRadio={djRadio}
-                    switchTab={this.switchTab}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
@@ -564,7 +589,6 @@ export default class SearchResultView extends Component<IProps, PageState> {
                 {user && user.users && user.users.length && (
                   <UsersView
                     user={user}
-                    switchTab={this.switchTab}
                     showTitle={false}
                     showMoreText={false}
                     title-class="search_content__title"
