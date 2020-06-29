@@ -1,9 +1,10 @@
 import '@tarojs/async-await';
-import Taro, { } from '@tarojs/taro';
+import Taro, { Component, Config } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
 
 import dva from '@utils/dva';
-import Index from '@pages/index/index';
+// import Index from '@pages/index/index';
+import Index from '@pages/app/index';
 import models from '@models/index';
 
 import '@fonts/iconfont/icon.scss';
@@ -21,7 +22,7 @@ const dvaApp = dva.createApp({
 
 const store = dvaApp.getStore();
 
-class App extends Taro.Component {
+class App extends Component {
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -29,7 +30,7 @@ class App extends Taro.Component {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-  public config: Taro.Config = {
+  public config: Config = {
     pages: [
       'pages/search/index',
       'pages/searchResult/index',
@@ -67,12 +68,6 @@ class App extends Taro.Component {
           iconPath: 'assets/images/me.png',
           selectedIconPath: 'assets/images/selected-me.png'
         }
-        // {
-        //   text: '账号',
-        //   pagePath: 'pages/account/index',
-        //   iconPath: 'assets/images/me.png',
-        //   selectedIconPath: 'assets/images/selected-me.png',
-        // }
       ]
     },
     requiredBackgroundModes: ['audio']

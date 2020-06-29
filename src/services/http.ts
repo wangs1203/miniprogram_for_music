@@ -1,7 +1,6 @@
 import Taro from '@tarojs/taro';
 import qs from 'qs';
 import { showMsg } from '@utils/Toast';
-// import { TrAlert } from '@utils/Modal';
 import {
   BASE_URL,
   HTTP_STATUS
@@ -67,17 +66,6 @@ export default class Request {
                 });
               }
             });
-            // TrAlert({
-            //   content: message || msg,
-            //   success (res) {
-            //     console.log(res);
-            //     resolve({
-            //       isOk: false,
-            //       errMsg: message || msg,
-            //       code: 200
-            //     });
-            //   }
-            // });
           }
         })
         .catch((error) => {
