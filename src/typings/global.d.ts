@@ -74,10 +74,22 @@ declare namespace StoreSpace {
     id:number;
   }
   interface Artist {
+    accountId?: number;
+    albumSize?: number;
+    alg?: string;
+    followed?: boolean;
+    img1v1?:number;
+    img1v1Url?: string;
+    mvSize?: number;
     name: string;
     id: number;
-    picUrl: string;
-    alias: Array<string>;
+    picId?:number;
+    picUrl?: string;
+    alias: Array<string> | null;
+    transNames?: Array<string> | null;
+    trans?: null | string;
+    musicSize?: number;
+    briefDesc?: string;
   }
   interface Song {
     name: string;
@@ -188,5 +200,14 @@ declare namespace StoreSpace {
     id: number;
     picUrl: string;
     desc: string;
+  }
+
+  interface MV {
+    name: string;
+    id: string;
+    cover: string;
+    artists: Array<Artist>;
+    duration: number;
+    playCount: number;
   }
 }

@@ -1,8 +1,8 @@
 import Taro, { FC, memo } from '@tarojs/taro';
 import { View, Image, Text } from '@tarojs/components';
-import {
-  AtIcon
-} from 'taro-ui';
+// import {
+//   AtIcon
+// } from 'taro-ui';
 import PropTypes, { InferProps } from 'prop-types';
 import {
   formatCount,
@@ -12,21 +12,18 @@ import {
 import '../styles/videos.scss';
 
 interface Props {
-  video: {
-    videos: Array<StoreSpace.Video>,
+  mv: {
+    mvs: Array<StoreSpace.MV>,
     more?: boolean,
     moreText?: string
   };
-  switchTab?: (activeTab:number) => void;
+  // switchTab?: (activeTab:number) => void;
   showTitle?: boolean;
-  showMoreText?: boolean;
 }
 
-const VideoListView: FC<Props> = ({
-  video,
-  switchTab = () => {},
-  showTitle,
-  showMoreText
+const MVView: FC<Props> = ({
+  mv,
+  showTitle
 }) => {
   // console.log(video);
   const formatDuration = (ms: number) => {
@@ -38,77 +35,63 @@ const VideoListView: FC<Props> = ({
   };
   return (
     <View>
-      {showTitle && (<View className="title-class">视频</View>)}
+      {showTitle && (<View className="title-class">MV</View>)}
       <View>
-        {video.videos.map((item) => (
+        {mv.mvs.map((item) => (
           <View
             className="search_content__video__item"
-            key={item.vid}
+            key={item.id}
           >
             <View className="search_content__video__item__cover--wrap">
               <View className="search_content__video__item__cover--playtime">
                 <Text className="at-icon at-icon-play" />
-                <Text>{formatCount(item.playTime)}</Text>
+                <Text>{formatCount(item.playCount)}</Text>
               </View>
               <Image
-                src={item.coverUrl}
+                src={item.cover}
                 className="search_content__video__item__cover"
               />
             </View>
+
             <View className="search_content__video__item__info">
               <View className="search_content__video__item__info__title">
-                {item.title}
+                {item.name}
               </View>
               <View className="search_content__video__item__info__desc">
                 <Text>
-                  {`${formatDuration(item.durationms)},`}
+                  {`${formatDuration(item.duration)},`}
                 </Text>
                 <Text className="search_content__video__item__info__desc__nickname">
-                  {`by ${item.creator[0].userName}`}
+                  {`by ${item.artists[0].name}`}
                 </Text>
               </View>
             </View>
+
           </View>
         ))}
-        {showMoreText && video.moreText && (
-        <View
-          className="content-more-class"
-          onClick={() => switchTab(3)}
-        >
-          {video.moreText}
-          <AtIcon
-            value="chevron-right"
-            size="16"
-            color="#ccc"
-          />
-        </View>
-        )}
       </View>
     </View>
   );
 };
-
 const propTypes: InferProps<Props> = {
-  video: PropTypes.shape({
-    videos: PropTypes.array,
+  mv: PropTypes.shape({
+    mvs: PropTypes.array,
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func,
-  showTitle: PropTypes.bool,
-  showMoreText: PropTypes.bool
+  // switchTab: PropTypes.func,
+  showTitle: PropTypes.bool
 };
 const defaultProps: Props = {
-  video: {
-    videos: []
+  mv: {
+    mvs: []
   },
-  switchTab: () => {},
-  showTitle: true,
-  showMoreText: true
+  // switchTab: () => {},
+  showTitle: true
 };
-VideoListView.externalClasses = ['title-class', 'content-more-class'];
-VideoListView.defaultProps = defaultProps;
-VideoListView.propTypes = propTypes;
-export default memo(VideoListView, (oldProps, newProps) => (
-  oldProps.video === newProps.video
+MVView.externalClasses = ['title-class', 'content-more-class'];
+MVView.defaultProps = defaultProps;
+MVView.propTypes = propTypes;
+export default memo(MVView, (oldProps, newProps) => (
+  oldProps.mv === newProps.mv
 ));

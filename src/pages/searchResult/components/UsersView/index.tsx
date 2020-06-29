@@ -14,13 +14,20 @@ interface Props {
     moreText?: string
   };
   switchTab?: (activeTab:number) => void;
+  showTitle?: boolean;
+  showMoreText?: boolean;
 }
 
-const UsersView: FC<Props> = ({ user, switchTab = () => {} }) => {
+const UsersView: FC<Props> = ({
+  user,
+  switchTab = () => {},
+  showTitle,
+  showMoreText
+}) => {
   console.log(user);
   return (
     <View>
-      <View className="title-class">用户</View>
+      {showTitle && (<View className="title-class">用户</View>)}
       <View>
         {user.users.map((item) => (
           <View
@@ -60,7 +67,7 @@ const UsersView: FC<Props> = ({ user, switchTab = () => {} }) => {
             </View>
           </View>
         ))}
-        {user.moreText && (
+        {showMoreText && user.moreText && (
           <View
             className="content-more-class"
             onClick={() => switchTab(7)}
@@ -84,12 +91,17 @@ const propTypes: InferProps<Props> = {
     more: PropTypes.bool,
     moreText: PropTypes.string
   }),
-  switchTab: PropTypes.func.isRequired
+  switchTab: PropTypes.func,
+  showTitle: PropTypes.bool,
+  showMoreText: PropTypes.bool
 };
 const defaultProps: Props = {
   user: {
     users: []
-  }
+  },
+  switchTab: () => {},
+  showTitle: true,
+  showMoreText: true
 };
 UsersView.externalClasses = ['title-class', 'content-more-class'];
 UsersView.defaultProps = defaultProps;

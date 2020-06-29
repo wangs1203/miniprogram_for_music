@@ -25,8 +25,14 @@ export default modelExtend(model, {
       videos: [],
       more: true
     },
-    user: {},
-    djRadio: {},
+    user: {
+      users: [],
+      more: true
+    },
+    djRadio: {
+      djRadio: [],
+      more: true
+    },
     playList: {
       playLists: [],
       more: true,
@@ -38,6 +44,10 @@ export default modelExtend(model, {
     },
     artist: {
       artists: [],
+      more: true
+    },
+    mv: {
+      mvs: [],
       more: true
     }
   },
@@ -52,7 +62,8 @@ export default modelExtend(model, {
         playList,
         user,
         djRadio,
-        video
+        video,
+        mv
       } = searchResult;
       const offsetMap = {
         1: song.songs && song.songs.length ? song.songs.length : 0,
@@ -60,7 +71,7 @@ export default modelExtend(model, {
         100: artist.artists && artist.artists.length ? artist.artists.length : 0,
         1000: playList.playLists && playList.playLists.length ? playList.playLists.length : 0,
         1002: user.users && user.users.length ? user.users.length : 0,
-        1004: user.users && user.users.length ? user.users.length : 0,
+        1004: mv.mvs && mv.mvs.length ? mv.mvs.length : 0,
         1009: djRadio.djRadios && djRadio.djRadios.length ? djRadio.djRadios.length : 0,
         1014: video.videos && video.videos.length ? video.videos.length : 0
       };
@@ -98,7 +109,7 @@ export default modelExtend(model, {
   },
   reducers: {
     updateSearch (state, { payload }) {
-      console.log('updateSearch->>>>>>>>');
+      console.log('updateSearch-------->');
       console.log(payload);
       console.log(state);
       let ret:any = {};
@@ -175,6 +186,30 @@ export default modelExtend(model, {
             ...state,
             djRadio: {
               djRadios,
+              more
+            }
+          };
+          break;
+        }
+        case '1002': {
+          const users:[] = state.user.users.concat(payload.result.userprofiles);
+          const more = users.length < payload.result.userprofileCount;
+          ret = {
+            ...state,
+            user: {
+              users,
+              more
+            }
+          };
+          break;
+        }
+        case '1004': {
+          const mvs:[] = state.mv.mvs.concat(payload.result.mvs);
+          const more = mvs.length < payload.result.mvCount;
+          ret = {
+            ...state,
+            mv: {
+              mvs,
               more
             }
           };
