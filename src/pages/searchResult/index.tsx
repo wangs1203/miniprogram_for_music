@@ -22,11 +22,12 @@ import {
 } from '@utils/common';
 import SongInfoView from './components/SongInfoView';
 import PlayListView from './components/PlayListView';
-import VideoListVIew from './components/VideoListVIew';
+import VideoListView from './components/VideoListView';
 import ArtistsView from './components/ArtistsView';
 import AlbumsView from './components/AlbumsView';
 import DjRadiosView from './components/DjRadiosView';
 import UsersView from './components/UsersView';
+import MVView from './components/MVView';
 import { EffectType, SearchResultParams } from './model';
 
 import './index.scss';
@@ -59,9 +60,12 @@ interface AlbumInfo extends BaseInfo {
 interface ArtistInfo extends BaseInfo {
   artists: Array<StoreSpace.Artist>;
 }
+// mv
+interface MvInfo extends BaseInfo {
+  mvs: Array<StoreSpace.MV>;
+}
 
 interface PageOwnProps {}
-
 interface PageStateProps {
   loading:boolean;
   totalInfo: {
@@ -88,6 +92,7 @@ interface PageStateProps {
   playList: PlayListInfo;
   album: AlbumInfo;
   artist: ArtistInfo;
+  mv: MvInfo;
 }
 
 interface PageDispatchProps {
@@ -193,7 +198,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
           videos: [],
           more: true
         },
-        user: {},
+        user: {
+          users: [],
+          more: true
+        },
         djRadio: {
           djRadios: [],
           more: true
@@ -209,6 +217,10 @@ export default class SearchResultView extends Component<IProps, PageState> {
         },
         artist: {
           artists: [],
+          more: true
+        },
+        mv: {
+          mvs: [],
           more: true
         }
       });
@@ -243,6 +255,14 @@ export default class SearchResultView extends Component<IProps, PageState> {
     this.props.djRadio.more && this.querySearch(SearchResultView.tabList[6].code);
   }
 
+  private queryUserList = () => {
+    this.props.user.more && this.querySearch(SearchResultView.tabList[7].code);
+  }
+
+  private queryMVList = () => {
+    this.props.mv.more && this.querySearch(SearchResultView.tabList[8].code);
+  }
+
   private searchChange = (val:string) => {
     console.log(val);
     this.setState({
@@ -267,7 +287,9 @@ export default class SearchResultView extends Component<IProps, PageState> {
       video,
       artist,
       album,
-      djRadio
+      djRadio,
+      user,
+      mv: mvInfo
     } = this.props;
     return (
       <View
@@ -335,7 +357,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
                     {/* 视频 */}
                     {totalInfo.video && totalInfo.video.videos
                       && totalInfo.video.videos.length && (
-                      <VideoListVIew
+                      <VideoListView
                         video={totalInfo.video}
                         switchTab={this.switchTab}
                         title-class="search_content__title"
@@ -460,7 +482,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
               >
                 {video && video.videos
                   && video.videos.length && (
-                  <VideoListVIew
+                  <VideoListView
                     video={video}
                     showTitle={false}
                     showMoreText={false}
@@ -529,15 +551,45 @@ export default class SearchResultView extends Component<IProps, PageState> {
                     content-more-class="search_content__more"
                   />
                 )}
+                {djRadio.more && (<WLoading />)}
               </ScrollView>
             </AtTabsPane>
+            {/* 用户 */}
             <AtTabsPane current={activeTab} index={7}>
               <ScrollView
                 scrollY
-                onScrollToLower={this.queryDjRadioList}
+                onScrollToLower={this.queryUserList}
                 className="search_content__scroll"
               >
-                {}
+                {user && user.users && user.users.length && (
+                  <UsersView
+                    user={user}
+                    switchTab={this.switchTab}
+                    showTitle={false}
+                    showMoreText={false}
+                    title-class="search_content__title"
+                    content-more-class="search_content__more"
+                  />
+                )}
+                {user.more && (<WLoading />)}
+              </ScrollView>
+            </AtTabsPane>
+            {/* MV */}
+            <AtTabsPane current={activeTab} index={8}>
+              <ScrollView
+                scrollY
+                onScrollToLower={this.queryMVList}
+                className="search_content__scroll"
+              >
+                {mvInfo && mvInfo.mvs && mvInfo.mvs.length && (
+                  <MVView
+                    mv={mvInfo}
+                    showTitle={false}
+                    title-class="search_content__title"
+                    content-more-class="search_content__more"
+                  />
+                )}
+                {mvInfo.more && (<WLoading />)}
               </ScrollView>
             </AtTabsPane>
           </AtTabs>
