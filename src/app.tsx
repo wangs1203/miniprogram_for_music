@@ -32,9 +32,10 @@ class App extends Component {
    */
   public config: Config = {
     pages: [
+      'pages/index/index',
       'pages/search/index',
       'pages/searchResult/index',
-      'pages/index/index',
+      'pages/songDetail/index',
       'pages/personalCenter/index',
       'pages/login/index'
     ],
@@ -42,7 +43,9 @@ class App extends Component {
     //   'pages/index/index',
     //   'pages/personalCenter/index',
     //   'pages/login/index',
-    //   'pages/search/index'
+    //   'pages/search/index',
+    //   'pages/searchResult/index',
+    //   'pages/songDetail/index',
     // ],
     window: {
       backgroundTextStyle: 'light',

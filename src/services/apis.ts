@@ -102,3 +102,12 @@ export const searchURL = '/search';
  * 调用例子 : /check/music?id=33894312
  */
 export const checkMusicURL = '/check/music';
+
+/**
+ * 喜欢音乐列表
+ * 说明 : 调用此接口 , 传入用户 id, 可获取已喜欢音乐id列表(id数组)
+ * 必选参数 : uid: 用户 id
+ * 接口地址 : /likelist
+ * 调用例子 : /likelist?uid=32953014
+ */
+export const likeListURL = '/likelist';
