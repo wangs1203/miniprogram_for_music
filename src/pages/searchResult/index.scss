@@ -8,7 +8,7 @@
     height: 100%;
     box-sizing: border-box;
     overflow-y: auto;
-    .search_content__nodata {
+    .search_content__no_data {
       text-align: center;
       font-size: 30px;
       color: #888888;
@@ -144,9 +144,9 @@
   //     }
   //   }
   // }
-  .search_content__simquery {
+  .search_content__sim_query {
     overflow: hidden;
-    .search_content__simquery__item {
+    .search_content__sim_query__item {
       float: left;
       margin-right: 20px;
       margin-bottom: 20px;

@@ -6,11 +6,11 @@ import {
   fetchCheckMusic,
   fetchCheckMusicParam,
   fetchSongDetail,
-  fetchSongLyric,
   fetchSongUrl,
-  fetchSongUrlParam,
-  fetchSongLyricParam,
+  fetchSongLyric,
   fetchSongDetailParam,
+  fetchSongUrlParam,
+  fetchSongLyricParam
 } from '@/services/common';
 
 export {
@@ -42,8 +42,12 @@ export default modelExtend(model, {
       }
     },
 
-    * getSongDetail ({ payload }, { call, put }) {
-      const res = yield call (fetchSongDetail, {ids: payload.id})
+    * getSongDetail ({ payload }:{payload:{id:string}}, { call, put }) {
+      const detailRes = yield call(fetchSongDetail, {ids: payload.id})
+      console.log(detailRes);
+      if(detailRes.isOk){
+        const urlRes = yield call(fetchSongUrl, {id:payload.id} as fetchSongUrlParam)
+      }
     }
   },
   reducers: {

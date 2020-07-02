@@ -88,7 +88,7 @@ export const HotSearchURL = '/search/hot/detail';
 export const searchURL = '/search';
 
 /**
- * ------------------------- playsong --------------------------
+ * ------------------------- playSong --------------------------
  */
 
 /**
