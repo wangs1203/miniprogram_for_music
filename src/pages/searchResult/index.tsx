@@ -353,7 +353,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
               {loading ? (<WLoading />)
                 : (
                   <ScrollView scrollY className="search_content__scroll">
-                    {!Object.keys(totalInfo).length && (<View className="search_content__nodata">暂无数据</View>)}
+                    {!Object.keys(totalInfo).length && (<View className="search_content__no_data">暂无数据</View>)}
 
                     {/* 单曲 */}
                     {totalInfo.song && totalInfo.song.songs
@@ -394,7 +394,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
                     {totalInfo.sim_query && totalInfo.sim_query.sim_querys.length && (
                       <View>
                         <View className="search_content__title">相关搜索</View>
-                        <View className="search_content__simquery">
+                        <View className="search_content__sim_query">
                           {totalInfo.sim_query.sim_querys.map((item) => (
                             <Text
                               key={item.keyword}
@@ -402,7 +402,7 @@ export default class SearchResultView extends Component<IProps, PageState> {
                               //   this,
                               //   item.keyword
                               // )}
-                              className="search_content__simquery__item"
+                              className="search_content__sim_query__item"
                             >
                               {item.keyword}
                             </Text>

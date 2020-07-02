@@ -82,15 +82,12 @@ export default class SongDetailView extends Component<IProps, PageState> {
 
   private init = () => {
     const { id } = this.$router.params;
-    console.log(this.$router.params);
-    this.querySongDetail(id);
+    id && this.querySongDetail(id);
   }
 
   private querySongDetail = async (id:string) => {
     const res = await this.props.dispatchGetSongDetail({id});
-    console.log(res);
-    // setTimeout(() => {
-    // }, 3000);
+    // console.log(res);
   }
 
   public render (): JSX.Element {
