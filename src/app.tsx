@@ -1,4 +1,4 @@
-import '@tarojs/async-await';
+// import '@tarojs/async-await';
 import Taro, { Component, Config } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
 

@@ -4,12 +4,25 @@ import modelExtend from 'dva-model-extend';
 import { model } from '@utils/model';
 import {
   fetchCheckMusic,
-  fetchCheckMusicParam
+  fetchCheckMusicParam,
+  fetchSongDetail,
+  fetchSongLyric,
+  fetchSongUrl,
+  fetchSongUrlParam,
+  fetchSongLyricParam,
+  fetchSongDetailParam,
 } from '@/services/common';
 
-export { fetchCheckMusicParam };
+export {
+  fetchCheckMusicParam,
+  fetchSongUrlParam,
+  fetchSongLyricParam,
+  fetchSongDetailParam,
+};
+
 export const enum CommonEffectType {
   getCheckMusic = 'common/getCheckMusic',
+  getSongDetail = 'common/getSongDetail'
 }
 
 export default modelExtend(model, {
@@ -19,7 +32,6 @@ export default modelExtend(model, {
     userId: ''
   },
   effects: {
-
     * getCheckMusic ({ payload }:{payload:fetchCheckMusicParam}, { call, put, select }) {
       const res = yield call(fetchCheckMusic, payload);
       console.log(res);
@@ -28,6 +40,10 @@ export default modelExtend(model, {
           url: `/pages/songDetail/index?id=${payload.id}`
         });
       }
+    },
+
+    * getSongDetail ({ payload }, { call, put }) {
+      const res = yield call (fetchSongDetail, {ids: payload.id})
     }
   },
   reducers: {

@@ -194,6 +194,7 @@ class Index extends Component<IProps, PageState> {
             value={searchValue}
             onChange={Index.goSearch}
           />
+          <View className="search-bar-placeholder"></View>
         </View>
         <ScrollView
           scrollX
