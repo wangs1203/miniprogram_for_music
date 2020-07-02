@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## 1.1.0 (2020-07-02)
 
-
 ### Features
 
 * 主播电台tab切换 ([30fe82f](https://github.com/wangs1203/miniprogram_for_music/commit/30fe82f5a97f9e544a44000c3755ef9a7f1f8e64))
@@ -20,8 +19,3 @@ All notable changes to this project will be documented in this file. See [standa
 * 登录页 ([8ccad1b](https://github.com/wangs1203/miniprogram_for_music/commit/8ccad1b80573b8c4516e1cf7f0ed62d83a32d4af))
 * 登陆登出 ([334427f](https://github.com/wangs1203/miniprogram_for_music/commit/334427fe66e1590a9b48f94bfd750d0cada05527))
 * 首页 ([add813c](https://github.com/wangs1203/miniprogram_for_music/commit/add813c2e9b5c6bb7d78257f0c0908c4d6765e2c))
-
-
-### Bug Fixes
-
-* PKX-CTU KN5217航班应该是经停航班，目前展示“直飞” ([67aca5a](https://github.com/wangs1203/miniprogram_for_music/commit/67aca5ad8276969b753c26a5a5d38b754edeabc6))
