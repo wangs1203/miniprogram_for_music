@@ -33,7 +33,6 @@
 		"lint:style-fix": "stylelint \"src/**/*.scss\" --cache --syntax scss --fix",
 		"temp": "node ./scripts/temp.js",
 		"commit": "git-cz",
-		"precommit": "lint-staged",
 		"release": "standard-version"
 	},
 	"stylelint": {
@@ -159,12 +158,10 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "yarn eslint",
-      "git add"
+      "yarn eslint"
     ],
     "src/**/*.scss": [
-      "yarn lint:style-fix",
-      "git add"
+      "yarn lint:style-fix"
     ]
   }
 }
