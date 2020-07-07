@@ -27,12 +27,13 @@
 		"dev:rn": "npm run build:rn -- --watch",
 		"dev:qq": "npm run build:qq -- --watch",
 		"dev:quickapp": "npm run build:quickapp -- --watch",
-		"eslint": "eslint src --ext .ts,.tsx",
-		"lint": "eslint ./src --fix",
-		"lint:style": "stylelint \"src/**/*.scss\" --syntax scss",
-		"lint:style-fix": "stylelint \"src/**/*.scss\" --syntax scss --fix",
+		"eslint": "eslint src --cache --ext .ts,.tsx",
+		"lint:fix": "eslint src --cache --fix --ext .ts,.tsx",
+		"lint:style": "stylelint \"src/**/*.scss\" --cache --syntax scss",
+		"lint:style-fix": "stylelint \"src/**/*.scss\" --cache --syntax scss --fix",
 		"temp": "node ./scripts/temp.js",
 		"commit": "git-cz",
+		"precommit": "lint-staged",
 		"release": "standard-version"
 	},
 	"stylelint": {
@@ -136,6 +137,7 @@
 		"eslint-plugin-react-hooks": "^1.6.1",
 		"eslint-plugin-taro": "2.2.10",
 		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
 		"standard-version": "^8.0.0",
 		"stylelint": "^13.2.0",
 		"stylelint-config-standard": "^20.0.0",
@@ -151,7 +153,18 @@
 	},
 	"husky": {
 		"hooks": {
+      "pre-commit": "lint-staged",
 			"commit-msg": "node scripts/verify-commit-msg.js"
 		}
-	}
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "yarn eslint",
+      "git add"
+    ],
+    "src/**/*.scss": [
+      "yarn lint:style-fix",
+      "git add"
+    ]
+  }
 }

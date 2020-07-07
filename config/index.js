@@ -48,8 +48,7 @@ const config = {
     projectDirectory: path.resolve(__dirname, '..')
   },
   plugins: [
-    '@tarojs/plugin-sass',
-    // '@tarojs/plugin-csso',
+    '@tarojs/plugin-sass'
   ],
   defineConstants: {},
   mini: {

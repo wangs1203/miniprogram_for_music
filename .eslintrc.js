@@ -1,17 +1,16 @@
 module.exports = {
-  "extends": ["taro", "airbnb"],
+  "extends": ["taro", "plugin:jsx-a11y/recommended", "airbnb"],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "max-len": ['error',{
+    "max-len": ["error",{
       "code": 150,
-      "tabWidth": 4,
+      "tabWidth": 2,
       "ignoreComments": true,
       "ignoreTrailingComments": true,
       "ignoreUrls": true,
-      "ignoreStrings":true,
-      "ignoreTemplateLiterals":true,
-      "ignoreRegExpLiterals":true,
-      "ignorePattern":true
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true
     }],
     "import/extensions": 0,
     "import/no-unresolved": 0,
