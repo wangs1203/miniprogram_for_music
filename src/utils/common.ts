@@ -85,3 +85,62 @@ export const getKeywordInHistory = () : Array<string> => Taro.getStorageSync('ke
 export const clearKeywordInHistory = () => {
   Taro.removeStorageSync('keywordsList');
 };
+
+/**
+ * 转换歌词字符串为数组
+ * @param lrcContent
+ */
+export const parseLrc = (lrcContent: string) => {
+  // 声明一个临时数组
+  const nowLrc: Array<{
+    // eslint-disable-next-line camelcase
+    lrc_text: string,
+    // eslint-disable-next-line camelcase
+    lrc_sec?: number
+  }> = [];
+  // 将原始的歌词通过换行符转为数组
+  const lrcRow: Array<string> = lrcContent.split('\n');
+  // 默认scroll初始值为true
+  let scroll = true;
+  for (const i in lrcRow) {
+    if ((lrcRow[i].indexOf(']') === -1) && lrcRow[i]) {
+      nowLrc.push({ lrc_text: lrcRow[i] });
+    } else if (lrcRow[i] !== '') {
+      const tmp: string[] = lrcRow[i].split(']');
+      for (const j in tmp) {
+        if ({}.hasOwnProperty.call(tmp, j)) {
+          scroll = false;
+          const tmp2: string = tmp[j].substr(1, 8);
+          const tmp3: any = tmp2.split(':');
+          // eslint-disable-next-line camelcase
+          const lrc_sec: number = Number(tmp3[0] * 60 + Number(tmp3[1]));
+          // eslint-disable-next-line camelcase
+          if (lrc_sec && (lrc_sec > 0)) {
+            const lrc = (tmp[tmp.length - 1]).replace(/(^\s*)|(\s*$)/g, '');
+            lrc && nowLrc.push({ lrc_sec, lrc_text: lrc });
+          }
+        }
+      }
+    }
+  }
+  if (!scroll) {
+    nowLrc.sort((
+      a: {
+        // eslint-disable-next-line camelcase
+        lrc_sec: number,
+        // eslint-disable-next-line camelcase
+        lrc_text: string
+      },
+      b: {
+        // eslint-disable-next-line camelcase
+        lrc_sec: number,
+        // eslint-disable-next-line camelcase
+        lrc_text: string
+      }
+    ) : number => a.lrc_sec - b.lrc_sec);
+  }
+  return {
+    nowLrc,
+    scroll
+  };
+};

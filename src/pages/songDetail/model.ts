@@ -4,7 +4,7 @@ import modelExtend from 'dva-model-extend';
 import { model } from '@utils/model';
 import {
   likelistParams,
-  fetchLikeList,
+  fetchLikeList
 } from './service';
 
 export const enum EffectType {
@@ -19,8 +19,8 @@ export default modelExtend(model, {
     likeMusicList: []
   },
   effects: {
-    * getLikeList({ payload }:{payload: likelistParams}, { call, put }) {
-      const res = yield call(fetchLikeList,{uid: payload.uid});
+    * getLikeList ({ payload }:{payload: likelistParams}, { call, put }) {
+      const res = yield call(fetchLikeList, { uid: payload.uid });
       console.log(res);
       const {
         isOk,
@@ -34,6 +34,6 @@ export default modelExtend(model, {
           }
         });
       }
-    },
+    }
   }
 }) as Model;

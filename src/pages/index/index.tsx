@@ -171,7 +171,7 @@ class Index extends Component<IProps, PageState> {
 
 
   public render (): JSX.Element {
-    console.log(this.props);
+    // console.log(this.props);
     const {
       bannerList,
       recommendSongList,
@@ -194,7 +194,7 @@ class Index extends Component<IProps, PageState> {
             value={searchValue}
             onChange={Index.goSearch}
           />
-          <View className="search-bar-placeholder"></View>
+          <View className="search-bar-placeholder" />
         </View>
         <ScrollView
           scrollX
