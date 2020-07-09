@@ -50,18 +50,23 @@ button {
     clear: both;
   }
 }
+
 .flex {
   display: flex;
 }
+
 .flex-item {
   flex: 1;
 }
+
 .flex-align-center {
   align-items: center;
 }
+
 .flex-between {
   justify-content: space-between;
 }
+
 .left {
   float: left;
 }
@@ -92,7 +97,7 @@ button {
   margin: auto;
 }
 
-.root{
+.root {
   position: absolute;
   left: 0;
   right: 0;
@@ -100,27 +105,32 @@ button {
   top: 0;
   background-color: $bg-color;
 }
-.at-float-layout .layout-body{
-  padding-top:0px;
-  padding-bottom:0px;
+
+.at-float-layout .layout-body {
+  padding-top: 0;
+  padding-bottom: 0;
 }
-.at-float-layout .layout-header, .at-float-layout__container{
+
+.at-float-layout .layout-header,
+.at-float-layout__container {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
 
 .circling {
   animation: circling 20s infinite linear;
+
   &.z-pause {
-      animation-play-state: paused;
+    animation-play-state: paused;
   }
 }
 
 @keyframes circling {
   0% {
-      transform: rotate(0deg)
+    transform: rotate(0deg);
   }
+
   to {
-      transform: rotate(1turn)
+    transform: rotate(1turn);
   }
 }

@@ -1,8 +1,10 @@
 .at-tabs__header {
   color: $tag-dark;
+
   .at-tabs__item,
   .at-tabs__item--active {
     color: $tag-dark;
+
     .at-tabs__item-underline {
       // background-color:  #fff;
       background-color: $brand-color;
@@ -14,27 +16,34 @@
     }
   }
 }
+
 .img {
   width: 100%;
   height: 300px;
 }
-.search-bar-placeholder{
+
+.search-bar-placeholder {
   height: 30PX;
   padding: 12px 0;
 }
+
 .recommend_songlist {
   padding: 40px 40px 0;
   overflow: hidden;
+
   .recommend_songlist__title {
     margin-bottom: 30px;
   }
-  .recommend_songlist__wrapper{
+
+  .recommend_songlist__wrapper {
     width: 100%;
     height: 282px;
+
     .recommend_songlist__content {
       display: flex;
       width: max-content;
       flex-wrap: nowrap;
+
       .recommend_songlist__item {
         position: relative;
         flex: 1;
@@ -44,36 +53,11 @@
         min-height: 282px;
         margin-bottom: 30px;
         margin-right: 20px;
+
         &:last-child {
           margin-right: 0;
         }
-        &.recommend_mv_list{
-          max-width: 356px;
-          min-width: 356px;
-          .recommend_songlist__item__title{
-            display: block;
-            -webkit-line-clamp: 1;
-            white-space:nowrap;
-            height: auto;
-          }
-          .recommend_songlist__item__desc{
-            font-size: 20px;
-            color: $color-light;
-            .recommend_songlist__item__desc_item{
-              float: left;
-              &:not(:last-child)::after{
-                content:'/';
-                margin: 0 5px;
-              }
-            }
-          }
-        }
-        .recommend_songlist__item__cover {
-          display: block;
-          width: 100%;
-          height: 200px;
-          border-radius: 12px;
-        }
+
         .recommend_songlist__item__title {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -84,6 +68,40 @@
           margin-top: 10px;
           height: 72px;
         }
+
+        &.recommend_mv_list {
+          max-width: 356px;
+          min-width: 356px;
+
+          .recommend_songlist__item__title {
+            display: block;
+            -webkit-line-clamp: 1;
+            white-space: nowrap;
+            height: auto;
+          }
+
+          .recommend_songlist__item__desc {
+            font-size: 20px;
+            color: $color-light;
+
+            .recommend_songlist__item__desc_item {
+              float: left;
+
+              &:not(:last-child)::after {
+                content: '/';
+                margin: 0 5px;
+              }
+            }
+          }
+        }
+
+        .recommend_songlist__item__cover {
+          display: block;
+          width: 100%;
+          height: 200px;
+          border-radius: 12px;
+        }
+
         .recommend_songlist__item__cover__num {
           font-size: 20px;
           position: absolute;
@@ -94,6 +112,7 @@
           display: flex;
           align-items: center;
           color: #fff;
+
           .at-icon-sound {
             margin-right: 10px;
           }
@@ -103,13 +122,14 @@
   }
 }
 
-.leaderboard_Item__content{
+.leaderboard_Item__content {
   border-radius: 15px;
-  color: #ffffff;
+  color: #fff;
   position: relative;
   width: 675px;
   height: 435px;
-  .leaderboard_Item__content_bg{
+
+  .leaderboard_Item__content_bg {
     width: 655px;
     height: 100%;
     background: no-repeat center;
@@ -119,7 +139,8 @@
     left: 0;
     z-index: 3;
   }
-  .leaderboard_Item__content_wrapper{
+
+  .leaderboard_Item__content_wrapper {
     width: 655px;
     height: 100%;
     position: absolute;
@@ -130,17 +151,14 @@
 
     // }
 
-    .leaderboard_Item__content_song_list__wrapper{
-      .leaderboard_Item__content_song_list__item{
-        .leaderboard_Item__content_song_list__item_pic{
+    .leaderboard_Item__content_song_list__wrapper {
+      .leaderboard_Item__content_song_list__item {
+        .leaderboard_Item__content_song_list__item_pic {
           width: 60px;
           height: 60px;
           float: left;
         }
-
       }
-
     }
   }
-
 }

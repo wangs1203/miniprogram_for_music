@@ -1,12 +1,15 @@
 @import '../../../../assets/fonts/iconfont/icon.scss';
+
 .search_content__video__item {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+
   .search_content__video__item__cover--wrap {
     position: relative;
     font-size: 20px;
-    color: #ffffff;
+    color: #fff;
+
     .search_content__video__item__cover--playtime {
       position: absolute;
       right: 30px;
@@ -15,6 +18,7 @@
       align-items: center;
     }
   }
+
   .search_content__video__item__cover {
     width: 200px;
     height: 120px;
@@ -22,17 +26,21 @@
     margin-right: 20px;
     display: block;
   }
+
   .search_content__video__item__info {
     flex: 1;
+
     .search_content__video__item__info__title {
       margin-bottom: 10px;
       font-size: 28px;
     }
+
     .search_content__video__item__info__desc {
       font-size: 20px;
-      color: #bbbbbb;
+      color: #bbb;
       display: flex;
     }
+
     .search_content__video__item__info__desc__nickname {
       margin: 0 10px;
     }
