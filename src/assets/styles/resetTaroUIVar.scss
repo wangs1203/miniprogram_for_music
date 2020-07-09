@@ -3,15 +3,12 @@ $button-background-color-gradient-right: #ff5462;
 
 $hd: 2 !default; // 基本单位
 
-
-
 $bg-color: #eeeff1;
 $bg-color-sub: #fff;
 $color-font: #000;
 $color-font-sub: #999;
 $color-font-active: #5c799f;
 $color-border: #d6e4ef;
-
 
 $font-size-28: 14 * $hd;
 $font-size-32: 16 * $hd;
@@ -66,14 +63,14 @@ $icon-size-72: 36 * $hd;
 $border-width-6: 3 * $hd;
 
 // 字体类型
-$font-family-PingFang-SC: PingFangSC;
-$font-family-PingFang-RG: PingFangSC-Regular;
+$font-family-PingFang-SC: pingfangsc;
+$font-family-PingFang-RG: pingfangsc-regular;
 
 $font-weight-600: 600;
 
 /* Button */
 $at-button-height: 80px !default;
-$at-button-bg: linear-gradient(to right, #ff9084, #ff5462)!default;
+$at-button-bg: linear-gradient(to right, #ff9084, #ff5462) !default;
 // $at-button-bg: linear-gradient(
 //   to right,
 //   $button-background-color-gradient-left,

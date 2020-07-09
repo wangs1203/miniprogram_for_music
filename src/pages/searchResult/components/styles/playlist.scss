@@ -1,8 +1,10 @@
 @import '../../../../assets/fonts/iconfont/icon.scss';
+
 .search_content__playList__item {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+
   .search_content__playList__item__cover {
     width: 150px;
     height: 150px;
@@ -10,19 +12,24 @@
     margin-right: 20px;
     display: block;
   }
+
   .search_content__playList__item__info {
     flex: 1;
+
     .search_content__playList__item__info__title {
       width: 95%;
       @include text-ellipsis;
+
       margin-bottom: 10px;
       font-size: 30px;
     }
+
     .search_content__playList__item__info__desc {
       font-size: 20px;
-      color: #bbbbbb;
+      color: #bbb;
       display: flex;
     }
+
     .search_content__playList__item__info__desc__nickname {
       margin: 0 10px;
     }
