@@ -42,7 +42,7 @@ export const fetchCheckMusic = (
  */
 export const fetchSongDetail = (
   params: fetchSongDetailParam
-) => Request.post({ url: songDetailURL, data: params });
+) => Request.get({ url: songDetailURL, data: params });
 
 /**
  * 获取音乐 url

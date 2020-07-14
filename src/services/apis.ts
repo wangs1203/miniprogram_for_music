@@ -113,6 +113,16 @@ export const checkMusicURL = '/check/music';
 export const likeListURL = '/likelist';
 
 /**
+ * 喜欢音乐
+ * 说明 : 调用此接口 , 传入音乐 id, 可喜欢该音乐
+ * 必选参数 : id: 歌曲 id
+ * 可选参数 : like: 布尔值 , 默认为 true 即喜欢 , 若传 false, 则取消喜欢
+ * 接口地址 : /like
+ * 调用例子 : /like?id=347230
+ */
+export const likeMusicURL = '/like';
+
+/**
  * 获取歌曲详情
  * 说明 : 调用此接口 , 传入音乐 id(支持多个 id, 用 , 隔开), 可获得歌曲详情(注意:歌曲封面现在需要通过专辑内容接口获取)
  * 必选参数 : ids: 音乐 id, 如 ids=347230
@@ -140,3 +150,7 @@ export const songUrlURL = '/song/url';
  * 调用例子 : /lyric?id=33894312
  */
 export const songLyricURL = '/lyric';
+
+/**
+ * ------------------------- playSong --------------------------
+*/

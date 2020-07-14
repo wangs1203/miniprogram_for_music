@@ -25,7 +25,8 @@ export {
 
 export const enum CommonEffectType {
   getCheckMusic = 'common/getCheckMusic',
-  getSongDetail = 'common/getSongDetail'
+  getSongDetail = 'common/getSongDetail',
+  updateState = 'common/updateState'
 }
 
 export default modelExtend(model, {
@@ -46,7 +47,8 @@ export default modelExtend(model, {
       dt: 0, // 总时长，ms
       st: 0 // 是否喜欢
     },
-    canPlayList: []
+    canPlayList: [],
+    isPlaying: false
   },
   effects: {
     * getCheckMusic ({ payload }:{payload:fetchCheckMusicParam}, { call }) {
@@ -61,23 +63,22 @@ export default modelExtend(model, {
 
     * getSongDetail ({ payload }:{payload:{id:string}}, { call, put }) {
       const detailRes = yield call(fetchSongDetail, { ids: payload.id });
-      console.log(detailRes);
+      // console.log(detailRes);
       let urlRes:any;
       if (detailRes.isOk) {
         const songInfo = detailRes.result.songs[0];
         urlRes = yield call(fetchSongUrl, { id: payload.id } as fetchSongUrlParam);
-        console.log(urlRes);
+        // console.log(urlRes);
         if (urlRes.isOk) {
           songInfo.url = urlRes.result.data[0].url;
           const LyricRes = yield call(fetchSongLyric, { id: payload.id } as fetchSongLyricParam);
-          console.log(LyricRes);
+          // console.log(LyricRes);
           if (LyricRes.isOk) {
             const lrc = parseLrc(LyricRes.result.lrc && LyricRes.result.lrc.lyric ? LyricRes.result.lrc.lyric : '');
             console.log(lrc);
             LyricRes.result.lrclist = lrc.nowLrc;
             LyricRes.result.scroll = lrc.scroll ? 1 : 0;
             songInfo.lrcInfo = LyricRes.result;
-            console.log();
             yield put({
               type: 'updateSongInfo',
               payload: { currentSongInfo: songInfo }
@@ -123,6 +124,7 @@ export default modelExtend(model, {
       }
       Taro.clearStorage();
       return {
+        ...state,
         userInfo: {},
         userId: ''
       };
