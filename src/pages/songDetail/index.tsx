@@ -153,8 +153,10 @@ export default class SongDetailView extends Component<IProps, PageState> {
     }
     console.log('componentWillReceiveProps:1');
     if (
-      this.props.common.currentSongInfo.name
-        !== nCommon.currentSongInfo.name
+      this.props.common.currentSongInfo.id
+        !== nCommon.currentSongInfo.id
+        || this.props.common.currentSongInfo.url
+        !== nCommon.currentSongInfo.url
         || this.state.firstEnter
     ) {
       console.log('componentWillReceiveProps:2');

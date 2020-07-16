@@ -66,4 +66,4 @@ export const fetchSongUrl = (
  */
 export const fetchSongLyric = (
   params: fetchSongLyricParam
-) => Request.post({ url: songLyricURL, data: params });
+) => Request.get({ url: songLyricURL, data: params });
