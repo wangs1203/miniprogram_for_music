@@ -15,6 +15,8 @@ import classnames from 'classnames';
 
 import WLoading from '@components/base/WLoading';
 
+import { injectPlaySong } from '@/utils/decorators';
+
 import { showMsg } from '@utils/Toast';
 
 import {
@@ -113,9 +115,11 @@ interface PageState {
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
+@injectPlaySong()
 @connect(
-  ({ searchResult, loading }) => ({
+  ({ searchResult, loading, common }) => ({
     ...searchResult,
+    common,
     loading: loading.effects[EffectType.getSearch]
   }),
   (dispatch) => ({
@@ -136,7 +140,11 @@ type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
         type: CommonEffectType.getCheckMusic,
         payload
       });
-    }
+    },
+    dispatchGetSongDetail: (payload) => dispatch({
+      type: CommonEffectType.getSongDetail,
+      payload
+    })
   })
 )
 export default class SearchResultView extends Component<IProps, PageState> {
