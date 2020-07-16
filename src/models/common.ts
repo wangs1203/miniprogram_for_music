@@ -48,7 +48,9 @@ export default modelExtend(model, {
       st: 0 // 是否喜欢
     },
     canPlayList: [],
-    isPlaying: false
+    currentSongIndex: 0,
+    isPlaying: false,
+    playMode: 'loop'
   },
   effects: {
     * getCheckMusic ({ payload }:{payload:fetchCheckMusicParam}, { call }) {
@@ -77,7 +79,7 @@ export default modelExtend(model, {
             const lrc = parseLrc(LyricRes.result.lrc && LyricRes.result.lrc.lyric ? LyricRes.result.lrc.lyric : '');
             console.log(lrc);
             LyricRes.result.lrclist = lrc.nowLrc;
-            LyricRes.result.scroll = lrc.scroll ? 1 : 0;
+            LyricRes.result.scroll = lrc.scroll;
             songInfo.lrcInfo = LyricRes.result;
             yield put({
               type: 'updateSongInfo',

@@ -20,8 +20,7 @@ export { likelistParams, likeMusicParams };
 export default modelExtend(model, {
   namespace: 'songDetail',
   state: {
-    likeMusicList: [],
-    playMode: 'loop'
+    likeMusicList: []
   },
   effects: {
     * getLikeList ({ payload }:{payload: likelistParams}, { call, put }) {

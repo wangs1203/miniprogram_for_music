@@ -55,7 +55,7 @@ export const fetchSongDetail = (
  */
 export const fetchSongUrl = (
   params: fetchSongUrlParam
-) => Request.post({ url: songUrlURL, data: params });
+) => Request.get({ url: songUrlURL, data: params });
 
 /**
  * 获取歌词

@@ -26,6 +26,7 @@ import loopModeIcon from '@/assets/images/icn_loop_mode.png';
 import shuffleModeIcon from '@/assets/images/icn_shuffle_mode.png';
 
 import WSlider from './components/WSlider';
+import WLyric from './components/WLyric';
 
 import { EffectType, likelistParams, likeMusicParams } from './model';
 
@@ -41,10 +42,10 @@ interface PageStateProps {
     currentSongInfo: StoreSpace.Song,
     isPlaying: boolean,
     canPlayList: StoreSpace.Song[],
-    currentSongIndex: number
+    currentSongIndex: number,
+    playMode: 'loop' | 'one' | 'shuffle'
   };
   likeMusicList: number[];
-  playMode: 'loop' | 'one' | 'shuffle';
 }
 
 interface PageDispatchProps {
@@ -61,17 +62,18 @@ interface PageState {
   star: boolean;
   firstEnter:boolean;
   playPercent: number;
-  // lrc: {
-  //   scroll: boolean,
-  //   nolyric: boolean,
-  //   uncollected: boolean,
-  //   lrclist: Array<{
-  //     // eslint-disable-next-line camelcase
-  //     lrc_text: string,
-  //     // eslint-disable-next-line camelcase
-  //     lrc_sec: number
-  //   }>
-  // };
+  lrc: {
+    scroll: boolean,
+    nolyric: boolean,
+    uncollected: boolean,
+    lrclist: Array<{
+      // eslint-disable-next-line camelcase
+      lrc_text: string,
+      // eslint-disable-next-line camelcase
+      lrc_sec: number
+    }>
+  };
+  lrcIndex: number;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
@@ -119,13 +121,14 @@ export default class SongDetailView extends Component<IProps, PageState> {
       showLyric: false,
       star: false,
       firstEnter: true,
-      playPercent: 0
-      // lrc: {
-      //   scroll: false,
-      //   nolyric: false,
-      //   uncollected: false,
-      //   lrclist: []
-      // }
+      playPercent: 0,
+      lrc: {
+        scroll: false,
+        nolyric: false,
+        uncollected: false,
+        lrclist: []
+      },
+      lrcIndex: 0
     };
   }
 
@@ -140,18 +143,18 @@ export default class SongDetailView extends Component<IProps, PageState> {
 
   public componentWillReceiveProps (nextProps:IProps) {
     const {
-      likeMusicList: nlikeMusicList,
-      common: ncommon
+      likeMusicList: nLikeMusicList,
+      common: nCommon
     } = nextProps;
-    if (nlikeMusicList.length > 0) {
+    if (nLikeMusicList.length > 0) {
       this.setState({
-        star: nlikeMusicList.indexOf(ncommon.currentSongInfo.id) !== -1
+        star: nLikeMusicList.indexOf(nCommon.currentSongInfo.id) !== -1
       });
     }
     console.log('componentWillReceiveProps:1');
     if (
       this.props.common.currentSongInfo.name
-        !== ncommon.currentSongInfo.name
+        !== nCommon.currentSongInfo.name
         || this.state.firstEnter
     ) {
       console.log('componentWillReceiveProps:2');
@@ -159,8 +162,8 @@ export default class SongDetailView extends Component<IProps, PageState> {
         firstEnter: false
       });
       console.log('setSongInfo------------>');
-      console.log(ncommon.currentSongInfo.url);
-      this.setSongInfo(ncommon.currentSongInfo);
+      console.log(nCommon.currentSongInfo.url);
+      this.setSongInfo(nCommon.currentSongInfo);
     }
   }
 
@@ -206,7 +209,7 @@ export default class SongDetailView extends Component<IProps, PageState> {
       Taro.getBackgroundAudioPlayerState({
         success: (res) => {
           if (res.status !== 2) {
-            // this.updateLrc(res.currentPosition);
+            this.updateLrc(res.currentPosition);
             this.updateProgress(res.currentPosition);
           }
         }
@@ -225,7 +228,7 @@ export default class SongDetailView extends Component<IProps, PageState> {
     });
 
     backgroundAudioManager.onEnded(() => {
-      const { playMode } = this.props;
+      const { playMode } = this.props.common;
       const routes = Taro.getCurrentPages();
       const currentRoute = routes[routes.length - 1].route;
       // 如果在当前页面则直接调用下一首的逻辑，反之则触发nextSong事件
@@ -239,24 +242,28 @@ export default class SongDetailView extends Component<IProps, PageState> {
 
   private setSongInfo = (songInfo) => {
     try {
-      const {
-        name,
-        al,
-        // lrcInfo,
-        url
-      } = songInfo;
-      Taro.setNavigationBarTitle({
-        title: name
-      });
-      backgroundAudioManager.title = name;
-      backgroundAudioManager.coverImgUrl = al.picUrl;
+      if (songInfo && songInfo.url && songInfo.lrcInfo) {
+        const {
+          name,
+          al,
+          lrcInfo,
+          url
+        } = songInfo;
+        Taro.setNavigationBarTitle({
+          title: name
+        });
+        backgroundAudioManager.title = name;
+        backgroundAudioManager.coverImgUrl = al.picUrl;
+        backgroundAudioManager.src = url;
 
-      url && (backgroundAudioManager.src = url);
-      this.setState({
-        // lrc: lrcInfo,
-        isPlaying: true,
-        firstEnter: false
-      });
+        this.setState({
+          lrc: lrcInfo,
+          isPlaying: true,
+          firstEnter: false
+        });
+      } else {
+        this.getNextSong();
+      }
     } catch (err) {
       console.log('err', err);
       this.getNextSong();
@@ -267,6 +274,21 @@ export default class SongDetailView extends Component<IProps, PageState> {
     const { dt } = this.props.common.currentSongInfo;
     this.setState({
       playPercent: Math.floor((currentPosition * 1000 * 100) / dt)
+    });
+  }
+
+  private updateLrc (currentPosition) {
+    const { lrc } = this.state;
+    let lrcIndex = 0;
+    if (lrc && !lrc.scroll && lrc.lrclist && lrc.lrclist.length > 0) {
+      lrc.lrclist.forEach((item, index) => {
+        if (item.lrc_sec <= currentPosition) {
+          lrcIndex = index;
+        }
+      });
+    }
+    this.setState({
+      lrcIndex
     });
   }
 
@@ -293,7 +315,7 @@ export default class SongDetailView extends Component<IProps, PageState> {
   }
 
   private changePlayMode = () => {
-    let { playMode } = this.props;
+    let { playMode } = this.props.common;
     if (playMode === 'loop') {
       playMode = 'one';
       showMsg({ title: '单曲循环' });
@@ -347,9 +369,9 @@ export default class SongDetailView extends Component<IProps, PageState> {
     const {
       common: {
         currentSongIndex,
-        canPlayList
-      },
-      playMode
+        canPlayList,
+        playMode
+      }
     } = this.props;
     if (playMode === 'shuffle') {
       this.getShuffleSong();
@@ -368,9 +390,9 @@ export default class SongDetailView extends Component<IProps, PageState> {
     const {
       common: {
         currentSongIndex,
-        canPlayList
-      },
-      playMode
+        canPlayList,
+        playMode
+      }
     } = this.props;
     if (playMode === 'shuffle') {
       this.getShuffleSong();
@@ -404,7 +426,7 @@ export default class SongDetailView extends Component<IProps, PageState> {
     });
   }
 
-  private hiddLyric = () => {
+  private hiddenLyric = () => {
     this.setState({
       showLyric: false
     });
@@ -413,16 +435,16 @@ export default class SongDetailView extends Component<IProps, PageState> {
   public render (): JSX.Element {
     const {
       common: {
-        currentSongInfo
-      },
-      playMode
+        currentSongInfo,
+        playMode
+      }
     } = this.props;
 
     const {
       isPlaying,
       showLyric,
-      // lrc,
-      // lrcIndex,
+      lrc,
+      lrcIndex,
       playPercent,
       star
     } = this.state;
@@ -489,6 +511,12 @@ export default class SongDetailView extends Component<IProps, PageState> {
           percent={playPercent}
           onChange={this.percentChange}
           onChanging={this.percentChanging}
+        />
+        <WLyric
+          lrc={lrc}
+          lrcIndex={lrcIndex}
+          showLyric={showLyric}
+          onTrigger={this.hiddenLyric}
         />
         <View className="song__bottom">
           <View className="song__operation">

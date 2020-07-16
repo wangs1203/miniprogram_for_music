@@ -30,7 +30,6 @@ import './index.scss';
 interface PageOwnProps {}
 
 interface PageStateProps {
-  // song: PlaySong;
   bannerList: StoreSpace.Banner[];
   recommendSongList: Array<{
     name: string,
