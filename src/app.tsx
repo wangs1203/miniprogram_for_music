@@ -33,20 +33,13 @@ class App extends Component {
   public config: Config = {
     pages: [
       'pages/index/index',
+      'pages/personalCenter/index',
+      'pages/login/index',
+      'pages/playListDetail/index',
       'pages/search/index',
       'pages/searchResult/index',
-      'pages/songDetail/index',
-      'pages/personalCenter/index',
-      'pages/login/index'
+      'pages/songDetail/index'
     ],
-    // pages: [
-    //   'pages/index/index',
-    //   'pages/personalCenter/index',
-    //   'pages/login/index',
-    //   'pages/search/index',
-    //   'pages/searchResult/index',
-    //   'pages/songDetail/index',
-    // ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#ffffff',

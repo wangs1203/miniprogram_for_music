@@ -211,4 +211,24 @@ declare namespace StoreSpace {
     duration: number;
     playCount: number;
   }
+
+  interface Privileges {
+    cp: number;
+    cs: boolean;
+    dl: number;
+    downloadMaxbr: number;
+    fee: number;
+    fl: number;
+    flag: number;
+    id: number;
+    maxbr: number;
+    payed: number;
+    pl: number;
+    playMaxbr: number;
+    preSell: boolean;
+    sp: number;
+    st: number;
+    subp: number;
+    toast: boolean;
+  }
 }

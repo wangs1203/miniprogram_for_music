@@ -4,7 +4,8 @@ import {
   checkMusicURL,
   songDetailURL,
   songUrlURL,
-  songLyricURL
+  songLyricURL,
+  playlistDetailURL
 } from '@services/apis';
 
 export interface fetchCheckMusicParam {
@@ -14,10 +15,15 @@ export interface fetchSongDetailParam {
   ids: string;
 }
 export interface fetchSongUrlParam {
-  id: string;
+  id: number;
 }
 export interface fetchSongLyricParam {
-  id:string;
+  id:number;
+}
+
+export interface fetchPlaylistDetailParam {
+  id: number;
+  s?:number;
 }
 /**
  * 音乐是否可用
@@ -67,3 +73,20 @@ export const fetchSongUrl = (
 export const fetchSongLyric = (
   params: fetchSongLyricParam
 ) => Request.get({ url: songLyricURL, data: params });
+
+/**
+ * 获取歌单详情
+ * 说明 : 歌单能看到歌单名字,
+ * 但看不到具体歌单内容 , 调用此接口 ,
+ * 传入歌单 id, 可以获取对应歌单内的所有的音乐(未登录状态只能获取不完整的歌单,登录后是完整的)，
+ * 但是返回的trackIds是完整的，tracks 则是不完整的，
+ * 可拿全部 trackIds 请求一次 song/detail 接口获取所有歌曲的详情
+ * (https://github.com/Binaryify/NeteaseCloudMusicApi/issues/452)
+ * 必选参数 : id : 歌单 id
+ * 可选参数 : s : 歌单最近的 s 个收藏者
+ * 接口地址 : /playlist/detail
+ * 调用例子 : /playlist/detail?id=24381616
+ */
+export const fetchPlaylistDetail = (
+  params: fetchPlaylistDetailParam
+) => Request.post({ url: playlistDetailURL, data: params });

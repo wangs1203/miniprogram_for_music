@@ -13,6 +13,7 @@ import {
   AtSearchBar
 } from 'taro-ui';
 import WLoading from '@components/base/WLoading';
+import { injectPlaySong } from '@/utils/decorators';
 import { IndexEffectType } from './model';
 import './index.scss';
 // import { TrAlert } from '@utils/Modal';
@@ -66,13 +67,12 @@ interface PageState {
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps;
 
+@injectPlaySong()
 @connect(
-  ({ index, loading }) => ({
+  ({ index, loading, common }) => ({
     ...index,
+    common,
     loading: loading.global
-    // loading: loading.effects[
-    //   IndexEffectType.getBanner
-    // ]
   }),
   (dispatch) => ({
     dispatchFetchBanner () {
@@ -168,6 +168,11 @@ class Index extends Component<IProps, PageState> {
     // TrAlert({ title: JSON.stringify(e, null, 2) });
   }
 
+  private goDetail = (item) => {
+    Taro.navigateTo({
+      url: `/pages/playListDetail/index?id=${item.id}&name=${item.name}`
+    });
+  }
 
   public render (): JSX.Element {
     // console.log(this.props);
@@ -236,6 +241,7 @@ class Index extends Component<IProps, PageState> {
                   <View
                     key={`${index}`}
                     className="recommend_songlist__item"
+                    onClick={() => this.goDetail(item)}
                   >
                     <Image
                       src={`${item.picUrl}?imageView&thumbnail=0x300`}
@@ -259,7 +265,7 @@ class Index extends Component<IProps, PageState> {
           {/* 推荐MV */}
           <View className="recommend_songlist">
             <View className="recommend_songlist__title">
-              推荐歌单
+              推荐MV
             </View>
             <ScrollView
               className="recommend_songlist__wrapper"
