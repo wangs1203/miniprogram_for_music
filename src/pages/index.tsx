@@ -2,17 +2,13 @@ import { ComponentClass } from 'react';
 import Taro, { Component, Config } from '@tarojs/taro';
 import {
   View,
-  Button,
-  Text,
-  Image,
-  Swiper,
-  SwiperItem
+  Button
 } from '@tarojs/components';
 // import { AtTabs, AtTabsPane } from 'taro-ui';
 // import { connect } from '@tarojs/redux';
 
 
-import './index.scss';
+// import './index.scss';
 
 // #region 书写注意
 //
@@ -59,8 +55,8 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     this.state = {
       // current: 0
     };
@@ -76,40 +72,15 @@ class Index extends Component {
 
   componentDidHide () { }
 
+  test () {
+    console.log(this);
+  }
+
   render () {
     return (
       <View className="index">
-        <View><Text>Hello, 网易云</Text></View>
-        <Swiper
-          indicatorDots
-          autoplay
-          circular
-          skipHiddenItemLayout
-          interval={3000}
-          duration={300}
-          indicatorColor="#999"
-          indicatorActiveColor="#333"
-        >
-          <SwiperItem>
-            <Image
-              className="img"
-              src="http://info.flycua.com/jcms/upimg/1573780716152_mbanner.jpg"
-            />
-          </SwiperItem>
-          <SwiperItem>
-            <Image
-              className="img"
-              src="http://info.flycua.com/jcms/upimg/1579228174849_%E8%BD%A6%E6%A8%A1.jpg"
-            />
-          </SwiperItem>
-          <SwiperItem>
-            <Image
-              className="img"
-              src="http://info.flycua.com/jcms/upimg/1579228174849_%E8%BD%A6%E6%A8%A1.jpg"
-            />
-          </SwiperItem>
-        </Swiper>
-        <Button />
+        <View>Hello, 网易云</View>
+        <Button onClick={() => this.test()}>NO</Button>
       </View>
     );
   }

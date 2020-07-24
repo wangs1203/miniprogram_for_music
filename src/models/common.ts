@@ -8,9 +8,11 @@ import {
   fetchSongDetail,
   fetchSongUrl,
   fetchSongLyric,
+  fetchPlaylistDetail,
   fetchSongDetailParam,
   fetchSongUrlParam,
-  fetchSongLyricParam
+  fetchSongLyricParam,
+  fetchPlaylistDetailParam
 } from '@/services/common';
 import {
   parseLrc
@@ -20,13 +22,15 @@ export {
   fetchCheckMusicParam,
   fetchSongUrlParam,
   fetchSongLyricParam,
-  fetchSongDetailParam
+  fetchSongDetailParam,
+  fetchPlaylistDetailParam
 };
 
 export const enum CommonEffectType {
+  updateState = 'common/updateState',
   getCheckMusic = 'common/getCheckMusic',
   getSongDetail = 'common/getSongDetail',
-  updateState = 'common/updateState'
+  getPlaylistDetail = 'common/getPlaylistDetail',
 }
 
 export default modelExtend(model, {
@@ -50,7 +54,19 @@ export default modelExtend(model, {
     canPlayList: [],
     currentSongIndex: 0,
     isPlaying: false,
-    playMode: 'loop'
+    playMode: 'loop',
+    playListDetailInfo: {
+      coverImgUrl: '',
+      name: '',
+      playCount: 0,
+      tags: [],
+      creator: {
+        avatarUrl: '',
+        nickname: ''
+      },
+      tracks: []
+    },
+    playListDetailPrivileges: []
   },
   effects: {
     * getCheckMusic ({ payload }:{payload:fetchCheckMusicParam}, { call }) {
@@ -63,13 +79,13 @@ export default modelExtend(model, {
       }
     },
 
-    * getSongDetail ({ payload }:{payload:{id:string}}, { call, put }) {
+    * getSongDetail ({ payload }:{payload:{id:number}}, { call, put }) {
       const detailRes = yield call(fetchSongDetail, { ids: payload.id });
       // console.log(detailRes);
       let urlRes:any;
       if (detailRes.isOk) {
         const songInfo = detailRes.result.songs[0];
-        urlRes = yield call(fetchSongUrl, { id: payload.id } as fetchSongUrlParam);
+        urlRes = yield call(fetchSongUrl, { id: payload.id });
         // console.log(urlRes);
         if (urlRes.isOk) {
           songInfo.url = urlRes.result.data[0].url;
@@ -99,6 +115,30 @@ export default modelExtend(model, {
             payload: { currentSongInfo: songInfo }
           });
         }
+      }
+    },
+
+    * getPlaylistDetail ({ payload }:{payload:fetchPlaylistDetailParam}, { call, put }) {
+      const listRes = yield call(fetchPlaylistDetail, payload);
+      console.log(listRes);
+      if (listRes.isOk) {
+        const playListDetailInfo = listRes.result.playlist;
+        playListDetailInfo.tracks = playListDetailInfo.tracks.map((item) => {
+          const temp: any = {};
+          temp.name = item.name;
+          temp.id = item.id;
+          temp.ar = item.ar;
+          temp.al = item.al;
+          temp.copyright = item.copyright;
+          return temp;
+        });
+        yield put({
+          type: 'updateState',
+          payload: {
+            playListDetailInfo,
+            playListDetailPrivileges: listRes.result.privileges
+          }
+        });
       }
     }
   },
